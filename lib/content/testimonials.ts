@@ -18,6 +18,9 @@ export type Testimonial = {
   /** Untertitel sind Pflicht: Barrierefreiheit und Social-Verwertung. */
   untertitelVorhanden: boolean;
   freigabeVorhanden: boolean;
+  /** Platzhalter-Zitat für die Vorschau — wird beim echten Dreh ersetzt
+      und geht NIE ohne Freigabe in Produktion. */
+  zitatPlatzhalter: string;
 };
 
 export const testimonials: Testimonial[] = [
@@ -30,6 +33,8 @@ export const testimonials: Testimonial[] = [
     videoSlot: 'video/testimonial-01',
     untertitelVorhanden: false,
     freigabeVorhanden: false,
+    zitatPlatzhalter:
+      'Zum ersten Mal sagt unsere Website, was uns wirklich ausmacht — und die Anfragen passen zu uns.',
   },
   {
     id: 't2',
@@ -40,6 +45,8 @@ export const testimonials: Testimonial[] = [
     videoSlot: 'video/testimonial-02',
     untertitelVorhanden: false,
     freigabeVorhanden: false,
+    zitatPlatzhalter:
+      'Aus zwei Beiträgen im Jahr ist ein Rhythmus geworden, den wir intern selbst halten können.',
   },
   {
     id: 't3',
@@ -50,6 +57,8 @@ export const testimonials: Testimonial[] = [
     videoSlot: 'video/testimonial-03',
     untertitelVorhanden: false,
     freigabeVorhanden: false,
+    zitatPlatzhalter:
+      'Die Offerte ist draussen, bevor wir früher überhaupt die Unterlagen zusammengesucht hatten.',
   },
 ];
 
@@ -66,4 +75,13 @@ export const testimonialTitel = (t: Testimonial) =>
 export function ausspielbar(): Testimonial[] {
   if (process.env.NODE_ENV !== 'production') return testimonials;
   return testimonials.filter((t) => t.freigabeVorhanden && t.untertitelVorhanden);
+}
+
+/**
+ * Vorschau-Modus (ALLOW_PLACEHOLDERS=1): alle Stimmen als gekennzeichnete
+ * Platzhalter. In echter Produktion gilt weiterhin nur ausspielbar().
+ */
+export function vorschauStimmen(): Testimonial[] {
+  if (process.env.ALLOW_PLACEHOLDERS === '1') return testimonials;
+  return ausspielbar();
 }

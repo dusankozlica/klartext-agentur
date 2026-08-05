@@ -28,7 +28,7 @@ export default function ProjekteExplorer({ eintraege }: { eintraege: ExplorerEin
     <>
       {/* Desktop: Liste + wandernde Vorschau */}
       <div className="hidden gap-[var(--s-8)] md:grid md:grid-cols-[5fr_7fr]">
-        <div aria-hidden="true">
+        <div>
           <div className="sticky top-[120px]">
             <div className="overflow-hidden rounded-[var(--radius-lg)]">
               <Image
@@ -56,21 +56,43 @@ export default function ProjekteExplorer({ eintraege }: { eintraege: ExplorerEin
                 </div>
               ))}
             </dl>
+            <Link
+              href={`/projekte/${p.slug}`}
+              className="mt-[var(--s-4)] inline-flex min-h-[44px] items-center font-medium underline underline-offset-4 transition-colors duration-[var(--dauer-1)] hover:text-[var(--violet-hell)]"
+            >
+              Case ansehen&nbsp;↗
+            </Link>
           </div>
         </div>
 
         <ul className="self-center">
           {eintraege.map((e, i) => (
-            <li key={e.slug} className="flex items-center gap-[var(--s-5)]">
+            <li key={e.slug} className="flex items-baseline gap-[var(--s-5)]">
+              <span
+                aria-hidden="true"
+                className={`w-[2.4rem] shrink-0 text-[0.85rem] tracking-[0.1em] transition-opacity duration-[var(--dauer-1)] ${
+                  i === aktiv ? 'opacity-100 text-[var(--grau-d)]' : 'opacity-40 text-[var(--grau-d)]'
+                }`}
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
               <Link
                 href={`/projekte/${e.slug}`}
                 onMouseEnter={() => setAktiv(i)}
                 onFocus={() => setAktiv(i)}
-                className={`block py-[0.1em] font-[family-name:var(--font-display)] text-[clamp(2.2rem,4.6vw,4.4rem)] font-semibold leading-[1.12] tracking-[-0.02em] transition-colors duration-300 ${
-                  i === aktiv ? 'text-[var(--cream)]' : 'text-[color-mix(in_srgb,var(--cream)_32%,transparent)]'
+                className={`block py-[0.08em] font-[family-name:var(--font-display)] text-[clamp(2.2rem,5vw,5rem)] font-semibold leading-[1.1] tracking-[-0.02em] transition-colors duration-[var(--dauer-2)] ease-[var(--ease-soft)] ${
+                  i === aktiv ? 'text-[var(--cream)]' : 'text-[color-mix(in_srgb,var(--cream)_30%,transparent)] hover:text-[color-mix(in_srgb,var(--cream)_60%,transparent)]'
                 }`}
               >
                 {e.name}
+                <span
+                  aria-hidden="true"
+                  className={`ml-4 inline-block text-[0.55em] text-[var(--violet-hell)] transition-[opacity,transform] duration-[var(--dauer-1)] ${
+                    i === aktiv ? 'translate-x-0 opacity-100' : '-translate-x-2 opacity-0'
+                  }`}
+                >
+                  ↗
+                </span>
               </Link>
             </li>
           ))}

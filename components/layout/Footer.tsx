@@ -27,13 +27,19 @@ export default function Footer() {
               <span className="line"><span className="line__i">Reden wir</span></span>
               <span className="line"><span className="line__i">Klartext<span className="akzent-d">.</span></span></span>
             </h2>
-            <div className="mt-[var(--s-7)] flex flex-wrap items-center gap-[var(--s-5)]">
-              <Link className="btn btn--primary" href="/kontakt">Erstgespräch buchen&nbsp;→</Link>
-              <span className="text-[0.9rem] text-[var(--grau-d)]">
-                <span className="status-punkt" aria-hidden="true" />
-                Nimmt neue Projekte an
-              </span>
-            </div>
+            {/* Riesiger Direkt-Link — das ohhmydesign-«hello@», solange
+                keine echte E-Mail-Adresse freigegeben ist. */}
+            <Link
+              href="/#termin"
+              className="group mt-[var(--s-7)] inline-block font-[family-name:var(--font-display)] text-[clamp(1.6rem,3.6vw,3.2rem)] font-semibold tracking-[-0.02em] underline decoration-[3px] underline-offset-[10px] transition-colors duration-[var(--dauer-1)] hover:text-[var(--violet-hell)]"
+            >
+              Erstgespräch buchen
+              <span aria-hidden="true" className="ml-3 inline-block transition-transform duration-[var(--dauer-1)] ease-[var(--ease-soft)] group-hover:-translate-y-1 group-hover:translate-x-1">↗</span>
+            </Link>
+            <p className="mt-[var(--s-5)] text-[0.9rem] text-[var(--grau-d)]">
+              <span className="status-punkt" aria-hidden="true" />
+              Nimmt neue Projekte an
+            </p>
           </div>
 
           <div className="grid grid-cols-2 gap-[var(--s-6)] self-end">
@@ -83,7 +89,8 @@ export default function Footer() {
 
         <div className="mt-[var(--s-8)] flex flex-wrap items-center justify-between gap-[var(--s-5)] border-t border-current/15 pt-[var(--s-5)] text-[0.85rem] text-[var(--grau-d)]">
           <span>© {new Date().getFullYear()} {site.name} — Marketingagentur, Schweiz</span>
-          <span className="flex gap-[var(--s-5)]">
+          <span className="flex flex-wrap gap-[var(--s-5)]">
+            <a href="#inhalt">Nach oben&nbsp;↑</a>
             <Link href="/impressum">Impressum</Link>
             <Link href="/datenschutz">Datenschutz</Link>
             {/* Kleiner pixel.melbourne-Gruss. Führt natürlich doch wohin. */}

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import PageHero from '@/components/ui/PageHero';
 import KontaktFormular from '@/components/sections/KontaktFormular';
-import CalEmbed from '@/components/sections/CalEmbed';
+import TerminKalender from '@/components/sections/TerminKalender';
 import JsonLd from '@/components/seo/JsonLd';
 import { site, hatWert } from '@/lib/content/site';
 import { breadcrumbSchema } from '@/lib/seo/schema';
@@ -40,7 +40,7 @@ export default function Page() {
 
           <div>
             <h2 className="sec-title">Oder direkt einen Termin</h2>
-            <CalEmbed />
+            <TerminKalender />
 
             {(hatWert(site.kontakt.email) || hatWert(site.kontakt.telefon) || hatWert(site.adresse.strasse)) && (
               <div className="mt-[var(--s-8)] border-t border-current/20 pt-[var(--s-6)]">

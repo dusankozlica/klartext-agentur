@@ -39,21 +39,25 @@ export default function Cursor() {
     window.addEventListener('pointermove', onMove);
 
     const tick = () => {
-      pos.x += (tgt.x - pos.x) * 0.18;
-      pos.y += (tgt.y - pos.y) * 0.18;
+      pos.x += (tgt.x - pos.x) * 0.16;
+      pos.y += (tgt.y - pos.y) * 0.16;
       cur.style.transform = `translate(${pos.x}px, ${pos.y}px) translate(-50%,-50%)`;
     };
     gsap.ticker.add(tick);
 
     const onOver = (e: PointerEvent) => {
-      const el = (e.target as HTMLElement)?.closest?.<HTMLElement>('[data-cursor]');
-      if (!el) return;
-      if (label) label.textContent = el.dataset.cursor ?? '';
-      cur.classList.add('is-media');
+      const t = e.target as HTMLElement;
+      const media = t?.closest?.<HTMLElement>('[data-cursor]');
+      if (media) {
+        if (label) label.textContent = media.dataset.cursor ?? '';
+        cur.classList.add('is-media');
+      }
+      if (t?.closest?.('a, button')) cur.classList.add('is-link');
     };
     const onOut = (e: PointerEvent) => {
-      const el = (e.target as HTMLElement)?.closest?.('[data-cursor]');
-      if (el) cur.classList.remove('is-media');
+      const t = e.target as HTMLElement;
+      if (t?.closest?.('[data-cursor]')) cur.classList.remove('is-media');
+      if (t?.closest?.('a, button')) cur.classList.remove('is-link');
     };
     document.addEventListener('pointerover', onOver);
     document.addEventListener('pointerout', onOut);

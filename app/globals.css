@@ -23,7 +23,7 @@
   --grau-d:      #98938A;   /* Zweitton auf Schwarz (5.9:1)              */
   --grau-l:      #6B6455;   /* Zweitton auf Creme  (4.9:1)               */
 
-  --maxw:  1400px;
+  --maxw:  100%;              /* voller Bildschirm — Ränder nur über pad-x */
   --pad-x: clamp(20px, 4.5vw, 64px);
   --sec-y: clamp(88px, 10.5vw, 152px);
 
@@ -37,6 +37,12 @@
   --font-body:"Switzer","Helvetica Neue",sans-serif;
 
   --ease-out:cubic-bezier(0.16,1,0.3,1);
+  --ease-soft:cubic-bezier(0.33,1,0.68,1);
+  /* EIN Tempo-System für alle Übergänge — vorher mischten sich
+     0.25/0.3/0.35/0.5/0.6/0.7/0.9s und nichts fühlte sich verwandt an. */
+  --dauer-1:.28s;   /* Farben, kleine Zustände   */
+  --dauer-2:.55s;   /* Füllungen, Panels, Karten */
+  --dauer-3:.85s;   /* Bild-Zooms, grosse Flächen */
 }
 
 @theme inline{
@@ -128,14 +134,15 @@ img,video{ display:block; max-width:100%; }
   font-weight:500; font-size:0.95rem;
   padding:14px 28px; min-height:48px; border-radius:999px;
   border:1.5px solid transparent;
-  transition:color .35s, border-color .35s, background-color .35s;
+  transition:color var(--dauer-1) var(--ease-soft), border-color var(--dauer-1) var(--ease-soft), background-color var(--dauer-1) var(--ease-soft), transform var(--dauer-1) var(--ease-soft);
 }
 .btn::after{
   content:""; position:absolute; inset:0; border-radius:inherit;
   background:var(--violet-deep);
-  transform:translateY(101%); transition:transform .5s var(--ease-out);
+  transform:translateY(101%); transition:transform var(--dauer-2) var(--ease-out);
   z-index:-1;
 }
+.btn:hover{ transform:translateY(-2px); }
 .btn:hover::after{ transform:translateY(0); }
 .btn--primary{ background:var(--violet); color:#fff; }
 .btn--hell{ border-color:color-mix(in srgb, var(--cream) 45%, transparent); color:var(--cream); }
@@ -151,14 +158,25 @@ img,video{ display:block; max-width:100%; }
 .line__i{ display:block; }
 .js [data-reveal]{ opacity:0; transform:translateY(28px); }
 
-/* ── Navigation ───────────────────────────────────────────────────── */
+/* ── Navigation: gläserne Leiste (Sharebien/sohub) ─────────────────── */
 .nav{
-  position:fixed; top:0; left:0; right:0; z-index:60;
-  display:flex; justify-content:space-between; align-items:center;
-  padding:var(--s-4) var(--pad-x);
+  position:fixed; top:12px; left:var(--pad-x); right:var(--pad-x); z-index:60;
   color:var(--ink);
 }
 body.nav-on-dark .nav{ color:var(--cream); }
+.nav__glas{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:6px 10px 6px 22px; border-radius:999px;
+  background:color-mix(in srgb, var(--cream) 58%, transparent);
+  border:1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  backdrop-filter:blur(18px) saturate(1.25);
+  -webkit-backdrop-filter:blur(18px) saturate(1.25);
+  transition:background var(--dauer-1), border-color var(--dauer-1);
+}
+body.nav-on-dark .nav__glas{
+  background:rgb(14 13 11 / .40);
+  border-color:color-mix(in srgb, var(--cream) 14%, transparent);
+}
 .nav__mark{ font-family:var(--font-display); font-weight:600;
             letter-spacing:-0.02em; font-size:1.15rem; }
 .nav__mark .punkt{ color:var(--violet-hell); }
@@ -186,7 +204,7 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
 .menue.is-open{ visibility:visible; }
 .menue__scrim{
   position:absolute; inset:0; background:rgb(0 0 0 / .55);
-  opacity:0; transition:opacity .4s;
+  opacity:0; transition:opacity var(--dauer-2);
   border:0; padding:0; cursor:pointer;
 }
 .menue.is-open .menue__scrim{ opacity:1; }
@@ -195,7 +213,7 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
   width:min(640px,100%); background:var(--cream); color:var(--ink);
   display:flex; flex-direction:column; overflow-y:auto;
   padding:calc(var(--s-9)) 0 var(--s-7);
-  transform:translateX(102%); transition:transform .55s var(--ease-out);
+  transform:translateX(102%); transition:transform var(--dauer-2) var(--ease-out);
 }
 .menue.is-open .menue__panel{ transform:none; }
 .menue__schliessen{
@@ -212,10 +230,10 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
   padding:0.12em var(--pad-x);
   font-family:var(--font-display); font-weight:600;
   font-size:clamp(2.4rem,6vw,4.2rem); letter-spacing:-0.02em; line-height:1.15;
-  transition:background .25s, color .25s;
+  transition:background var(--dauer-1) var(--ease-soft), color var(--dauer-1) var(--ease-soft);
 }
 .menue__link .pfeil{ font-size:.5em; opacity:0; transform:translate(-6px,4px);
-                     transition:opacity .25s, transform .25s; }
+                     transition:opacity var(--dauer-1), transform var(--dauer-1) var(--ease-soft); }
 .menue__link:hover, .menue__link:focus-visible{
   background:var(--violet); color:#fff;
 }
@@ -236,7 +254,11 @@ html.menue-offen .nav__menue{ opacity:0; pointer-events:none; }
 .nav__menue{ transition:background .3s, color .3s, border-color .3s, opacity .25s; }
 
 /* ── Footer ───────────────────────────────────────────────────────── */
-.footer{ background:var(--ink); color:var(--cream); overflow:hidden; }
+.footer{
+  background:var(--ink); color:var(--cream); overflow:hidden;
+  border-radius:44px 44px 0 0;           /* Platte über der hellen Sektion */
+  position:relative;
+}
 .footer a:hover{ text-decoration:underline; text-underline-offset:4px; }
 .footer-wortmarke{
   display:block; text-align:center; white-space:nowrap;
@@ -281,11 +303,12 @@ body::after{
   width:26px; height:26px; border-radius:50%;
   border:1.5px solid var(--grau-d); background:transparent;
   transform:translate(-50%,-50%);
-  transition:width .35s var(--ease-out), height .35s var(--ease-out),
-             background .35s, border-color .35s, opacity .2s;
+  transition:width var(--dauer-2) var(--ease-out), height var(--dauer-2) var(--ease-out),
+             background var(--dauer-1), border-color var(--dauer-1), opacity .2s;
   display:none; opacity:0;
 }
 .cursor.is-live{ opacity:1; }
+.cursor.is-link{ width:44px; height:44px; border-color:var(--violet-hell); }
 .cursor.is-media{ width:92px; height:92px; background:var(--cream);
                   border-color:var(--cream); }
 .cursor__label{

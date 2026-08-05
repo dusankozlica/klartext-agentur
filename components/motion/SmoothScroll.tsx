@@ -21,7 +21,8 @@ export default function SmoothScroll() {
       return;
     }
 
-    const lenis = new Lenis({ lerp: 0.1, duration: 1.1, syncTouch: false });
+    // lerp UND duration gleichzeitig widersprechen sich — nur lerp.
+    const lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.95, syncTouch: false });
 
     const onScroll = () => ScrollTrigger.update();
     lenis.on('scroll', onScroll);

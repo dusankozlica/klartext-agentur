@@ -68,13 +68,15 @@ export default async function Page({ params }: PageProps<'/projekte/[slug]'>) {
             <p className="body-measure text-[1.1rem]" data-reveal>{p.ausgangslage}</p>
           </div>
 
-          <PlaceholderImage
-            slot={p.bildSlots[0] ?? 'projects/case-detail-wide'}
-            alt=""
-            sizes="(max-width: 900px) 100vw, 1360px"
-            className="aspect-video"
-            scrollSpeed={0.1}
-          />
+          <div className="bleed">
+            <PlaceholderImage
+              slot={p.bildSlots[0] ?? 'projects/case-detail-wide'}
+              alt=""
+              sizes="100vw"
+              className="h-[72svh] min-h-[380px] w-full"
+              scrollSpeed={0.08}
+            />
+          </div>
 
           <div className="grid gap-[var(--s-8)] md:grid-cols-[4fr_8fr]">
             <h2 className="eyebrow self-start" data-reveal>Vorgehen</h2>

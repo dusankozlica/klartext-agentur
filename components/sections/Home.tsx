@@ -1,36 +1,38 @@
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import { preload } from 'react-dom';
 
 import Faq from '@/components/ui/Faq';
 import PlaceholderImage from '@/components/ui/PlaceholderImage';
 import MediaLoop from '@/components/ui/MediaLoop';
 import LeistungsZeilen from '@/components/sections/LeistungsZeilen';
+import ReferenzStimmen from '@/components/sections/ReferenzStimmen';
+import TerminKalender from '@/components/sections/TerminKalender';
 
 import { services } from '@/lib/content/services';
 import { projects, anzeigeName } from '@/lib/content/projects';
-import { ausspielbar } from '@/lib/content/testimonials';
+import { vorschauStimmen, testimonialTitel } from '@/lib/content/testimonials';
 import { team, personTitel, logosAusspielen, kundenlogos } from '@/lib/content/team';
 import { faq } from '@/lib/content/faq';
 import { site, ortOderLand } from '@/lib/content/site';
 import { allePosts } from '@/lib/content/blog';
 import { placeholder } from '@/lib/placeholders';
 
-// Lightbox und Fokusfalle werden erst gebraucht, wenn jemand ein Video öffnet.
-const VideoTestimonials = dynamic(() => import('@/components/ui/VideoTestimonials'));
-
 export default async function Home() {
-  const testimonials = ausspielbar();
+  const stimmen = vorschauStimmen();
   const posts = (await allePosts()).slice(0, 3);
   // Platzhalter werden auf dem Server aufgeloest; Client-Komponenten
   // bekommen fertige Pfade und nie das Register selbst.
   const kino = placeholder('video/hero-kino');
+  const showreel = placeholder('video/showreel');
   // Poster ist das erste grosse Bild im Viewport — früh anstossen.
   if (kino.poster) preload(kino.poster, { as: 'image', fetchPriority: 'high' });
   const band = placeholder('video/band-neon');
-  const testimonialMedien = testimonials.map((t) => {
+  const stimmenMedien = stimmen.map((t) => {
     const a = placeholder(t.videoSlot);
-    return { ...t, src: a.src, poster: a.poster };
+    return {
+      id: t.id, zitat: t.zitatPlatzhalter, titel: testimonialTitel(t),
+      firma: t.firma, src: a.src, poster: a.poster,
+    };
   });
 
   return (
@@ -96,43 +98,65 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ══ 3 — Arbeiten: grosse runde Bildkarten (sohub /work) ════════ */}
-      <section className="section bg-[var(--cream)] pt-0 text-[var(--ink)]" id="arbeiten">
-        <div className="wrap">
-          <div className="flex flex-wrap items-baseline justify-between gap-[var(--s-4)]">
-            <h2 className="sec-title mb-0" data-reveal>Ausgewählte Arbeiten</h2>
-            <Link href="/projekte" className="inline-flex min-h-[44px] items-center underline underline-offset-4 hover:text-[var(--violet)]">
-              Alle Projekte&nbsp;↗
-            </Link>
+      {/* ══ 3 — Arbeiten: volle Bänder in Bildschirmbreite (ESE Work).
+          Band 0 ist das Showreel-VIDEO, danach die drei Cases. */}
+      <section className="bg-[var(--cream)] pb-[var(--sec-y)] text-[var(--ink)]" id="arbeiten">
+        <div className="wrap flex flex-wrap items-baseline justify-between gap-[var(--s-4)] pb-[var(--s-7)]">
+          <h2 className="sec-title mb-0" data-reveal>Ausgewählte Arbeiten</h2>
+          <Link href="/projekte" className="inline-flex min-h-[44px] items-center underline underline-offset-4 transition-colors duration-[var(--dauer-1)] hover:text-[var(--violet)]">
+            Alle Projekte&nbsp;↗
+          </Link>
+        </div>
+
+        <div className="grid gap-[10px]">
+          {/* Showreel-Band */}
+          <div className="group relative h-[82svh] min-h-[440px] overflow-hidden" data-reveal>
+            <div className="absolute inset-0 transition-transform duration-[var(--dauer-3)] ease-[var(--ease-soft)] group-hover:scale-[1.02]">
+              <MediaLoop src={showreel.src} poster={showreel.poster} cursorLabel="Showreel" />
+            </div>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[50%] bg-gradient-to-t from-[rgb(10_9_7/0.75)] to-transparent" aria-hidden="true" />
+            <p className="absolute left-[var(--pad-x)] top-[var(--s-6)] text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#fff]" data-decode>
+              Showreel · Ausschnitte aus Produktionen
+            </p>
+            <p className="absolute bottom-[var(--s-6)] left-[var(--pad-x)] font-[family-name:var(--font-display)] text-[clamp(1.8rem,3.4vw,3rem)] font-semibold tracking-[-0.02em] text-[#fff]">
+              Ein Blick in die Arbeit<span className="akzent-d">.</span>
+            </p>
           </div>
-          <ul className="mt-[var(--s-7)] grid gap-[var(--s-6)] md:grid-cols-2">
-            {projects.slice(0, 3).map((p, i) => (
-              <li key={p.slug} className={i === 2 ? 'md:col-span-2' : undefined} data-reveal>
-                <Link href={`/projekte/${p.slug}`} className="group relative block overflow-hidden rounded-[var(--radius-lg)]" data-cursor="Case ansehen">
-                  <PlaceholderImage
-                    slot={p.coverSlot}
-                    alt=""
-                    sizes={i === 2 ? '100vw' : '(max-width: 768px) 100vw, 50vw'}
-                    className={`${i === 2 ? 'aspect-[16/7] max-md:aspect-[4/3]' : 'aspect-[4/3]'} transition-transform duration-[900ms] ease-[var(--ease-out)] group-hover:scale-[1.03]`}
-                  />
-                  {/* Flacher Verlauf nur im Fussbereich — Trägerfläche für den Titel */}
-                  <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-[rgb(10_9_7/0.82)] to-transparent" aria-hidden="true" />
-                  <span className="absolute left-[var(--s-5)] top-[var(--s-5)] flex flex-wrap gap-[var(--s-2)]">
-                    {p.leistungen.slice(0, 2).map((l) => (
-                      <span key={l} className="chip bg-[rgb(10_9_7/0.45)] text-[#fff] backdrop-blur-sm">{l}</span>
-                    ))}
+
+          {projects.slice(0, 3).map((p, i) => (
+            <Link
+              key={p.slug}
+              href={`/projekte/${p.slug}`}
+              className="group relative block h-[82svh] min-h-[440px] overflow-hidden"
+              data-cursor="Case ansehen"
+              data-reveal
+            >
+              <PlaceholderImage
+                slot={p.coverSlot}
+                alt=""
+                sizes="100vw"
+                className="h-full w-full transition-transform duration-[var(--dauer-3)] ease-[var(--ease-soft)] group-hover:scale-[1.02]"
+              />
+              <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-[rgb(10_9_7/0.8)] to-transparent" aria-hidden="true" />
+              <span className="absolute left-[var(--pad-x)] top-[var(--s-6)] flex flex-wrap gap-[var(--s-2)]">
+                {p.leistungen.slice(0, 2).map((l) => (
+                  <span key={l} className="chip bg-[rgb(10_9_7/0.45)] text-[#fff] backdrop-blur-sm">{l}</span>
+                ))}
+              </span>
+              <span className="absolute bottom-[var(--s-6)] left-[var(--pad-x)] right-[var(--pad-x)] flex flex-wrap items-end justify-between gap-[var(--s-4)] text-[#fff]">
+                <span>
+                  <span className="block text-[0.85rem] uppercase tracking-[0.14em] opacity-80">
+                    {String(i + 1).padStart(2, '0')} · {p.branche}
                   </span>
-                  <span className="absolute bottom-[var(--s-5)] left-[var(--s-5)] right-[var(--s-5)] flex items-baseline justify-between gap-[var(--s-4)] text-[#fff]">
-                    <span className="font-[family-name:var(--font-display)] text-[clamp(1.4rem,2.4vw,2rem)] font-semibold tracking-[-0.02em]">
-                      <span aria-hidden="true" className="mr-2 inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-                      {anzeigeName(p)}
-                    </span>
-                    <span className="hidden text-[0.9rem] opacity-90 md:block">{p.ergebnisSatz}</span>
+                  <span className="mt-[var(--s-2)] block font-[family-name:var(--font-display)] text-[clamp(2rem,4.4vw,4rem)] font-semibold leading-[1.05] tracking-[-0.02em]">
+                    <span aria-hidden="true" className="mr-3 inline-block transition-transform duration-[var(--dauer-1)] ease-[var(--ease-soft)] group-hover:translate-x-2">→</span>
+                    {anzeigeName(p)}
                   </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+                </span>
+                <span className="max-w-[36ch] text-[0.95rem] opacity-90">{p.ergebnisSatz}</span>
+              </span>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -177,13 +201,10 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ══ 7 — Kundenstimmen (erst mit Freigabe ausgespielt) ══════════ */}
-      {testimonials.length > 0 && (
-        <section className="section bg-[var(--ink)] text-[var(--cream)]" data-nav="dark">
-          <div className="wrap">
-            <h2 className="sec-title" data-reveal>Was Kunden sagen</h2>
-            <VideoTestimonials items={testimonialMedien} />
-          </div>
+      {/* ══ 7 — Referenzen: Video in voller Fläche + grosses Zitat (ESE) ══ */}
+      {stimmenMedien.length > 0 && (
+        <section data-nav="dark" aria-label="Kundenstimmen">
+          <ReferenzStimmen stimmen={stimmenMedien} />
         </section>
       )}
 
@@ -263,11 +284,41 @@ export default async function Home() {
         </section>
       )}
 
-      {/* ══ 10 — FAQ auf Creme ═════════════════════════════════════════ */}
+      {/* ══ 10 — Termin: Kalenderbuchung (Fabio-Soltani-Muster) ════════ */}
+      <section className="section bg-[var(--cream)] text-[var(--ink)]" id="termin">
+        <div className="wrap grid items-start gap-[var(--s-8)] lg:grid-cols-[5fr_7fr]">
+          <div className="lg:sticky lg:top-[120px]">
+            <p className="eyebrow text-[var(--grau-l)]" data-decode>Termin vereinbaren</p>
+            <h2 className="display--sm display">
+              <span className="line"><span className="line__i">Reden wir über</span></span>
+              <span className="line"><span className="line__i">Ihr Projekt<span className="akzent">.</span></span></span>
+            </h2>
+            <p className="body-measure mt-[var(--s-6)] max-w-[46ch] text-[var(--grau-l)]">
+              Wählen Sie Datum und Uhrzeit für ein unverbindliches Erstgespräch —
+              bei Ihnen im Betrieb oder per Video-Call.
+            </p>
+            <ul className="mt-[var(--s-6)] grid gap-[var(--s-3)]">
+              {[
+                'Unverbindlich und kostenlos',
+                'Rund 30 Minuten, danach eine schriftliche Einschätzung',
+                'Antwort innert zwei Arbeitstagen',
+              ].map((punkt) => (
+                <li key={punkt} className="flex items-baseline gap-[var(--s-3)]">
+                  <span aria-hidden="true" className="text-[var(--violet)]">✓</span>
+                  {punkt}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <TerminKalender />
+        </div>
+      </section>
+
+      {/* ══ 11 — FAQ auf Creme ═════════════════════════════════════════ */}
       <section className="section bg-[var(--cream)] text-[var(--ink)]">
         <div className="wrap grid gap-[var(--s-8)] md:grid-cols-[4fr_8fr]">
           <h2 className="sec-title self-start" data-reveal>Häufige Fragen</h2>
-          <Faq eintraege={faq} />
+          <div className="max-w-[78ch]"><Faq eintraege={faq} /></div>
         </div>
       </section>
     </>

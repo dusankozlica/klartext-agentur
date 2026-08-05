@@ -304,33 +304,36 @@
     },
     {
       "slot": "video/testimonial-01",
-      "width": 1080,
-      "height": 1920,
+      "width": 1280,
+      "height": 720,
       "durationSeconds": 9,
       "src": "/placeholders/video/testimonial-01.mp4",
       "poster": "/placeholders/video/testimonial-01-poster.jpg",
       "isPlaceholder": true,
-      "freigabeVorhanden": false
+      "freigabeVorhanden": false,
+      "quelle": "Freepik #479539"
     },
     {
       "slot": "video/testimonial-02",
-      "width": 1080,
-      "height": 1920,
+      "width": 1280,
+      "height": 720,
       "durationSeconds": 9,
       "src": "/placeholders/video/testimonial-02.mp4",
       "poster": "/placeholders/video/testimonial-02-poster.jpg",
       "isPlaceholder": true,
-      "freigabeVorhanden": false
+      "freigabeVorhanden": false,
+      "quelle": "Freepik #3263182"
     },
     {
       "slot": "video/testimonial-03",
-      "width": 1080,
-      "height": 1920,
+      "width": 1280,
+      "height": 720,
       "durationSeconds": 9,
       "src": "/placeholders/video/testimonial-03.mp4",
       "poster": "/placeholders/video/testimonial-03-poster.jpg",
       "isPlaceholder": true,
-      "freigabeVorhanden": false
+      "freigabeVorhanden": false,
+      "quelle": "Freepik #7647535"
     },
     {
       "slot": "video/hero-loop",
