@@ -38,15 +38,16 @@ export default async function Page({ params }: PageProps<'/leistungen/[slug]'>) 
 
   const weitere = services.filter((s) => s.slug !== service.slug);
 
-  // ohhmydesign-Referenz gehört thematisch zu Webdesign: Mockup-Karten
-  // im Zieh-Karussell. Beschriftet als Arbeits-Einblicke, NICHT als
-  // Projekte — die Bilder sind Platzhalter, erfundene Cases gibt es nicht.
+  // ohhmydesign-Referenz gehört thematisch zu Webdesign: Arbeiten als
+  // Mockup-Karten (Gerät auf Farbfläche) im Zieh-Karussell. Die Mockups
+  // sind generierte Platzhalter in unserer Markenwelt; nur der echte
+  // (anonymisierte) Website-Case trägt einen Case-Namen, der Rest ist
+  // ehrlich als Konzeptstudie beschriftet.
   const karussell = (service.slug === 'webdesign'
     ? [
-        { slot: 'services/webdesign', label: 'Struktur & Wireframe', chip: 'UX' },
-        { slot: 'projects/case-02-cover', label: 'Screendesign', chip: 'UI' },
-        { slot: 'projects/case-detail-wide', label: 'Marke trifft Website', chip: 'Design' },
-        { slot: 'projects/case-01-cover', label: 'Im Einsatz beim Kunden', chip: 'Einblick' },
+        { slot: 'projects/mockup-01', label: 'Schreinerei im Mittelland', chip: 'Website' },
+        { slot: 'projects/mockup-02', label: 'Konzeptstudie Gastronomie', chip: 'Studie' },
+        { slot: 'projects/mockup-03', label: 'Konzeptstudie B2B', chip: 'Studie' },
       ]
     : []
   ).map((k) => {
