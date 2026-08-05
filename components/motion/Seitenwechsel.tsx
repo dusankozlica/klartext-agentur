@@ -29,8 +29,12 @@ export default function Seitenwechsel() {
       if (!a) return;
       if (a.target === '_blank' || a.hasAttribute('download')) return;
       if (a.closest('.menue')) return;
-      const href = a.getAttribute('href') ?? '';
+      let href = a.getAttribute('href') ?? '';
       if (!href.startsWith('/') || href.startsWith('//')) return;
+      // Im statischen Export tragen Links das Basis-Präfix — der Router
+      // erwartet Pfade OHNE Präfix und würde es sonst doppelt anhängen.
+      const basis = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+      if (basis && href.startsWith(basis)) href = href.slice(basis.length) || '/';
       const ziel = href.split('#')[0].replace(/\/+$/, '') || '/';
       const hier = pathname.replace(/\/+$/, '') || '/';
       if (ziel === hier) return;
