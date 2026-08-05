@@ -99,65 +99,56 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ══ 3 — Arbeiten: volle Bänder in Bildschirmbreite (ESE Work).
-          Band 0 ist das Showreel-VIDEO, danach die drei Cases. */}
-      <section className="bg-[var(--cream)] pb-[var(--sec-y)] text-[var(--ink)]" id="arbeiten">
-        <div className="wrap flex flex-wrap items-baseline justify-between gap-[var(--s-4)] pb-[var(--s-7)]">
-          <h2 className="sec-title mb-0" data-reveal>Ausgewählte Arbeiten</h2>
-          <Link href="/projekte" className="inline-flex min-h-[44px] items-center underline underline-offset-4 transition-colors duration-[var(--dauer-1)] hover:text-[var(--violet)]">
-            Alle Projekte&nbsp;↗
-          </Link>
-        </div>
-
-        <div className="grid gap-[10px]">
-          {/* Showreel-Band */}
-          <div className="group relative h-[82svh] min-h-[440px] overflow-hidden" data-reveal="vorhang">
-            <div className="absolute inset-0 transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.02]">
-              <MediaLoop src={showreel.src} poster={showreel.poster} cursorLabel="Showreel" />
-            </div>
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[50%] bg-gradient-to-t from-[rgb(10_9_7/0.75)] to-transparent" aria-hidden="true" />
-            <p className="absolute left-[var(--pad-x)] top-[var(--s-6)] text-[0.8rem] font-medium uppercase tracking-[0.16em] text-[#fff]" data-decode>
-              Showreel · Ausschnitte aus Produktionen
-            </p>
-            <p className="absolute bottom-[var(--s-6)] left-[var(--pad-x)] font-[family-name:var(--font-display)] text-[clamp(1.8rem,3.4vw,3rem)] font-semibold tracking-[-0.02em] text-[#fff]">
-              Ein Blick in die Arbeit<span className="akzent-d">.</span>
-            </p>
-          </div>
-
-          {projects.slice(0, 3).map((p, i) => (
-            <Link
-              key={p.slug}
-              href={`/projekte/${p.slug}`}
-              className="group relative block h-[82svh] min-h-[440px] overflow-hidden"
-              data-cursor="Case ansehen"
-              data-reveal="vorhang"
-            >
-              <PlaceholderImage
-                slot={p.coverSlot}
-                alt=""
-                sizes="100vw"
-                className="h-full w-full transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.02]"
-              />
-              <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-[rgb(10_9_7/0.8)] to-transparent" aria-hidden="true" />
-              <span className="absolute left-[var(--pad-x)] top-[var(--s-6)] flex flex-wrap gap-[var(--s-2)]">
-                {p.leistungen.slice(0, 2).map((l) => (
-                  <span key={l} className="chip bg-[rgb(10_9_7/0.45)] text-[#fff] backdrop-blur-sm">{l}</span>
-                ))}
-              </span>
-              <span className="absolute bottom-[var(--s-6)] left-[var(--pad-x)] right-[var(--pad-x)] flex flex-wrap items-end justify-between gap-[var(--s-4)] text-[#fff]">
-                <span>
-                  <span className="block text-[0.85rem] uppercase tracking-[0.14em] opacity-80">
-                    {String(i + 1).padStart(2, '0')} · {p.branche}
-                  </span>
-                  <span className="mt-[var(--s-2)] block font-[family-name:var(--font-display)] text-[clamp(2rem,4.4vw,4rem)] font-semibold leading-[1.05] tracking-[-0.02em]">
-                    <span aria-hidden="true" className="mr-3 inline-block transition-transform duration-[var(--dauer-2)] ease-[var(--ease-fluss)] group-hover:translate-x-2">→</span>
-                    {anzeigeName(p)}
-                  </span>
-                </span>
-                <span className="max-w-[36ch] text-[0.95rem] opacity-90">{p.ergebnisSatz}</span>
-              </span>
+      {/* ══ 3 — Arbeiten nach der sohub-Work-Referenz: Eyebrow, grosses
+          Zweitton-Statement, darunter ein ruhiges 2er-Raster aus runden
+          Karten mit «→ Name» im Bild. Kachel 1 ist das Showreel-VIDEO. */}
+      <section className="section bg-[var(--cream)] text-[var(--ink)]" id="arbeiten">
+        <div className="wrap">
+          <div className="flex flex-wrap items-baseline justify-between gap-[var(--s-4)]">
+            <p className="eyebrow mb-0 text-[var(--grau-l)]" data-decode>Arbeiten</p>
+            <Link href="/projekte" className="inline-flex min-h-[44px] items-center underline underline-offset-4 transition-colors duration-[var(--dauer-1)] hover:text-[var(--violet)]">
+              Alle Projekte&nbsp;↗
             </Link>
-          ))}
+          </div>
+          <h2 className="statement mt-[var(--s-5)]" data-reveal>
+            Arbeiten, <span className="leise">die zeigen,</span> was Klartext
+            heisst<span className="akzent">.</span>
+          </h2>
+
+          <div className="mt-[var(--s-8)] grid gap-[var(--s-5)] md:grid-cols-2">
+            {/* Showreel-Kachel */}
+            <div className="group relative overflow-hidden rounded-[var(--radius-lg)]" data-reveal>
+              <div className="aspect-[4/3] transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.03]">
+                <MediaLoop src={showreel.src} poster={showreel.poster} cursorLabel="Showreel" />
+              </div>
+              <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-[rgb(10_9_7/0.6)] to-transparent" aria-hidden="true" />
+              <p className="pointer-events-none absolute bottom-[var(--s-5)] left-[var(--s-5)] flex items-center gap-[0.5em] font-[family-name:var(--font-display)] text-[clamp(1.2rem,1.8vw,1.6rem)] font-semibold tracking-[-0.02em] text-[#fff]">
+                <span aria-hidden="true">→</span> Showreel
+              </p>
+            </div>
+
+            {projects.slice(0, 3).map((p) => (
+              <Link
+                key={p.slug}
+                href={`/projekte/${p.slug}`}
+                className="group relative block overflow-hidden rounded-[var(--radius-lg)]"
+                data-cursor="Case ansehen"
+                data-reveal
+              >
+                <PlaceholderImage
+                  slot={p.coverSlot}
+                  alt=""
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="aspect-[4/3] transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.03]"
+                />
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-[rgb(10_9_7/0.65)] to-transparent" aria-hidden="true" />
+                <span className="absolute bottom-[var(--s-5)] left-[var(--s-5)] right-[var(--s-5)] flex items-center gap-[0.5em] font-[family-name:var(--font-display)] text-[clamp(1.2rem,1.8vw,1.6rem)] font-semibold tracking-[-0.02em] text-[#fff]">
+                  <span aria-hidden="true" className="inline-block transition-transform duration-[var(--dauer-2)] ease-[var(--ease-fluss)] group-hover:translate-x-1">→</span>
+                  {anzeigeName(p)}
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
