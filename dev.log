@@ -1,0 +1,15 @@
+
+> klartext-agentur@0.1.0 dev
+> next dev
+
+▲ Next.js 16.3.0 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.34:3000
+✓ Ready in 230ms
+✓ Running next.config.ts took 21ms
+
+ GET / 200 in 992ms (next.js: 844ms, application-code: 148ms)
+ GET / 200 in 51ms (next.js: 3ms, application-code: 48ms)
+✓ Compiled in 27ms
+ GET / 200 in 44ms (next.js: 16ms, application-code: 28ms)
+[?25h

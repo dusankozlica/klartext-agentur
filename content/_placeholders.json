@@ -1,0 +1,369 @@
+{
+  "generatedAt": "2026-08-04T01:20:56.867Z",
+  "count": 36,
+  "assets": [
+    {
+      "slot": "hero/hero-still",
+      "width": 2400,
+      "height": 1350,
+      "label": "HERO STILL 16:9",
+      "src": "/placeholders/hero/hero-still.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEBf/EACUQAAIBAwMCBwAAAAAAAAAAAAECAwAEERIUIQVBEyIxUWGRof/EABQBAQAAAAAAAAAAAAAAAAAAAAT/xAAeEQACAQMFAAAAAAAAAAAAAAAAAgEDEkETFCFR4f/aAAwDAQACEQMRAD8AotoTPNpBUBELsWXUPYDFNhaYyOiHw3j9VBIU/eRVvTYE2gbHmkOWI74PFNe2jh1ugwW5PzQ0sbjPoqq7S8xgzJLu9RyqbZgO76gfziip3cliaKdtaXQTWY//2Q==",
+      "isPlaceholder": true,
+      "quelle": "Freepik #24492673"
+    },
+    {
+      "slot": "hero/hero-portrait",
+      "width": 1225,
+      "height": 3645,
+      "label": "HERO 9:16",
+      "src": "/placeholders/hero/hero-portrait.webp",
+      "isPlaceholder": true,
+      "quelle": "Freepik #414356583"
+    },
+    {
+      "slot": "projects/case-01-cover",
+      "width": 1600,
+      "height": 1200,
+      "label": "CASE 01 COVER 4:3",
+      "src": "/placeholders/projects/case-01-cover.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFBv/EACQQAAICAgEDBAMAAAAAAAAAAAECAxEABBIFEzEGISJhcYGx/8QAFgEBAQEAAAAAAAAAAAAAAAAAAwEC/8QAGREBAQEAAwAAAAAAAAAAAAAAAQARAhIh/9oADAMBAAIRAxEAPwBjpW4IdPXhkkjcrasFPKiDfkfnGhtTNNL3CvZdaRVF8ffzeZHSkYSs68eUshFEWAB9ZTl69tQCikTIPCgFR/cJE5aMpiVPdVnn+LgcQAaBNn9YZKX1IXFtqLf1IcMntrrf/9k=",
+      "isPlaceholder": true,
+      "quelle": "Freepik #18895939"
+    },
+    {
+      "slot": "projects/case-02-cover",
+      "width": 1600,
+      "height": 1200,
+      "label": "CASE 02 COVER 4:3",
+      "src": "/placeholders/projects/case-02-cover.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMCBAUG/8QAIhAAAgEEAQQDAAAAAAAAAAAAAQIDAAQREgUTIUFhMVGx/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AOla4VGZSGOoBJx2GfdLXkrczLD1MSMcAffbNV7vjTdyNmcqp+VKBv2l23BwW8kbli/TYlRjUDIA8ehQbAaioRppGF2LY8mig//Z",
+      "isPlaceholder": true,
+      "quelle": "Freepik #26538639"
+    },
+    {
+      "slot": "projects/case-03-cover",
+      "width": 1600,
+      "height": 1200,
+      "label": "CASE 03 COVER 4:3",
+      "src": "/placeholders/projects/case-03-cover.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQCBQb/xAAjEAABBAIBAwUAAAAAAAAAAAABAgMEEQAhBRIxQUJTobHR/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAYEQADAQEAAAAAAAAAAAAAAAAAARECIf/aAAwDAQACEQMRAD8AZWYr8MJiukoA11drAs3XzkuV5KM7FShCC44NV435zORZpZhqHQCN6FC773rGJEtTDLLjaEhx9AUFe2O1J/cgBzkXkKpcRoGvUCD94ZVSBTpJJJOySbOGF0rzHGf/2Q==",
+      "isPlaceholder": true,
+      "quelle": "Freepik #25856144"
+    },
+    {
+      "slot": "projects/case-detail-wide",
+      "width": 2400,
+      "height": 1350,
+      "label": "CASE DETAIL 16:9",
+      "src": "/placeholders/projects/case-detail-wide.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABQACBP/EACQQAAICAQIFBQAAAAAAAAAAAAECAxEABBIFEyEjMQZBUWGR/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAP/xAAXEQEBAQEAAAAAAAAAAAAAAAABABES/9oADAMBAAIRAxEAPwDHp6VY3nDDcWCgC/PU4hq9Q8UisO31r5pa64Dwsc2V47KkrYdfKn6xWDRcslmmklYijzDuH5kFArZrKQy3Eu5lLe5qryzj00Uoi7k28kk2EAyx3Ob/2Q==",
+      "isPlaceholder": true,
+      "quelle": "Freepik #150835424"
+    },
+    {
+      "slot": "projects/case-detail-tall",
+      "width": 1200,
+      "height": 1600,
+      "label": "CASE DETAIL 3:4",
+      "src": "/placeholders/projects/case-detail-tall.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAeABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUCAwQG/8QAJhAAAgIBBAECBwAAAAAAAAAAAQIAAxEEBSFBEhQxIlFicYGRof/EABcBAQEBAQAAAAAAAAAAAAAAAAIDAAH/xAAaEQACAwEBAAAAAAAAAAAAAAAAAQIREjFR/9oADAMBAAIRAxEAPwCWibNVYOc4wZct5Ww1IoYDliR7HoRlu2nqGktfDIzDxLIuT94g0llVVRSm5nXJz58HMnJvglC1aNbEMcmtf1CU+qA4+D8wgpmwzqWVbFKsAVIibU7HWGL0A4+XYienc9ft3tcL6h045jzbN9r3BeKmRv5LhT8MQ0Vi5ABYfUCTCM03msrlqnB7wYTmkLEj/9k=",
+      "isPlaceholder": true,
+      "quelle": "Freepik #14600809"
+    },
+    {
+      "slot": "team/portrait-01",
+      "width": 900,
+      "height": 1200,
+      "label": "TEAM PORTRAIT 3:4",
+      "src": "/placeholders/team/portrait-01.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAeABQDASIAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAAIEBQEDBv/EACMQAAICAgECBwAAAAAAAAAAAAECAAMRIQQFcRIiMUFRYYH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABcRAQADAAAAAAAAAAAAAAAAAAARIUH/2gAMAwEAAhEDEQA/AOYXQjjOcMpB+xEVwhUkEjIJAln1e93vqqsR1ZEz58Z32k1YpBAhMwlRDY7/ACWPOreuzjMxJ8VC7JzsesrPeSEtDVhGXLA6cnePjtA2ZhEhA//Z",
+      "isPlaceholder": true,
+      "quelle": "Freepik #7262931"
+    },
+    {
+      "slot": "team/portrait-02",
+      "width": 900,
+      "height": 1200,
+      "label": "TEAM PORTRAIT 3:4",
+      "src": "/placeholders/team/portrait-02.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEFAwT/xAAhEAACAgEFAAMBAAAAAAAAAAABAgMRAAQFEhMhFCJBYf/EABYBAQEBAAAAAAAAAAAAAAAAAAECA//EABkRAQEAAwEAAAAAAAAAAAAAAAEAERIhMf/aAAwDAQACEQMRAD8A5IVRa5qT/QPAMxmBOgjESdnKYkAC7AJxybS0EDy/KdiK8rJ8nZD1ATOV5EgXVHHHQnZwtb2sBtJZQr928uq9wx7XybRKWYseR9Pv7hkPtodL/9k=",
+      "isPlaceholder": true,
+      "quelle": "Freepik #27645925"
+    },
+    {
+      "slot": "team/portrait-03",
+      "width": 900,
+      "height": 1200,
+      "label": "TEAM PORTRAIT 3:4",
+      "src": "/placeholders/team/portrait-03.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAeABQDASIAAhEBAxEB/8QAGwAAAgEFAAAAAAAAAAAAAAAAAAIEAQMFBgf/xAAjEAACAQMDBQEBAAAAAAAAAAABAgMABBEFEiETIjFRcUGh/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgED/8QAGBEBAQADAAAAAAAAAAAAAAAAAAERMUH/2gAMAwEAAhEDEQA/AKwcEVNupo302RUdWIK5AOcc1AVOqjJzhhjK0kWliOBpo0bci7cDJ3cjmsutpoIe2ikU9tFVC6PqptoWW4K7EBCK36TWftr2R5OlNGiHPaytkEY9+65/HKcf0VtNxKk9la3KpsckePlLASknG2eUcDDnx9oq1nOTRRN//9k=",
+      "isPlaceholder": true,
+      "quelle": "Freepik #21249806"
+    },
+    {
+      "slot": "team/portrait-04",
+      "width": 900,
+      "height": 1200,
+      "label": "TEAM PORTRAIT 3:4",
+      "src": "/placeholders/team/portrait-04.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAZABQDASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAQFAQIG/8QAKRAAAQMCBAMJAAAAAAAAAAAAAQACAwQREiEzcgUTMRQ0QmFxc6Gxwf/EABQBAQAAAAAAAAAAAAAAAAAAAAL/xAAZEQEBAAMBAAAAAAAAAAAAAAAAAREhMUH/2gAMAwEAAhEDEQA/AK1Q28T+ucl/hSahgIVXiVQ2CnjBBJkfhb62U6MyS0bcUUjcBPVtrBGlJrLo6Fg7FBl4Ahb0XcoNgQkJJ/Lc5gc0ONzh8skxAxjGssMhcBJHVj978TsWkNxQ9OcMxgCMBosBkhYg0zuP2hODX//Z",
+      "isPlaceholder": true,
+      "quelle": "Freepik #10701569"
+    },
+    {
+      "slot": "team/group",
+      "width": 2400,
+      "height": 1350,
+      "label": "TEAM GRUPPENBILD 16:9",
+      "src": "/placeholders/team/group.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQGBf/EACMQAAEEAQMEAwAAAAAAAAAAAAECAwQRAAUhMRITIoFBUXL/xAAVAQEBAAAAAAAAAAAAAAAAAAADAf/EABkRAAMAAwAAAAAAAAAAAAAAAAABIQIRE//aAAwDAQACEQMRAD8AQc1FmW41baw6EhtO+wr5xuaV9wuIjOPIWbVQ4vjGGtAjNRHFHzeINLUD4+r5zWiwhFiNpS4pVEk9W9394W06PVCYXGLiiQyo/kWMMoHW09ewA9YYfQqxP//Z",
+      "isPlaceholder": true,
+      "quelle": "Freepik #13250350"
+    },
+    {
+      "slot": "testimonials/poster-01",
+      "width": 1080,
+      "height": 1920,
+      "label": "TESTIMONIAL POSTER 9:16",
+      "src": "/placeholders/testimonials/poster-01.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAkABQDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAIBBAb/xAAiEAACAQIGAwEAAAAAAAAAAAAAAgETkQMUITFRUgQRQaH/xAAXAQEBAQEAAAAAAAAAAAAAAAAABAEC/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A9HSw+i2FLD6LYoEalNNOi2BQAhsJGmZldZ+iimmmxYAyIiI9RsDQBxz5T8KM0/EfoB0wzT8LYAAf/9k=",
+      "isPlaceholder": true
+    },
+    {
+      "slot": "testimonials/poster-02",
+      "width": 1080,
+      "height": 1920,
+      "label": "TESTIMONIAL POSTER 9:16",
+      "src": "/placeholders/testimonials/poster-02.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAkABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAECBf/EAB0QAQEAAwACAwAAAAAAAAAAAAABAhFREhMDIWH/xAAYAQEBAAMAAAAAAAAAAAAAAAAAAQMEBv/EABYRAQEBAAAAAAAAAAAAAAAAAAARAf/aAAwDAQACEQMRAD8A4epyGpyKOnmN1NTkFCYNY/JljNS/S+3LrAkwLbbugKMed5D2XkBjqHnfwBbo/9k=",
+      "isPlaceholder": true
+    },
+    {
+      "slot": "testimonials/poster-03",
+      "width": 1080,
+      "height": 1920,
+      "label": "TESTIMONIAL POSTER 9:16",
+      "src": "/placeholders/testimonials/poster-03.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAkABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAEDBv/EAB8QAQACAQMFAAAAAAAAAAAAAAABAhESIUEDEzFhkf/EABUBAQEAAAAAAAAAAAAAAAAAAAAC/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A5MBQAA0r1r0iIi20cHfvvvjLMBbTNpzPkQA1Y4g1eo+ACZAB/9k=",
+      "isPlaceholder": true
+    },
+    {
+      "slot": "blog/cover-01",
+      "width": 1600,
+      "height": 900,
+      "label": "BLOG COVER 16:9",
+      "src": "/placeholders/blog/cover-01.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAcABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMEBQYC/8QAJRAAAgEDAwMFAQAAAAAAAAAAAQIDAAQRBSExEyJxBhJBQlGh/8QAFwEAAwEAAAAAAAAAAAAAAAAAAAEDAv/EABkRAAMBAQEAAAAAAAAAAAAAAAABAhEhQf/aAAwDAQACEQMRAD8Aj2OiW8rsXRsfGDTddtUtI7KGEEIgY878iomnW0M1ykdzJIrHOCrlfGceDUhrl1uVjQsRESN2LBxk85qbZZT6cR2k8iBltJGB4IUiirqK7aFAh4HGfyilosZQauvQuupHt9afpsqS3iOyjvH9pPqMYnBye4AmkaUSWXzRS6Uh6jWPFHI3uxRWW1R5BfSYmkxtsGO21FBhn//Z",
+      "isPlaceholder": true,
+      "quelle": "Freepik #9142993"
+    },
+    {
+      "slot": "blog/cover-02",
+      "width": 1600,
+      "height": 900,
+      "label": "BLOG COVER 16:9",
+      "src": "/placeholders/blog/cover-02.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAUBAgP/xAAhEAACAQQCAgMAAAAAAAAAAAABAgMAERIxBCEFIkFR8P/EABYBAQEBAAAAAAAAAAAAAAAAAAIBA//EABcRAAMBAAAAAAAAAAAAAAAAAAABESH/2gAMAwEAAhEDEQA/AHU1ycEAL7XI9MfqpgEuQPJSOO/quJHf61JeL5B18wI5UWUsfVjtadq5kd1YAp8qdGs1ig3rpqYrHVFUMjdWJ1RUgqf/2Q==",
+      "isPlaceholder": true,
+      "quelle": "Freepik #10204439"
+    },
+    {
+      "slot": "services/social-media",
+      "width": 1200,
+      "height": 1200,
+      "label": "LEISTUNG SOCIAL MEDIA 1:1",
+      "src": "/placeholders/services/social-media.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAQP/xAAgEAABAwQCAwAAAAAAAAAAAAABAgMEABESIRMxFEGR/8QAFQEBAQAAAAAAAAAAAAAAAAAAAgP/xAAZEQACAwEAAAAAAAAAAAAAAAAAAREhQUL/2gAMAwEAAhEDEQA/AI8UF6PHRiFBvI2J9024yjFYcewwVYJAuFC17j7WRpjC3EI8UjI98p1XdTLK3rBK0ixAHIddVPqxZRZiToBjNh7awkA6OqKQYjQ+MExySd7cNFOUGGf/2Q==",
+      "isPlaceholder": true,
+      "quelle": "Freepik #417846996"
+    },
+    {
+      "slot": "services/branding",
+      "width": 1200,
+      "height": 1200,
+      "label": "LEISTUNG BRANDING 1:1",
+      "src": "/placeholders/services/branding.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAMABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABAAFBv/EACIQAAIBAwQCAwAAAAAAAAAAAAECAwAEIQUREkEiMRRRYf/EABQBAQAAAAAAAAAAAAAAAAAAAAH/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwB2niJWhiCyq5UsrKvifzf7pUyxtNH5MxcELyBIx7z1QdKnk+OM9VozyMsWDnb3QXM39qiXJHInHY3qo1/cSG6fNVIf/9k=",
+      "isPlaceholder": true,
+      "quelle": "Freepik #2765718"
+    },
+    {
+      "slot": "services/webdesign",
+      "width": 1200,
+      "height": 1200,
+      "label": "LEISTUNG WEBDESIGN 1:1",
+      "src": "/placeholders/services/webdesign.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABAADBv/EACAQAQACAgIBBQAAAAAAAAAAAAECAwARBDEhBRITYZH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A6Q6wrfaymRjWhJDa4qASNKn2YO70eEps6+Tya5Lt9tnj8wD22chnuuyJF86QdZZlexps+MJS0ds+8sD/2Q==",
+      "isPlaceholder": true,
+      "quelle": "Freepik #152533021"
+    },
+    {
+      "slot": "services/marketingpartner",
+      "width": 1200,
+      "height": 1200,
+      "label": "LEISTUNG PARTNER 1:1",
+      "src": "/placeholders/services/marketingpartner.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAUBAgT/xAAjEAACAgIBAwUBAAAAAAAAAAABAgMRAAQxBRIhExQiUWFB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAgH/xAAYEQEAAwEAAAAAAAAAAAAAAAAAAREhYf/aAAwDAQACEQMRAD8AlunELKizgAqGVRQ8/V/uZxKybMMQlSmBtuQAOMvrln2hr2tTHuJYXRPjxjpemasbRKYlc9x+Tc8feGaOOlWp0p9yNnZlRkYo1i7I/o/MMdwx+1T04yKsk2OcMuDr/9k=",
+      "isPlaceholder": true,
+      "quelle": "Freepik #21130991"
+    },
+    {
+      "slot": "services/ki-fuer-kmu",
+      "width": 1200,
+      "height": 1200,
+      "label": "LEISTUNG KI FÜR KMU 1:1",
+      "src": "/placeholders/services/ki-fuer-kmu.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABAADBf/EACAQAAICAgICAwAAAAAAAAAAAAECAwQAEQUhEoFBUWH/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEAAgMBAQAAAAAAAAAAAAAAAAECAxESMf/aAAwDAQACEQMRAD8A5/H8c19mjWVYmiYMCRv4zRHtJA6ozAswJbwYg69YCteswqiRylR+Y2LkbC9O5cn7PQ9ZNr6lppUuY4FSm8gJklZTsjXYyxFiw7zMx1s5YIT9P//Z",
+      "isPlaceholder": true,
+      "quelle": "Freepik #20999719"
+    },
+    {
+      "slot": "og/default",
+      "width": 1200,
+      "height": 630,
+      "label": "OPEN GRAPH 1.91:1",
+      "src": "/placeholders/og/default.jpg",
+      "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAALABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAIBAwX/xAAbEAACAwEBAQAAAAAAAAAAAAAAAQIRURIxgf/EABYBAQEBAAAAAAAAAAAAAAAAAAAEBv/EABgRAAIDAAAAAAAAAAAAAAAAAAABAhES/9oADAMBAAIRAxEAPwDDpYiXGK8p/Cvp6HctNHuJZaHpYgE7loDcRaP/2Q==",
+      "isPlaceholder": true
+    },
+    {
+      "slot": "logos/logo-01",
+      "width": 480,
+      "height": 160,
+      "label": "KUNDENLOGO 1",
+      "src": "/placeholders/logos/logo-01.svg",
+      "isPlaceholder": true
+    },
+    {
+      "slot": "logos/logo-02",
+      "width": 480,
+      "height": 160,
+      "label": "KUNDENLOGO 2",
+      "src": "/placeholders/logos/logo-02.svg",
+      "isPlaceholder": true
+    },
+    {
+      "slot": "logos/logo-03",
+      "width": 480,
+      "height": 160,
+      "label": "KUNDENLOGO 3",
+      "src": "/placeholders/logos/logo-03.svg",
+      "isPlaceholder": true
+    },
+    {
+      "slot": "logos/logo-04",
+      "width": 480,
+      "height": 160,
+      "label": "KUNDENLOGO 4",
+      "src": "/placeholders/logos/logo-04.svg",
+      "isPlaceholder": true
+    },
+    {
+      "slot": "logos/logo-05",
+      "width": 480,
+      "height": 160,
+      "label": "KUNDENLOGO 5",
+      "src": "/placeholders/logos/logo-05.svg",
+      "isPlaceholder": true
+    },
+    {
+      "slot": "logos/logo-06",
+      "width": 480,
+      "height": 160,
+      "label": "KUNDENLOGO 6",
+      "src": "/placeholders/logos/logo-06.svg",
+      "isPlaceholder": true
+    },
+    {
+      "slot": "logos/logo-07",
+      "width": 480,
+      "height": 160,
+      "label": "KUNDENLOGO 7",
+      "src": "/placeholders/logos/logo-07.svg",
+      "isPlaceholder": true
+    },
+    {
+      "slot": "logos/logo-08",
+      "width": 480,
+      "height": 160,
+      "label": "KUNDENLOGO 8",
+      "src": "/placeholders/logos/logo-08.svg",
+      "isPlaceholder": true
+    },
+    {
+      "slot": "video/showreel",
+      "width": 1920,
+      "height": 1080,
+      "durationSeconds": 12,
+      "src": "/placeholders/video/showreel.mp4",
+      "poster": "/placeholders/video/showreel-poster.jpg",
+      "isPlaceholder": true,
+      "freigabeVorhanden": false,
+      "quelle": "Freepik #7333764"
+    },
+    {
+      "slot": "video/testimonial-01",
+      "width": 1080,
+      "height": 1920,
+      "durationSeconds": 9,
+      "src": "/placeholders/video/testimonial-01.mp4",
+      "poster": "/placeholders/video/testimonial-01-poster.jpg",
+      "isPlaceholder": true,
+      "freigabeVorhanden": false
+    },
+    {
+      "slot": "video/testimonial-02",
+      "width": 1080,
+      "height": 1920,
+      "durationSeconds": 9,
+      "src": "/placeholders/video/testimonial-02.mp4",
+      "poster": "/placeholders/video/testimonial-02-poster.jpg",
+      "isPlaceholder": true,
+      "freigabeVorhanden": false
+    },
+    {
+      "slot": "video/testimonial-03",
+      "width": 1080,
+      "height": 1920,
+      "durationSeconds": 9,
+      "src": "/placeholders/video/testimonial-03.mp4",
+      "poster": "/placeholders/video/testimonial-03-poster.jpg",
+      "isPlaceholder": true,
+      "freigabeVorhanden": false
+    },
+    {
+      "slot": "video/hero-loop",
+      "width": 1080,
+      "height": 1920,
+      "durationSeconds": 10,
+      "src": "/placeholders/video/hero-loop.mp4",
+      "poster": "/placeholders/video/hero-loop-poster.jpg",
+      "isPlaceholder": true,
+      "freigabeVorhanden": false,
+      "quelle": "Freepik #7462448"
+    },
+    {
+      "slot": "video/hero-kino",
+      "width": 1280,
+      "height": 720,
+      "durationSeconds": 10,
+      "src": "/placeholders/video/hero-kino.mp4",
+      "poster": "/placeholders/video/hero-kino-poster.jpg",
+      "isPlaceholder": true,
+      "freigabeVorhanden": false,
+      "quelle": "Freepik #7439298"
+    },
+    {
+      "slot": "video/band-neon",
+      "width": 1280,
+      "height": 720,
+      "durationSeconds": 10,
+      "src": "/placeholders/video/band-neon.mp4",
+      "poster": "/placeholders/video/band-neon-poster.jpg",
+      "isPlaceholder": true,
+      "freigabeVorhanden": false,
+      "quelle": "Freepik #7580560"
+    }
+  ]
+}

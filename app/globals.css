@@ -1,26 +1,341 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ═══════════════════════════════════════════════════════════════════════
+   KLARTEXT. — Design-Tokens v3
+   Richtung aus den Referenzen (ESE, sohub, nexola, ohhmydesign, pixel):
+   Schwarz + helles Creme als Bühnen, Violett NUR als Akzent. Grosse
+   ruhige Typo, Haarlinien, weiche Radien, Pill-Buttons, feine Körnung.
+
+   Die Token-NAMEN sind aus v1 beibehalten (--ink/--cream/--paper/…),
+   damit alle Unterseiten ohne Umbau mitziehen — nur die WERTE sind neu.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --ink:         #0E0D0B;   /* Schwarz, warm — dunkle Bühnen, Text       */
+  --ink-2:       #1A1814;   /* Karten/Flächen auf Schwarz                */
+  --paper:       #F6F2E9;   /* helles Creme, Variante 1                  */
+  --cream:       #F3EEE3;   /* helles Creme, tragende helle Bühne        */
+  --cream-tint:  #E9E3D4;   /* Karten/Zeilen auf Creme                   */
+  --violet:      #6A00F4;   /* DER Akzent: Buttons, Hover-Balken, Wörter */
+  --violet-deep: #4A00AA;   /* Hover/Pressed auf Violett                 */
+  --violet-hell: #A57BFF;   /* Akzent-TEXT auf Schwarz (lesbar, 6.4:1)   */
+  --grau-d:      #98938A;   /* Zweitton auf Schwarz (5.9:1)              */
+  --grau-l:      #6B6455;   /* Zweitton auf Creme  (4.9:1)               */
+
+  --maxw:  1400px;
+  --pad-x: clamp(20px, 4.5vw, 64px);
+  --sec-y: clamp(88px, 10.5vw, 152px);
+
+  --s-1:4px;  --s-2:8px;  --s-3:12px; --s-4:16px;  --s-5:24px;
+  --s-6:32px; --s-7:48px; --s-8:64px; --s-9:96px;  --s-10:128px;
+
+  --radius:    18px;       /* Karten                                    */
+  --radius-lg: 26px;       /* grosse Bild-Karten                        */
+
+  --font-display:"Clash Display","Helvetica Neue",sans-serif;
+  --font-body:"Switzer","Helvetica Neue",sans-serif;
+
+  --ease-out:cubic-bezier(0.16,1,0.3,1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme inline{
+  --color-ink:var(--ink);
+  --color-ink-2:var(--ink-2);
+  --color-paper:var(--paper);
+  --color-cream:var(--cream);
+  --color-cream-tint:var(--cream-tint);
+  --color-violet:var(--violet);
+  --color-violet-deep:var(--violet-deep);
+  --color-violet-hell:var(--violet-hell);
+  --color-grau-d:var(--grau-d);
+  --color-grau-l:var(--grau-l);
+  --font-display:var(--font-display);
+  --font-body:var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ── Grundlagen ───────────────────────────────────────────────────── */
+html{ overflow-x:hidden; }
+body{
+  /* Dunkler GRUND (Overscroll bleibt ruhig), aber Ink als TEXT-Standard:
+     Helle Sektionen erben so die richtige Farbe; dunkle Sektionen
+     deklarieren ihre helle Schrift ohnehin selbst. */
+  background:var(--ink); color:var(--ink);
+  font-family:var(--font-body);
+  font-size:clamp(16px,1.05vw,18px); line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,video{ display:block; max-width:100%; }
+:focus-visible{ outline:3px solid var(--violet-hell); outline-offset:3px; }
+::selection{ background:var(--violet); color:#fff; }
+
+.skip-link{
+  position:absolute; left:var(--pad-x); top:-100px; z-index:100;
+  background:var(--cream); color:var(--ink); padding:var(--s-3) var(--s-5);
+  border-radius:999px;
+}
+.skip-link:focus{ top:var(--s-4); }
+
+/* ── Layout ───────────────────────────────────────────────────────── */
+.wrap{ width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:var(--pad-x); }
+.section{ padding-block:var(--sec-y); }
+.bleed{ width:100vw; margin-inline:calc(50% - 50vw); }
+
+/* ── Typo ─────────────────────────────────────────────────────────── */
+.display{
+  font-family:var(--font-display); font-weight:600;
+  font-size:clamp(2.9rem,8.5vw,8rem); line-height:0.95;
+  letter-spacing:-0.02em; margin:0; text-wrap:balance;
+}
+.display--sm{ font-size:clamp(2.4rem,6.2vw,5rem); }
+.display .line{ display:block; }
+
+.sec-title{
+  font-family:var(--font-display); font-weight:600;
+  font-size:clamp(2.2rem,4.6vw,3.8rem); line-height:1.02;
+  letter-spacing:-0.03em; margin:0 0 var(--s-8);
+}
+/* Grosses Statement mit Zweitton — sohub: ein Satz, einzelne Wörter leiser */
+.statement{
+  font-family:var(--font-display); font-weight:600;
+  font-size:clamp(1.9rem,3.9vw,3.5rem); line-height:1.1;
+  letter-spacing:-0.02em; margin:0; text-wrap:balance;
+}
+.leise{ color:var(--grau-l); }                 /* Zweitton auf hell   */
+.leise-d{ color:var(--grau-d); }               /* Zweitton auf dunkel */
+.akzent{ color:var(--violet); }                /* Akzentwort auf hell */
+.akzent-d{ color:var(--violet-hell); }         /* Akzentwort auf dunkel */
+
+.eyebrow{
+  font-size:0.8rem; letter-spacing:0.16em; text-transform:uppercase;
+  font-weight:500; margin:0 0 var(--s-6);
+}
+.body-measure{ max-width:min(66ch, 100%); }
+
+/* Chip/Pille für Meta (Kategorien, Leistungen auf Karten) */
+.chip{
+  display:inline-flex; align-items:center;
+  font-size:.78rem; letter-spacing:.06em; font-weight:500;
+  padding:6px 14px; border-radius:999px;
+  border:1px solid color-mix(in srgb, currentColor 30%, transparent);
+}
+
+/* ── Buttons: Pillen ──────────────────────────────────────────────── */
+.btn{
+  position:relative; overflow:hidden; isolation:isolate;
+  display:inline-flex; align-items:center; gap:.5em;
+  font-weight:500; font-size:0.95rem;
+  padding:14px 28px; min-height:48px; border-radius:999px;
+  border:1.5px solid transparent;
+  transition:color .35s, border-color .35s, background-color .35s;
+}
+.btn::after{
+  content:""; position:absolute; inset:0; border-radius:inherit;
+  background:var(--violet-deep);
+  transform:translateY(101%); transition:transform .5s var(--ease-out);
+  z-index:-1;
+}
+.btn:hover::after{ transform:translateY(0); }
+.btn--primary{ background:var(--violet); color:#fff; }
+.btn--hell{ border-color:color-mix(in srgb, var(--cream) 45%, transparent); color:var(--cream); }
+.btn--hell::after{ background:var(--cream); }
+.btn--hell:hover{ color:var(--ink); }
+.btn--dunkel{ border-color:color-mix(in srgb, var(--ink) 35%, transparent); color:var(--ink); }
+.btn--dunkel::after{ background:var(--ink); }
+.btn--dunkel:hover{ color:var(--cream); }
+
+/* ── Masken-Reveal ────────────────────────────────────────────────── */
+.line{ display:block; overflow:hidden;
+       padding-block:0.06em 0.16em; margin-block:-0.06em -0.16em; }
+.line__i{ display:block; }
+.js [data-reveal]{ opacity:0; transform:translateY(28px); }
+
+/* ── Navigation ───────────────────────────────────────────────────── */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:60;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:var(--s-4) var(--pad-x);
+  color:var(--ink);
+}
+body.nav-on-dark .nav{ color:var(--cream); }
+.nav__mark{ font-family:var(--font-display); font-weight:600;
+            letter-spacing:-0.02em; font-size:1.15rem; }
+.nav__mark .punkt{ color:var(--violet-hell); }
+body:not(.nav-on-dark) .nav__mark .punkt{ color:var(--violet); }
+.nav__links{ display:flex; gap:var(--s-5); align-items:center; font-size:0.92rem; }
+.nav__mark, .nav__links a, .nav__links button, .footer a{
+  display:inline-flex; align-items:center; min-height:44px;
+}
+.nav__cta{
+  border:1.5px solid currentColor; border-radius:999px;
+  padding:6px 18px; transition:background .3s, color .3s, border-color .3s;
+}
+.nav__cta:hover{ background:var(--violet); border-color:var(--violet); color:#fff; }
+.nav__menue{
+  appearance:none; background:none; border:1.5px solid currentColor;
+  border-radius:999px; padding:6px 18px; color:inherit; font:inherit;
+  font-size:0.92rem; cursor:pointer;
+  transition:background .3s, color .3s, border-color .3s;
+}
+.nav__menue:hover{ background:var(--cream); border-color:var(--cream); color:var(--ink); }
+body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:var(--ink); color:var(--cream); }
+
+/* ── Overlay-Menü (pixel.melbourne, auf KLARTEXT übersetzt) ───────── */
+.menue{ position:fixed; inset:0; z-index:86; visibility:hidden; }
+.menue.is-open{ visibility:visible; }
+.menue__scrim{
+  position:absolute; inset:0; background:rgb(0 0 0 / .55);
+  opacity:0; transition:opacity .4s;
+  border:0; padding:0; cursor:pointer;
+}
+.menue.is-open .menue__scrim{ opacity:1; }
+.menue__panel{
+  position:absolute; top:0; right:0; bottom:0;
+  width:min(640px,100%); background:var(--cream); color:var(--ink);
+  display:flex; flex-direction:column; overflow-y:auto;
+  padding:calc(var(--s-9)) 0 var(--s-7);
+  transform:translateX(102%); transition:transform .55s var(--ease-out);
+}
+.menue.is-open .menue__panel{ transform:none; }
+.menue__schliessen{
+  position:absolute; top:var(--s-5); right:var(--pad-x);
+  appearance:none; background:none; border:1.5px solid var(--ink);
+  border-radius:999px; padding:6px 18px; font:inherit; font-size:.92rem;
+  cursor:pointer; min-height:44px;
+  transition:background .3s, color .3s;
+}
+.menue__schliessen:hover{ background:var(--ink); color:var(--cream); }
+.menue__liste{ list-style:none; margin:auto 0; padding:0; }
+.menue__link{
+  display:flex; align-items:baseline; justify-content:space-between;
+  padding:0.12em var(--pad-x);
+  font-family:var(--font-display); font-weight:600;
+  font-size:clamp(2.4rem,6vw,4.2rem); letter-spacing:-0.02em; line-height:1.15;
+  transition:background .25s, color .25s;
+}
+.menue__link .pfeil{ font-size:.5em; opacity:0; transform:translate(-6px,4px);
+                     transition:opacity .25s, transform .25s; }
+.menue__link:hover, .menue__link:focus-visible{
+  background:var(--violet); color:#fff;
+}
+.menue__link:hover .pfeil, .menue__link:focus-visible .pfeil{
+  opacity:1; transform:none;
+}
+.menue__fuss{ padding:var(--s-7) var(--pad-x) 0; color:var(--grau-l);
+              font-size:.9rem; }
+html.menue-offen body{ overflow:hidden; }
+/* Unterm offenen Menü verschwindet die Leiste — sonst stapeln sich
+   „Menü" und „Schliessen" in derselben Ecke. */
+html.menue-offen .nav{ opacity:0; pointer-events:none; }
+.nav{ transition:opacity .25s; }
+
+/* ── Footer ───────────────────────────────────────────────────────── */
+.footer{ background:var(--ink); color:var(--cream); overflow:hidden; }
+.footer a:hover{ text-decoration:underline; text-underline-offset:4px; }
+.footer-wortmarke{
+  display:block; text-align:center; white-space:nowrap;
+  font-family:var(--font-display); font-weight:600;
+  font-size:17vw; line-height:.78; letter-spacing:-0.03em;
+  margin-bottom:-0.09em;                        /* sitzt auf der Kante  */
+  user-select:none; pointer-events:none;
+}
+.footer-wortmarke .punkt{ color:var(--violet); }
+
+/* Grüner Status-Punkt (ohhmydesign: available) */
+.status-punkt{
+  display:inline-block; width:9px; height:9px; border-radius:50%;
+  background:#3ECF6A; margin-right:.55em;
+  box-shadow:0 0 0 0 rgb(62 207 106 / .5);
+  animation:puls 2.4s infinite;
+}
+@keyframes puls{
+  0%{ box-shadow:0 0 0 0 rgb(62 207 106 / .45); }
+  70%{ box-shadow:0 0 0 9px rgb(62 207 106 / 0); }
+  100%{ box-shadow:0 0 0 0 rgb(62 207 106 / 0); }
+}
+
+/* ═══ FEINE KÖRNUNG ═════════════════════════════════════════════════
+   512er-Kachel, nativ dargestellt → halb so grobes Korn wie zuvor,
+   Deckkraft 0.03. Rückmeldung war: Körnung störte die Augen — sie ist
+   jetzt Textur, kein Effekt. Bewegung nur auf Desktop.               */
+/* Als ::after statt als Element: Pseudo-Elemente sind keine
+   LCP-Kandidaten — der vollflächige Noise-Div wurde sonst beim
+   Hydrieren zum "grössten Paint" und verfälschte den Messwert. */
+body::after{
+  content:""; position:fixed; inset:0; z-index:70; pointer-events:none;
+  background-image:url("/grain-fein.png"); background-repeat:repeat;
+  background-size:256px 256px; opacity:.05;
+  /* Bewusst OHNE Animation und will-change: Der bewegte Vollbild-Layer
+     drückte auf integrierten GPUs die Framerate — Cursor und Lenis
+     wirkten dadurch träge. Statisches Korn kostet praktisch nichts. */
+}
+/* ── Cursor: Ring (ESE) ───────────────────────────────────────────── */
+.cursor{
+  position:fixed; top:0; left:0; z-index:80; pointer-events:none;
+  width:26px; height:26px; border-radius:50%;
+  border:1.5px solid var(--grau-d); background:transparent;
+  transform:translate(-50%,-50%);
+  transition:width .35s var(--ease-out), height .35s var(--ease-out),
+             background .35s, border-color .35s, opacity .2s;
+  display:none; opacity:0;
+}
+.cursor.is-live{ opacity:1; }
+.cursor.is-media{ width:92px; height:92px; background:var(--cream);
+                  border-color:var(--cream); }
+.cursor__label{
+  position:absolute; inset:0; display:grid; place-items:center;
+  font-size:.72rem; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--ink); opacity:0; transition:opacity .25s; white-space:nowrap;
+}
+.cursor.is-media .cursor__label{ opacity:1; }
+@media (pointer:fine){
+  body.has-cursor .cursor{ display:block; }
+  body.has-cursor, body.has-cursor a, body.has-cursor button{ cursor:none; }
+}
+
+/* ── Intro: Wortmarke auf Schwarz, kurz und leise ─────────────────── */
+.intro{
+  position:fixed; inset:0; z-index:90; pointer-events:none;
+  background:var(--ink); place-items:center;
+  /* Nur ab Desktop-Breite: Auf dem Handy verdeckte das SSR-Overlay den
+     ersten Paint und trieb den LCP über 5s. Mobile startet direkt. */
+  display:none;
+}
+@media (min-width:900px){ .intro{ display:grid; } }
+.intro__mark{
+  font-family:var(--font-display); font-weight:600; color:var(--cream);
+  font-size:clamp(2.6rem,8vw,6.5rem); letter-spacing:-0.02em; line-height:1;
+  display:flex; overflow:hidden;
+}
+.intro__mark span{ display:inline-block; transform:translateY(115%); }
+.intro__mark .punkt{ color:var(--violet-hell); }
+html.intro-laeuft body{ overflow:hidden; }
+
+/* ── Platzhalter-Kennzeichnung (nur Dev) ──────────────────────────── */
+.placeholder-badge{
+  position:absolute; top:var(--s-3); left:var(--s-3); z-index:5;
+  background:var(--ink); color:var(--cream);
+  font-size:.68rem; letter-spacing:.12em; text-transform:uppercase;
+  padding:var(--s-1) var(--s-3); pointer-events:none; border-radius:999px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width:900px){
+  .nav__links a:not(.nav__cta){ display:none; }
+}
+@media (max-width:640px){
+  .nav__links .nav__cta{ display:none; }       /* Menü-Knopf reicht    */
+}
+
+/* ── Reduced Motion ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion:reduce){
+  .status-punkt{ animation:none; }
+  [data-reveal]{ opacity:1; transform:none; }
+  .cursor{ display:none !important; }
+  body.has-cursor, body.has-cursor a, body.has-cursor button{ cursor:auto; }
+  *,*::before,*::after{
+    animation-duration:.01ms !important; animation-iteration-count:1 !important;
+    transition-duration:.01ms !important; scroll-behavior:auto !important;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }

@@ -1,0 +1,163 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+
+import PageHero from '@/components/ui/PageHero';
+import Faq from '@/components/ui/Faq';
+import PlaceholderImage from '@/components/ui/PlaceholderImage';
+import JsonLd from '@/components/seo/JsonLd';
+
+import { getService, serviceSlugs, services } from '@/lib/content/services';
+import { breadcrumbSchema } from '@/lib/seo/schema';
+
+export function generateStaticParams() {
+  return serviceSlugs().map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({ params }: PageProps<'/leistungen/[slug]'>): Promise<Metadata> {
+  const { slug } = await params;
+  const service = getService(slug);
+  if (!service) return {};
+  return {
+    title: service.name,
+    description: service.claim,
+    alternates: { canonical: `/leistungen/${service.slug}` },
+  };
+}
+
+export default async function Page({ params }: PageProps<'/leistungen/[slug]'>) {
+  const { slug } = await params;
+  const service = getService(slug);
+  if (!service) notFound();
+
+  const weitere = services.filter((s) => s.slug !== service.slug);
+
+  return (
+    <>
+      <JsonLd data={breadcrumbSchema([
+        { name: 'Start', pfad: '/' },
+        { name: 'Leistungen', pfad: '/leistungen' },
+        { name: service.name, pfad: `/leistungen/${service.slug}` },
+      ])} />
+
+      <PageHero eyebrow="Leistung" zeilen={[service.name]} lead={service.claim} />
+
+      {/* Für wen + was drin ist */}
+      <section className="section bg-[var(--paper)]">
+        <div className="wrap grid gap-[var(--s-8)] md:grid-cols-[4fr_8fr]">
+          <p className="eyebrow self-start" data-reveal>Für wen</p>
+          <div>
+            <p className="body-measure font-[family-name:var(--font-display)] text-[clamp(1.3rem,2.2vw,2rem)] font-semibold leading-[1.2] tracking-[-0.02em]" data-reveal>
+              {service.fuerWen}
+            </p>
+            <p className="body-measure mt-[var(--s-5)] opacity-80" data-reveal>
+              {service.problem}
+            </p>
+            <ul className="mt-[var(--s-8)] border-t border-current/20">
+              {service.leistungen.map((l) => (
+                <li key={l} className="border-b border-current/20 py-[var(--s-5)]" data-reveal>
+                  {l}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Ablauf — hier ist Nummerierung berechtigt, es sind echte Schritte */}
+      <section className="section bg-[var(--ink)] text-[var(--cream)]" data-nav="dark">
+        <div className="wrap">
+          <h2 className="sec-title" data-reveal>Wie das abläuft</h2>
+          <ol className="grid gap-[var(--s-6)] md:grid-cols-4">
+            {service.ablauf.map((schritt, i) => (
+              <li key={schritt.titel} className="border-t border-current pt-[var(--s-4)]" data-reveal>
+                <span className="text-[0.85rem] tracking-[0.1em]">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3 className="mt-[var(--s-2)] font-[family-name:var(--font-display)] text-[1.25rem] font-semibold tracking-[-0.02em]">
+                  {schritt.titel}
+                </h3>
+                <p className="mt-[var(--s-2)] text-[0.95rem]">{schritt.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Medienband aus den Platzhaltern der Leistung */}
+      {service.medienSlots.length > 0 && (
+        <section className="bg-[var(--paper)] pb-[var(--sec-y)]">
+          <div className="wrap grid gap-[var(--s-5)] md:grid-cols-2">
+            {service.medienSlots.map((slot, i) => (
+              <PlaceholderImage
+                key={slot}
+                slot={slot}
+                alt=""
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className={i === 0 ? 'aspect-video' : 'aspect-[4/3]'}
+                scrollSpeed={i === 0 ? 0.1 : -0.08}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Bild + Preislogik als Ehrlichkeitssignal */}
+      <section className="section bg-[var(--cream-tint)]">
+        <div className="wrap grid items-center gap-[var(--s-8)] md:grid-cols-2">
+          <PlaceholderImage
+            slot={service.bildSlot}
+            alt=""
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="aspect-square"
+            scrollSpeed={0.1}
+          />
+          <div>
+            <h2 className="sec-title" data-reveal>Was es kostet</h2>
+            <p className="body-measure opacity-80" data-reveal>{service.preisLogik}</p>
+            <p className="body-measure mt-[var(--s-4)] text-[0.95rem] opacity-70" data-reveal>
+              Einen konkreten Richtwert nennen wir Ihnen im Erstgespräch, sobald
+              wir den Umfang kennen. Verbindlich wird er schriftlich mit der
+              Offerte — nicht mündlich und nicht später auf der Rechnung.
+            </p>
+            <Link className="btn btn--primary mt-[var(--s-7)]" href="/kontakt">
+              Erstgespräch buchen
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ zur Leistung */}
+      {service.faq.length > 0 && (
+        <section className="section bg-[var(--paper)]">
+          <div className="wrap grid gap-[var(--s-8)] md:grid-cols-[4fr_8fr]">
+            <h2 className="sec-title self-start" data-reveal>Fragen dazu</h2>
+            <Faq eintraege={service.faq} />
+          </div>
+        </section>
+      )}
+
+      {/* Weiter zu den anderen Leistungen */}
+      <section className="section bg-[var(--cream)]">
+        <div className="wrap">
+          <h2 className="sec-title" data-reveal>Weitere Leistungen</h2>
+          <ul className="border-t border-current/20">
+            {weitere.map((s) => (
+              <li key={s.slug} className="border-b border-current/20">
+                <Link
+                  href={`/leistungen/${s.slug}`}
+                  className="flex flex-wrap items-baseline justify-between gap-[var(--s-4)] py-[var(--s-5)] transition-colors hover:text-[var(--violet)]"
+                >
+                  <span className="font-[family-name:var(--font-display)] text-[1.4rem] font-semibold tracking-[-0.02em]">
+                    {s.name}
+                  </span>
+                  <span className="text-[0.9rem] opacity-70">{s.claim}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </>
+  );
+}

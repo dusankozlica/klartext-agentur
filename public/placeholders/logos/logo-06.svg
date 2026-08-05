@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="160" viewBox="0 0 480 160">
+  <rect width="480" height="160" fill="none"/>
+  <circle cx="70" cy="80" r="34" fill="none" stroke="#12101A" stroke-width="8"/>
+  <rect x="52" y="62" width="36" height="36" fill="#12101A" opacity="0.9"/>
+  <text x="128" y="96" font-family="Helvetica,Arial,sans-serif" font-weight="700"
+        font-size="44" letter-spacing="2" fill="#12101A">KUNDE 06</text>
+</svg>
