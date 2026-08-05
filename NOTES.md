@@ -504,3 +504,21 @@ Nach Freigabe («fang an mit der umsetzung deiner definierten punkte»):
 Referenz-Forensik ergänzt: pixel.melbourne (Swoosh-Kurve .65,.05,0,1),
 sirnik (Lenis+GSAP, JS-Tweens), sohub (Expo-Out .4s, 5000s-Drifts),
 nexola (Framer-Springs, nicht auslesbar), ohhmydesign (Domain weg).
+
+## 06.08.2026 — Referenzen thematisch auf Unterseiten
+Alle 21 Referenz-Screenshots aus dem Sitzungsprotokoll extrahiert
+(scratchpad/referenzen) und je Thema eingebaut:
+- ref-05 ESE /expertise/branding + ref-14 sohub «Brand Identities»
+  → /leistungen/branding: BrandingBuehne (Violett-Bühne, schwebende
+  Karten mit EIGENEM Markensystem statt fremder Logos, Umriss-Wortband)
+  + sohub-Block (Zweitton-Titel, Chip-Reihe, ✳-Absatz).
+- ref-10/11 nexola-Tabelle (Web-Design-Zeile offen)
+  → /leistungen/webdesign: NexolaTabelle ersetzt Ablauf-Raster;
+  «Results»-Prozente bewusst weggelassen (keine erfundenen Zahlen).
+- ref-09 ESE-Team → /team: «Die Leute» dunkel, grosse Farbporträts,
+  Haarlinien-Infozeile; E-Mail/Telefon erst mit echten Daten.
+- ref-12 ohhmydesign-Work-Karten → Case-Seiten: «Weitere Arbeiten»
+  als runde Karten mit Punkt+Name und Leistungs-Chips.
+Bereits vorher abgedeckt: ref-03/04 (Hero, Dropdown), 06-08
+(Testimonials, News), 13 (Footer), 15/16 (sohub Work → Explorer/Home),
+17 (Leistungs-Zeilen), 10 (nexola war v1 der Zeilen).

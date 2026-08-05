@@ -8,7 +8,7 @@ import PlaceholderImage from '@/components/ui/PlaceholderImage';
 import JsonLd from '@/components/seo/JsonLd';
 
 import {
-  getProject, projectSlugs, belastbareKennzahlen, naechsterProject, anzeigeName,
+  getProject, projectSlugs, belastbareKennzahlen, anzeigeName, projects,
 } from '@/lib/content/projects';
 import { breadcrumbSchema, caseSchema } from '@/lib/seo/schema';
 
@@ -33,7 +33,7 @@ export default async function Page({ params }: PageProps<'/projekte/[slug]'>) {
   if (!p) notFound();
 
   const kennzahlen = belastbareKennzahlen(p);
-  const naechster = naechsterProject(p.slug);
+  const weitere = projects.filter((x) => x.slug !== p.slug);
 
   return (
     <>
@@ -160,15 +160,47 @@ export default async function Page({ params }: PageProps<'/projekte/[slug]'>) {
         </section>
       )}
 
+      {/* ohhmydesign-Referenz: weitere Arbeiten als grosse runde Karten,
+          Punkt + Name links, Leistungs-Chips rechts */}
       <section className="section bg-[var(--cream)]">
         <div className="wrap">
-          <p className="eyebrow">Nächste Arbeit</p>
-          <Link
-            href={`/projekte/${naechster.slug}`}
-            className="mt-[var(--s-4)] inline-block font-[family-name:var(--font-display)] text-[clamp(2rem,4.4vw,3.6rem)] font-semibold tracking-[-0.02em] transition-colors hover:text-[var(--violet)]"
-          >
-            {anzeigeName(naechster)}
-          </Link>
+          <div className="flex flex-wrap items-baseline justify-between gap-[var(--s-4)]">
+            <h2 className="sec-title mb-0" data-reveal>Weitere Arbeiten</h2>
+            <Link href="/projekte" className="inline-flex min-h-[44px] items-center underline underline-offset-4 transition-colors duration-[var(--dauer-1)] hover:text-[var(--violet)]">
+              Alle Projekte&nbsp;↗
+            </Link>
+          </div>
+          <div className="mt-[var(--s-7)] grid gap-[var(--s-6)] md:grid-cols-2">
+            {weitere.map((w) => (
+              <Link
+                key={w.slug}
+                href={`/projekte/${w.slug}`}
+                className="group block"
+                data-cursor="Case ansehen"
+                data-reveal
+              >
+                <span className="block overflow-hidden rounded-[var(--radius-lg)]">
+                  <PlaceholderImage
+                    slot={w.coverSlot}
+                    alt=""
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="aspect-[4/3] transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.03]"
+                  />
+                </span>
+                <span className="mt-[var(--s-4)] flex flex-wrap items-center justify-between gap-[var(--s-3)]">
+                  <span className="flex items-center gap-[0.5em] font-[family-name:var(--font-display)] text-[1.35rem] font-semibold tracking-[-0.02em]">
+                    <span aria-hidden="true" className="inline-block h-[9px] w-[9px] rounded-full bg-[var(--violet)]" />
+                    {anzeigeName(w)}
+                  </span>
+                  <span className="flex gap-[var(--s-2)]">
+                    {w.leistungen.slice(0, 2).map((l) => (
+                      <span key={l} className="chip text-[var(--grau-l)]">{l}</span>
+                    ))}
+                  </span>
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
     </>

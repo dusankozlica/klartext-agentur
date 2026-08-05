@@ -49,28 +49,32 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="section bg-[var(--cream-tint)]">
+      {/* ESE-Team-Referenz: grosse Farbporträts auf Schwarz, Info-Zeile
+          mit Haarlinie darunter. ESE zeigt dort E-Mail/Telefon pro Kopf —
+          bei uns erst, wenn echte Kontaktdaten existieren. */}
+      <section className="section bg-[var(--ink)] text-[var(--cream)]" data-nav="dark">
         <div className="wrap">
           <h2 className="sec-title" data-reveal>Die Leute</h2>
           <ul className="grid gap-x-[var(--s-5)] gap-y-[var(--s-8)] sm:grid-cols-2 lg:grid-cols-4">
             {team.map((p) => (
               <li key={p.id} data-reveal>
-                <span className="group relative block overflow-hidden">
+                <span className="group relative block overflow-hidden rounded-[var(--radius)]">
                   <PlaceholderImage
                     slot={p.bildSlot}
                     alt=""
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="aspect-[3/4] transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.03]"
                   />
-                  <span className="pointer-events-none absolute inset-0 z-10 translate-y-full bg-[var(--violet)] mix-blend-multiply transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:translate-y-0" />
                 </span>
-                <p className="mt-[var(--s-4)] border-t border-current pt-[var(--s-3)] font-[family-name:var(--font-display)] text-[1.2rem] font-semibold tracking-[-0.02em]">
-                  {personTitel(p)}
-                </p>
-                {p.freigabeVorhanden && p.name.trim() && (
-                  <p className="text-[0.9rem] opacity-70">{p.rolle}</p>
-                )}
-                <p className="mt-[var(--s-3)] text-[0.95rem] opacity-80">{p.satz}</p>
+                <div className="mt-[var(--s-4)] border-t border-[color-mix(in_srgb,var(--cream)_30%,transparent)] pt-[var(--s-3)]">
+                  <p className="font-[family-name:var(--font-display)] text-[1.2rem] font-semibold tracking-[-0.02em]">
+                    {personTitel(p)}
+                  </p>
+                  {p.freigabeVorhanden && p.name.trim() && (
+                    <p className="text-[0.9rem] text-[var(--grau-d)]">{p.rolle}</p>
+                  )}
+                  <p className="mt-[var(--s-3)] text-[0.95rem] text-[var(--grau-d)]">{p.satz}</p>
+                </div>
               </li>
             ))}
           </ul>

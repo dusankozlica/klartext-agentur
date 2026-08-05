@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation';
 import PageHero from '@/components/ui/PageHero';
 import Faq from '@/components/ui/Faq';
 import PlaceholderImage from '@/components/ui/PlaceholderImage';
+import BrandingBuehne from '@/components/sections/BrandingBuehne';
+import NexolaTabelle from '@/components/sections/NexolaTabelle';
 import JsonLd from '@/components/seo/JsonLd';
 
 import { getService, serviceSlugs, services } from '@/lib/content/services';
@@ -42,6 +44,34 @@ export default async function Page({ params }: PageProps<'/leistungen/[slug]'>) 
 
       <PageHero eyebrow="Leistung" zeilen={[service.name]} lead={service.claim} />
 
+      {/* Themen-Bühne nach der ESE-Branding-Referenz: schwebende Karten
+          mit unserem eigenen Markensystem + Umriss-Wortband */}
+      {service.slug === 'branding' && <BrandingBuehne />}
+
+      {/* sohub-Referenz «Brand Identities»: Zweitton-Titel + Chip-Reihe */}
+      {service.slug === 'branding' && (
+        <section className="section bg-[var(--ink)] text-[var(--cream)]" data-nav="dark">
+          <div className="wrap">
+            <h2 className="font-[family-name:var(--font-display)] text-[clamp(2.4rem,5.4vw,4.6rem)] font-semibold leading-[1.02] tracking-[-0.03em]" data-reveal>
+              Marken-<br />
+              <span className="text-[var(--grau-d)]">Identitäten.</span>
+            </h2>
+            <div className="mt-[var(--s-7)] flex flex-wrap gap-[var(--s-3)]" data-reveal>
+              {['Logo', 'Farbsystem', 'Typografie', 'Bildsprache', 'Tonfall', 'Brandboard'].map((c) => (
+                <span key={c} className="chip">{c}</span>
+              ))}
+            </div>
+            <p className="body-measure mt-[var(--s-7)] max-w-[52ch] text-[1.05rem]" data-reveal>
+              <span aria-hidden="true" className="mr-[0.6em] text-[var(--violet-hell)]">✳</span>
+              Eine Marke ist erst dann eine, wenn sie überall gleich auftritt —
+              vom Logo über die Farben bis zum Tonfall im Kundenmail. Genau
+              dieses System bauen wir, und wir übergeben es so, dass Ihr Team
+              es ohne uns bedienen kann.
+            </p>
+          </div>
+        </section>
+      )}
+
       {/* Für wen + was drin ist */}
       <section className="section bg-[var(--paper)]">
         <div className="wrap grid gap-[var(--s-8)] md:grid-cols-[4fr_8fr]">
@@ -64,25 +94,38 @@ export default async function Page({ params }: PageProps<'/leistungen/[slug]'>) 
         </div>
       </section>
 
-      {/* Ablauf — hier ist Nummerierung berechtigt, es sind echte Schritte */}
-      <section className="section bg-[var(--ink)] text-[var(--cream)]" data-nav="dark">
-        <div className="wrap">
-          <h2 className="sec-title" data-reveal>Wie das abläuft</h2>
-          <ol className="grid gap-[var(--s-6)] md:grid-cols-4">
-            {service.ablauf.map((schritt, i) => (
-              <li key={schritt.titel} className="border-t border-current pt-[var(--s-4)]" data-reveal>
-                <span className="text-[0.85rem] tracking-[0.1em]">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <h3 className="mt-[var(--s-2)] font-[family-name:var(--font-display)] text-[1.25rem] font-semibold tracking-[-0.02em]">
-                  {schritt.titel}
-                </h3>
-                <p className="mt-[var(--s-2)] text-[0.95rem]">{schritt.text}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      {/* Ablauf — hier ist Nummerierung berechtigt, es sind echte Schritte.
+          Webdesign bekommt die nexola-Referenz: helle Aufklapp-Tabelle
+          statt Vierer-Raster. */}
+      {service.slug === 'webdesign' ? (
+        <section className="section bg-[var(--paper)]">
+          <div className="wrap">
+            <h2 className="sec-title" data-reveal>Wie das abläuft</h2>
+          </div>
+          <div className="wrap" data-reveal>
+            <NexolaTabelle zeilen={service.ablauf} />
+          </div>
+        </section>
+      ) : (
+        <section className="section bg-[var(--ink)] text-[var(--cream)]" data-nav="dark">
+          <div className="wrap">
+            <h2 className="sec-title" data-reveal>Wie das abläuft</h2>
+            <ol className="grid gap-[var(--s-6)] md:grid-cols-4">
+              {service.ablauf.map((schritt, i) => (
+                <li key={schritt.titel} className="border-t border-current pt-[var(--s-4)]" data-reveal>
+                  <span className="text-[0.85rem] tracking-[0.1em]">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <h3 className="mt-[var(--s-2)] font-[family-name:var(--font-display)] text-[1.25rem] font-semibold tracking-[-0.02em]">
+                    {schritt.titel}
+                  </h3>
+                  <p className="mt-[var(--s-2)] text-[0.95rem]">{schritt.text}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )}
 
       {/* Medienband aus den Platzhaltern der Leistung */}
       {service.medienSlots.length > 0 && (
