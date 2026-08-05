@@ -23,7 +23,12 @@
   --grau-d:      #98938A;   /* Zweitton auf Schwarz (5.9:1)              */
   --grau-l:      #6B6455;   /* Zweitton auf Creme  (4.9:1)               */
 
-  --maxw:  100%;              /* voller Bildschirm — Ränder nur über pad-x */
+  /* Bühnen (Bänder, Bilder, dunkle Flächen) laufen randlos über .bleed
+     bzw. eigene Sektionen. Der WRAP ist nur noch ein Sicherheitsdeckel
+     für Riesenbildschirme — auf Laptops wirkt er randlos, weil pad-x
+     die einzige Begrenzung ist. TEXT wird nie über den Wrap begrenzt,
+     sondern über Lesemasse (unten). */
+  --maxw:  1840px;
   --pad-x: clamp(20px, 4.5vw, 64px);
   --sec-y: clamp(88px, 10.5vw, 152px);
 
@@ -102,11 +107,14 @@ img,video{ display:block; max-width:100%; }
   font-size:clamp(2.2rem,4.6vw,3.8rem); line-height:1.02;
   letter-spacing:-0.03em; margin:0 0 var(--s-8);
 }
-/* Grosses Statement mit Zweitton — sohub: ein Satz, einzelne Wörter leiser */
+/* Grosses Statement mit Zweitton — sohub: ein Satz, einzelne Wörter leiser.
+   Immer mit Lesemass: 26ch im Display-Grad ≈ die sohub-Zeilenlänge.
+   «Volle Breite» heisst volle Bühne — nicht endlose Textzeilen. */
 .statement{
   font-family:var(--font-display); font-weight:600;
   font-size:clamp(1.9rem,3.9vw,3.5rem); line-height:1.1;
   letter-spacing:-0.02em; margin:0; text-wrap:balance;
+  max-width:26ch;
 }
 .leise{ color:var(--grau-l); }                 /* Zweitton auf hell   */
 .leise-d{ color:var(--grau-d); }               /* Zweitton auf dunkel */

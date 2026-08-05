@@ -47,7 +47,7 @@ export default function Page() {
                   scrollSpeed={0.08}
                 />
               </Link>
-              <div>
+              <div className="max-w-[54ch]">
                 <p className="text-[0.85rem] font-medium tracking-[0.1em] text-[var(--grau-l)]">
                   {String(i + 1).padStart(2, '0')}
                 </p>

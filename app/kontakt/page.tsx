@@ -28,7 +28,7 @@ export default function Page() {
       />
 
       <section className="section bg-[var(--paper)]">
-        <div className="wrap grid gap-[var(--s-9)] md:grid-cols-2">
+        <div className="wrap grid gap-[var(--s-9)] lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)]">
           <div>
             <h2 className="sec-title">Schreiben</h2>
             <p className="body-measure mb-[var(--s-7)] opacity-80">
