@@ -244,13 +244,13 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
 .navdd.is-open .navdd__chev{ transform:rotate(180deg); }
 .navdd__panel{
   position:absolute; top:calc(100% + 16px); right:0; left:auto; z-index:59;
-  width:min(600px, calc(100vw - 2*var(--pad-x)));
-  border-radius:22px; overflow:hidden;
+  width:min(760px, calc(100vw - 2*var(--pad-x)));
+  border-radius:24px; overflow:hidden;
   background:rgb(14 13 11 / .88); color:var(--cream);
   border:1px solid color-mix(in srgb, var(--cream) 14%, transparent);
   backdrop-filter:blur(24px) saturate(1.2);
   -webkit-backdrop-filter:blur(24px) saturate(1.2);
-  padding:clamp(20px,1.8vw,30px);
+  padding:clamp(24px,2.2vw,38px);
   opacity:0; transform:translateY(-14px); visibility:hidden;
   transition:opacity .5s var(--ease-quart), transform var(--dauer-2) var(--ease-quart),
              visibility 0s linear .5s;
@@ -260,8 +260,8 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
   transition:opacity .5s var(--ease-quart), transform var(--dauer-2) var(--ease-quart);
 }
 .navdd__inhalt{
-  display:grid; grid-template-columns:minmax(0,1.15fr) minmax(190px,.95fr);
-  gap:clamp(18px,1.6vw,30px); align-items:start;
+  display:grid; grid-template-columns:minmax(0,1.2fr) minmax(230px,1fr);
+  gap:clamp(22px,2vw,40px); align-items:start;
 }
 /* Rechte Spalte: Bild oben, darunter der Text der aktiven Leistung —
    beides blendet beim Wechsel um. */
@@ -272,14 +272,14 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
   opacity:0; transition:opacity .45s var(--ease-fluss);
 }
 .navdd__satz.is-aktiv{ opacity:1; }
-.navdd__satz .satz--claim{ margin:0; font-weight:500; font-size:.92rem; line-height:1.45; }
+.navdd__satz .satz--claim{ margin:0; font-weight:500; font-size:.98rem; line-height:1.45; }
 .navdd__satz .satz--kurz{
-  margin:var(--s-2) 0 0; font-size:.84rem; line-height:1.5; color:var(--grau-d);
+  margin:var(--s-2) 0 0; font-size:.88rem; line-height:1.5; color:var(--grau-d);
 }
 .navdd__fuss{
   display:inline-flex; margin-top:var(--s-4);
   text-decoration:underline; text-underline-offset:4px;
-  font-size:.88rem; transition:color var(--dauer-1) var(--ease-fluss);
+  font-size:.92rem; transition:color var(--dauer-1) var(--ease-fluss);
 }
 .navdd__fuss:hover{ color:var(--violet-hell); }
 .navdd__liste{ list-style:none; margin:0; padding:0; }
@@ -299,15 +299,15 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
    Spaltenbreite ist die GANZE Zeile Auslösefläche; die Optik des
    Hovers bleibt: Eintrag hell, Geschwister dimmen, Pfeil rückt ein. */
 .navdd__liste .navdd__link{
-  display:flex; align-items:baseline; gap:.7em; padding:.24em 0;
+  display:flex; align-items:baseline; gap:.75em; padding:.26em 0;
   font-family:var(--font-display); font-weight:600;
-  font-size:clamp(1.15rem,1.35vw,1.45rem); letter-spacing:-0.02em; line-height:1.3;
+  font-size:clamp(1.4rem,1.8vw,1.9rem); letter-spacing:-0.02em; line-height:1.3;
   transition:opacity var(--dauer-2) var(--ease-fluss);
 }
 /* ESE-Detail: der überfahrene Eintrag bleibt hell, alle anderen dimmen */
 .navdd__liste:hover .navdd__link:not(:hover):not(:focus-visible){ opacity:.35; }
 .navdd__nr{
-  font-family:var(--font-body); font-weight:500; font-size:.62rem;
+  font-family:var(--font-body); font-weight:500; font-size:.68rem;
   letter-spacing:.1em; color:var(--grau-d);
 }
 .navdd__link .pfeil{
