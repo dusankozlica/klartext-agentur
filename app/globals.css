@@ -260,7 +260,9 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
   transition:opacity .5s var(--ease-quart), transform var(--dauer-2) var(--ease-quart);
 }
 .navdd__inhalt{
-  display:grid; grid-template-columns:minmax(0,1.2fr) minmax(230px,1fr);
+  /* Vorschau links, LISTE rechts — die Einträge liegen so direkt unterm
+     «Leistungen»-Auslöser (kürzester Mausweg, Dusans UX-Hinweis 06.08.). */
+  display:grid; grid-template-columns:minmax(230px,1fr) minmax(0,1.2fr);
   gap:clamp(22px,2vw,40px); align-items:start;
 }
 /* Rechte Spalte: Bild oben, darunter der Text der aktiven Leistung —

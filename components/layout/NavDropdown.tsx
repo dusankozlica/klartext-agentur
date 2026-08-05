@@ -63,30 +63,8 @@ export default function NavDropdown({ eintraege }: { eintraege: DropdownEintrag[
 
       <div className="navdd__panel" role="group" aria-label="Leistungen im Überblick" aria-hidden={!offen}>
         <div className="navdd__inhalt">
-          <div>
-            <ol className="navdd__liste">
-              {eintraege.map((s, i) => (
-                <li key={s.slug}>
-                  <Link
-                    className="navdd__link"
-                    href={`/leistungen/${s.slug}`}
-                    tabIndex={offen ? 0 : -1}
-                    onPointerEnter={() => setAktiv(i)}
-                    onFocus={() => setAktiv(i)}
-                  >
-                    <span className="navdd__nr">{String(i + 1).padStart(2, '0')}</span>
-                    {s.name}
-                    <span className="pfeil" aria-hidden="true">↗</span>
-                  </Link>
-                </li>
-              ))}
-            </ol>
-            <Link className="navdd__fuss" href="/leistungen" tabIndex={offen ? 0 : -1}>
-              Alle Leistungen&nbsp;↗
-            </Link>
-          </div>
-
-          {/* Bild + Kurztext der aktiven Leistung, blenden gemeinsam um */}
+          {/* Bild + Kurztext LINKS — die Liste sitzt rechts, direkt unterm
+              Auslöser: kürzester Mausweg vom Hover zur Auswahl. */}
           <div className="navdd__rechts" aria-hidden="true">
             <div className="navdd__bild">
               {eintraege.map((s, i) => (
@@ -111,6 +89,29 @@ export default function NavDropdown({ eintraege }: { eintraege: DropdownEintrag[
                 </div>
               ))}
             </div>
+          </div>
+
+          <div>
+            <ol className="navdd__liste">
+              {eintraege.map((s, i) => (
+                <li key={s.slug}>
+                  <Link
+                    className="navdd__link"
+                    href={`/leistungen/${s.slug}`}
+                    tabIndex={offen ? 0 : -1}
+                    onPointerEnter={() => setAktiv(i)}
+                    onFocus={() => setAktiv(i)}
+                  >
+                    <span className="navdd__nr">{String(i + 1).padStart(2, '0')}</span>
+                    {s.name}
+                    <span className="pfeil" aria-hidden="true">↗</span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+            <Link className="navdd__fuss" href="/leistungen" tabIndex={offen ? 0 : -1}>
+              Alle Leistungen&nbsp;↗
+            </Link>
           </div>
         </div>
       </div>
