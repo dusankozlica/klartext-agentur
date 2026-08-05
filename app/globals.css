@@ -225,10 +225,15 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
 .menue__fuss{ padding:var(--s-7) var(--pad-x) 0; color:var(--grau-l);
               font-size:.9rem; }
 html.menue-offen body{ overflow:hidden; }
-/* Unterm offenen Menü verschwindet die Leiste — sonst stapeln sich
-   „Menü" und „Schliessen" in derselben Ecke. */
-html.menue-offen .nav{ opacity:0; pointer-events:none; }
-.nav{ transition:opacity .25s; }
+/* Unterm offenen Menü verschwinden NUR Wortmarke, Links und der
+   Menü-Knopf — NICHT die ganze Leiste: Das Overlay-Panel wohnt als Kind
+   in der Leiste und wurde vom pauschalen opacity:0 mit unsichtbar
+   geschaltet (der „Menü geht nicht"-Bug). */
+html.menue-offen .nav__mark,
+html.menue-offen .nav__links > a,
+html.menue-offen .nav__menue{ opacity:0; pointer-events:none; }
+.nav__mark, .nav__links > a{ transition:opacity .25s; }
+.nav__menue{ transition:background .3s, color .3s, border-color .3s, opacity .25s; }
 
 /* ── Footer ───────────────────────────────────────────────────────── */
 .footer{ background:var(--ink); color:var(--cream); overflow:hidden; }
