@@ -13,7 +13,7 @@ import random
 from PIL import Image
 
 SIZE = 512
-KONTRAST = 1.6          # 1.0 = neutral; >1 drueckt Richtung Schwarz/Weiss
+KONTRAST = 2.2          # hart Richtung Speckle - noetig bei 4% Deckkraft
 SEED = 20260805
 
 random.seed(SEED)

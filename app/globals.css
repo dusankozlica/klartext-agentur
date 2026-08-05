@@ -439,7 +439,10 @@ html.menue-offen .nav__menue{ opacity:0; pointer-events:none; }
 body::after{
   content:""; position:fixed; inset:-12%; z-index:70; pointer-events:none;
   background-image:url("/grain-fein.png"); background-repeat:repeat;
-  background-size:512px 512px; opacity:.055;
+  /* 512er-Kachel auf 256px dargestellt: Auf Retina (2x) trifft so EIN
+     Rauschkorn EXAKT EIN Gerätepixel — scharf statt aufgeblasen-matschig.
+     Deckkraft wie bei ESE gemessen (0.04). */
+  background-size:256px 256px; opacity:.04;
 }
 @media (min-width:900px){
   body::after{ animation:kornflimmern .9s steps(1) infinite; }
