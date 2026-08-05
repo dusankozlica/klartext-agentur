@@ -169,7 +169,7 @@ export default async function Home() {
         </section>
       )}
 
-      {/* ══ 5 — Leistungen: nexola-Tabelle + pixel-Hover-Balken ════════ */}
+      {/* ══ 5 — Leistungen: hohe Zeilen, Foto erscheint beim Überfahren ═ */}
       <section className="section bg-[var(--ink)] text-[var(--cream)]" data-nav="dark" id="leistungen">
         <div className="wrap flex flex-wrap items-baseline justify-between gap-[var(--s-4)]">
           <h2 className="sec-title mb-0" data-reveal>Leistungen</h2>
@@ -179,6 +179,7 @@ export default async function Home() {
           <LeistungsZeilen
             eintraege={services.map((s) => ({
               slug: s.slug, name: s.name, claim: s.claim, fuerWen: s.fuerWen,
+              bildSlot: s.bildSlot,
             }))}
           />
         </div>
