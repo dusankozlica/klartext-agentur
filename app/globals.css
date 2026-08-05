@@ -224,12 +224,13 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
 .nav__links a:hover .nl__t, .navdd__trigger:hover .nl__t{ transform:translateY(-110%); }
 .nav__links a:hover .nl__t--kopie, .navdd__trigger:hover .nl__t--kopie{ transform:translateY(0); }
 
-/* ── Leistungs-Dropdown in der Leiste (ESE «Expertise») ────────────
-   Vollbreites Glas-Panel unter der Pille: links Label, Mitte grosse
-   Einträge (überfahrener wird hell, Geschwister dimmen), rechts poppt
-   das Vorschaubild der jeweiligen Leistung ein. Nur Desktop — unter
-   900px übernimmt das Overlay-Menü. */
-.navdd{ display:inline-flex; }
+/* ── Leistungs-Dropdown in der Leiste (ESE «Expertise», kompakt) ───
+   Kein vollbreites Band: Das Glas-Panel hängt rechtsbündig unterm
+   Auslöser und ist nur so breit wie sein Inhalt — links die Einträge
+   (überfahrener hell, Geschwister dimmen), rechts Vorschaubild mit
+   dem Kurztext der aktiven Leistung. Nur Desktop — unter 900px
+   übernimmt das Overlay-Menü. */
+.navdd{ display:inline-flex; position:relative; }
 .navdd__trigger{ display:inline-flex; align-items:center; gap:8px; }
 .navdd__chev{
   display:inline-flex; justify-content:center; align-items:center;
@@ -240,13 +241,14 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
 }
 .navdd.is-open .navdd__chev{ transform:rotate(180deg); }
 .navdd__panel{
-  position:absolute; top:calc(100% + 10px); left:0; right:0; z-index:59;
-  border-radius:26px; overflow:hidden;
+  position:absolute; top:calc(100% + 16px); right:0; left:auto; z-index:59;
+  width:min(600px, calc(100vw - 2*var(--pad-x)));
+  border-radius:22px; overflow:hidden;
   background:rgb(14 13 11 / .88); color:var(--cream);
   border:1px solid color-mix(in srgb, var(--cream) 14%, transparent);
   backdrop-filter:blur(24px) saturate(1.2);
   -webkit-backdrop-filter:blur(24px) saturate(1.2);
-  padding:clamp(24px,2.6vw,44px) clamp(24px,2.8vw,52px);
+  padding:clamp(20px,1.8vw,30px);
   opacity:0; transform:translateY(-14px); visibility:hidden;
   transition:opacity .5s var(--ease-quart), transform var(--dauer-2) var(--ease-quart),
              visibility 0s linear .5s;
@@ -256,27 +258,26 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
   transition:opacity .5s var(--ease-quart), transform var(--dauer-2) var(--ease-quart);
 }
 .navdd__inhalt{
-  display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1.1fr) minmax(210px,1fr);
-  gap:clamp(20px,3vw,56px); align-items:stretch;
+  display:grid; grid-template-columns:minmax(0,1.15fr) minmax(190px,.95fr);
+  gap:clamp(18px,1.6vw,30px); align-items:start;
 }
-/* Mittelspalte: Der Text zur aktiven Leistung liegt gestapelt und
-   blendet mit dem Vorschaubild um; unten der Sammellink. */
-.navdd__text{
-  position:relative; display:flex; flex-direction:column;
-  justify-content:flex-end; padding-top:.35em;
-}
+/* Rechte Spalte: Bild oben, darunter der Text der aktiven Leistung —
+   beides blendet beim Wechsel um. */
+.navdd__rechts{ display:flex; flex-direction:column; gap:var(--s-4); }
+.navdd__saetze{ position:relative; min-height:6.4em; }
 .navdd__satz{
-  position:absolute; inset-inline:0; top:.35em;
+  position:absolute; inset-inline:0; top:0;
   opacity:0; transition:opacity .45s var(--ease-fluss);
 }
 .navdd__satz.is-aktiv{ opacity:1; }
-.navdd__satz .satz--claim{ margin:0; font-weight:500; max-width:34ch; }
+.navdd__satz .satz--claim{ margin:0; font-weight:500; font-size:.92rem; line-height:1.45; }
 .navdd__satz .satz--kurz{
-  margin:var(--s-3) 0 0; font-size:.92rem; color:var(--grau-d); max-width:36ch;
+  margin:var(--s-2) 0 0; font-size:.84rem; line-height:1.5; color:var(--grau-d);
 }
 .navdd__fuss{
-  align-self:flex-start; text-decoration:underline; text-underline-offset:4px;
-  font-size:.92rem; transition:color var(--dauer-1) var(--ease-fluss);
+  display:inline-flex; margin-top:var(--s-4);
+  text-decoration:underline; text-underline-offset:4px;
+  font-size:.88rem; transition:color var(--dauer-1) var(--ease-fluss);
 }
 .navdd__fuss:hover{ color:var(--violet-hell); }
 .navdd__liste{ list-style:none; margin:0; padding:0; }
@@ -291,15 +292,15 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
 .navdd.is-open .navdd__liste li:nth-child(4){ transition-delay:.2s; }
 .navdd.is-open .navdd__liste li:nth-child(5){ transition-delay:.25s; }
 .navdd__link{
-  display:flex; align-items:baseline; gap:.9em; padding:.18em 0;
+  display:flex; align-items:baseline; gap:.7em; padding:.24em 0;
   font-family:var(--font-display); font-weight:600;
-  font-size:clamp(1.5rem,2.1vw,2.1rem); letter-spacing:-0.02em; line-height:1.25;
+  font-size:clamp(1.15rem,1.35vw,1.45rem); letter-spacing:-0.02em; line-height:1.3;
   transition:opacity var(--dauer-2) var(--ease-fluss);
 }
 /* ESE-Detail: der überfahrene Eintrag bleibt hell, alle anderen dimmen */
 .navdd__liste:hover .navdd__link:not(:hover):not(:focus-visible){ opacity:.35; }
 .navdd__nr{
-  font-family:var(--font-body); font-weight:500; font-size:.72rem;
+  font-family:var(--font-body); font-weight:500; font-size:.62rem;
   letter-spacing:.1em; color:var(--grau-d);
 }
 .navdd__link .pfeil{
@@ -308,8 +309,8 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
 }
 .navdd__link:hover .pfeil, .navdd__link:focus-visible .pfeil{ opacity:1; transform:none; }
 .navdd__bild{
-  position:relative; border-radius:18px; overflow:hidden;
-  min-height:180px; height:100%;
+  position:relative; border-radius:14px; overflow:hidden;
+  aspect-ratio:16 / 10;
   opacity:0; transform:scale(.86);
   transition:opacity .4s var(--ease-quart), transform .45s var(--ease-pop);
 }
@@ -429,13 +430,30 @@ html.menue-offen .nav__menue{ opacity:0; pointer-events:none; }
 /* Als ::after statt als Element: Pseudo-Elemente sind keine
    LCP-Kandidaten — der vollflächige Noise-Div wurde sonst beim
    Hydrieren zum "grössten Paint" und verfälschte den Messwert. */
+/* ESE-Vermessung: deren .noise__overlay ist ein animiertes TV-Static-GIF
+   bei 480px Kachel und nur 4% Deckkraft — sichtbar, weil das Rauschen
+   KNACKIG ist und FLIMMERT. Unsere Kachel ist seit v2 ebenfalls hartes
+   Pixelrauschen (nativ dargestellt), das Flimmern läuft als Sprung-
+   Animation auf transform: Der Browser legt die Ebene auf die GPU —
+   deutlich billiger als GIF-Dekodierung, kein will-change nötig. */
 body::after{
-  content:""; position:fixed; inset:0; z-index:70; pointer-events:none;
+  content:""; position:fixed; inset:-12%; z-index:70; pointer-events:none;
   background-image:url("/grain-fein.png"); background-repeat:repeat;
-  background-size:256px 256px; opacity:.05;
-  /* Bewusst OHNE Animation und will-change: Der bewegte Vollbild-Layer
-     drückte auf integrierten GPUs die Framerate — Cursor und Lenis
-     wirkten dadurch träge. Statisches Korn kostet praktisch nichts. */
+  background-size:512px 512px; opacity:.055;
+}
+@media (min-width:900px){
+  body::after{ animation:kornflimmern .9s steps(1) infinite; }
+}
+@keyframes kornflimmern{
+  0%   { transform:translate3d(0,0,0); }
+  12.5%{ transform:translate3d(-38px,22px,0); }
+  25%  { transform:translate3d(19px,-44px,0); }
+  37.5%{ transform:translate3d(-52px,-9px,0); }
+  50%  { transform:translate3d(31px,37px,0); }
+  62.5%{ transform:translate3d(-14px,-27px,0); }
+  75%  { transform:translate3d(44px,12px,0); }
+  87.5%{ transform:translate3d(-26px,41px,0); }
+  100% { transform:translate3d(0,0,0); }
 }
 /* ── Cursor (ESE-Vermessung): kleiner Punkt folgt immer, über Zielen
    poppt er mit Überschwingen auf. Differenz-Mischmodus statt fester

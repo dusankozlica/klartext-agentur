@@ -63,27 +63,47 @@ export default function NavDropdown({ eintraege }: { eintraege: DropdownEintrag[
 
       <div className="navdd__panel" role="group" aria-label="Leistungen im Überblick" aria-hidden={!offen}>
         <div className="navdd__inhalt">
-          <ol className="navdd__liste">
-            {eintraege.map((s, i) => (
-              <li key={s.slug}>
-                <Link
-                  className="navdd__link"
-                  href={`/leistungen/${s.slug}`}
-                  tabIndex={offen ? 0 : -1}
-                  onPointerEnter={() => setAktiv(i)}
-                  onFocus={() => setAktiv(i)}
-                >
-                  <span className="navdd__nr">{String(i + 1).padStart(2, '0')}</span>
-                  {s.name}
-                  <span className="pfeil" aria-hidden="true">↗</span>
-                </Link>
-              </li>
-            ))}
-          </ol>
+          <div>
+            <ol className="navdd__liste">
+              {eintraege.map((s, i) => (
+                <li key={s.slug}>
+                  <Link
+                    className="navdd__link"
+                    href={`/leistungen/${s.slug}`}
+                    tabIndex={offen ? 0 : -1}
+                    onPointerEnter={() => setAktiv(i)}
+                    onFocus={() => setAktiv(i)}
+                  >
+                    <span className="navdd__nr">{String(i + 1).padStart(2, '0')}</span>
+                    {s.name}
+                    <span className="pfeil" aria-hidden="true">↗</span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+            <Link className="navdd__fuss" href="/leistungen" tabIndex={offen ? 0 : -1}>
+              Alle Leistungen&nbsp;↗
+            </Link>
+          </div>
 
-          {/* Text zur aktiven Leistung — wechselt mit dem Bild */}
-          <div className="navdd__text">
-            <div aria-hidden="true">
+          {/* Bild + Kurztext der aktiven Leistung, blenden gemeinsam um */}
+          <div className="navdd__rechts" aria-hidden="true">
+            <div className="navdd__bild">
+              {eintraege.map((s, i) => (
+                <Image
+                  key={s.slug}
+                  src={s.bild.src}
+                  alt=""
+                  width={s.bild.width}
+                  height={s.bild.height}
+                  sizes="280px"
+                  placeholder={s.bild.blurDataURL ? 'blur' : 'empty'}
+                  blurDataURL={s.bild.blurDataURL}
+                  className={i === aktiv ? 'is-aktiv' : undefined}
+                />
+              ))}
+            </div>
+            <div className="navdd__saetze">
               {eintraege.map((s, i) => (
                 <div key={s.slug} className={`navdd__satz${i === aktiv ? ' is-aktiv' : ''}`}>
                   <p className="satz--claim">{s.claim}</p>
@@ -91,25 +111,6 @@ export default function NavDropdown({ eintraege }: { eintraege: DropdownEintrag[
                 </div>
               ))}
             </div>
-            <Link className="navdd__fuss" href="/leistungen" tabIndex={offen ? 0 : -1}>
-              Alle Leistungen&nbsp;↗
-            </Link>
-          </div>
-
-          <div className="navdd__bild" aria-hidden="true">
-            {eintraege.map((s, i) => (
-              <Image
-                key={s.slug}
-                src={s.bild.src}
-                alt=""
-                width={s.bild.width}
-                height={s.bild.height}
-                sizes="320px"
-                placeholder={s.bild.blurDataURL ? 'blur' : 'empty'}
-                blurDataURL={s.bild.blurDataURL}
-                className={i === aktiv ? 'is-aktiv' : undefined}
-              />
-            ))}
           </div>
         </div>
       </div>
