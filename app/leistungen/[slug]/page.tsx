@@ -7,9 +7,13 @@ import Faq from '@/components/ui/Faq';
 import PlaceholderImage from '@/components/ui/PlaceholderImage';
 import BrandingBuehne from '@/components/sections/BrandingBuehne';
 import NexolaTabelle from '@/components/sections/NexolaTabelle';
+import ReferenzStimmen from '@/components/sections/ReferenzStimmen';
+import MockupKarussell from '@/components/sections/MockupKarussell';
 import JsonLd from '@/components/seo/JsonLd';
 
 import { getService, serviceSlugs, services } from '@/lib/content/services';
+import { vorschauStimmen, testimonialTitel } from '@/lib/content/testimonials';
+import { placeholder } from '@/lib/placeholders';
 import { breadcrumbSchema } from '@/lib/seo/schema';
 
 export function generateStaticParams() {
@@ -33,6 +37,35 @@ export default async function Page({ params }: PageProps<'/leistungen/[slug]'>) 
   if (!service) notFound();
 
   const weitere = services.filter((s) => s.slug !== service.slug);
+
+  // ohhmydesign-Referenz gehört thematisch zu Webdesign: Mockup-Karten
+  // im Zieh-Karussell. Beschriftet als Arbeits-Einblicke, NICHT als
+  // Projekte — die Bilder sind Platzhalter, erfundene Cases gibt es nicht.
+  const karussell = (service.slug === 'webdesign'
+    ? [
+        { slot: 'services/webdesign', label: 'Struktur & Wireframe', chip: 'UX' },
+        { slot: 'projects/case-02-cover', label: 'Screendesign', chip: 'UI' },
+        { slot: 'projects/case-detail-wide', label: 'Marke trifft Website', chip: 'Design' },
+        { slot: 'projects/case-01-cover', label: 'Im Einsatz beim Kunden', chip: 'Einblick' },
+      ]
+    : []
+  ).map((k) => {
+    const b = placeholder(k.slot);
+    return {
+      label: k.label, chip: k.chip,
+      bild: { src: b.src, width: b.width, height: b.height, blurDataURL: b.blurDataURL },
+    };
+  });
+
+  // ESE-Testimonial-Referenz gehört thematisch zu Social Media: Videos
+  // in voller Fläche, Platzhalter bis zur Freigabe (wie Startseite).
+  const stimmenMedien = (service.slug === 'social-media' ? vorschauStimmen() : []).map((t) => {
+    const a = placeholder(t.videoSlot);
+    return {
+      id: t.id, zitat: t.zitatPlatzhalter, titel: testimonialTitel(t),
+      firma: t.firma, src: a.src, poster: a.poster,
+    };
+  });
 
   return (
     <>
@@ -127,22 +160,39 @@ export default async function Page({ params }: PageProps<'/leistungen/[slug]'>) 
         </section>
       )}
 
-      {/* Medienband aus den Platzhaltern der Leistung */}
-      {service.medienSlots.length > 0 && (
-        <section className="bg-[var(--paper)] pb-[var(--sec-y)]">
-          <div className="wrap grid gap-[var(--s-5)] md:grid-cols-2">
-            {service.medienSlots.map((slot, i) => (
-              <PlaceholderImage
-                key={slot}
-                slot={slot}
-                alt=""
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className={i === 0 ? 'aspect-video' : 'aspect-[4/3]'}
-                scrollSpeed={i === 0 ? 0.1 : -0.08}
-              />
-            ))}
-          </div>
+      {/* Social Media: Kundenstimmen-Videos wie auf der Startseite */}
+      {stimmenMedien.length > 0 && (
+        <section data-nav="dark" aria-label="Kundenstimmen">
+          <ReferenzStimmen stimmen={stimmenMedien} />
         </section>
+      )}
+
+      {/* Webdesign: ohhmy-Zieh-Karussell statt statischem Medienband */}
+      {karussell.length > 0 ? (
+        <section className="bg-[var(--paper)] pb-[var(--sec-y)]">
+          <div className="wrap flex flex-wrap items-baseline justify-between gap-[var(--s-4)] pb-[var(--s-6)]">
+            <p className="eyebrow mb-0" data-decode>Aus der Arbeit · Platzhalter</p>
+            <p className="text-[0.85rem] text-[var(--grau-l)]">Ziehen zum Stöbern&nbsp;→</p>
+          </div>
+          <MockupKarussell karten={karussell} />
+        </section>
+      ) : (
+        service.medienSlots.length > 0 && (
+          <section className="bg-[var(--paper)] pb-[var(--sec-y)]">
+            <div className="wrap grid gap-[var(--s-5)] md:grid-cols-2">
+              {service.medienSlots.map((slot, i) => (
+                <PlaceholderImage
+                  key={slot}
+                  slot={slot}
+                  alt=""
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className={i === 0 ? 'aspect-video' : 'aspect-[4/3]'}
+                  scrollSpeed={i === 0 ? 0.1 : -0.08}
+                />
+              ))}
+            </div>
+          </section>
+        )
       )}
 
       {/* Bild + Preislogik als Ehrlichkeitssignal */}

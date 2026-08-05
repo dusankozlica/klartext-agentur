@@ -33,34 +33,41 @@ export default async function Page() {
         zeilen={['Gedanken,', 'die weiterhelfen.']}
       />
 
-      <section className="section bg-[var(--paper)]">
+      {/* ESE-News-Referenz: dunkle Karten mit Bild, Kategorie, Titel */}
+      <section className="section bg-[var(--ink)] text-[var(--cream)]" data-nav="dark">
         <div className="wrap">
           {posts.length === 0 ? (
-            <p className="body-measure opacity-80">
+            <p className="body-measure text-[var(--grau-d)]">
               Noch keine Beiträge. Neue Artikel werden als MDX unter{' '}
               <code>content/blog/</code> abgelegt.
             </p>
           ) : (
-            <ul className="border-t border-current/20">
-              {posts.map((p, i) => (
-                <li key={p.slug} className="border-b border-current/20" data-reveal>
-                  <Link href={`/blog/${p.slug}`} className="group grid grid-cols-[96px_1fr] items-center gap-[var(--s-5)] py-[var(--s-6)] transition-colors hover:text-[var(--violet)] md:grid-cols-[3rem_120px_1fr_auto] md:gap-[var(--s-6)]">
-                    <span className="hidden text-[0.85rem] font-medium tracking-[0.1em] opacity-65 md:block">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
+            <ul className="grid gap-[var(--s-5)] md:grid-cols-2 lg:grid-cols-3">
+              {posts.map((p) => (
+                <li key={p.slug} data-reveal>
+                  <Link href={`/blog/${p.slug}`} className="group block h-full overflow-hidden rounded-[var(--radius)] bg-[var(--ink-2)]">
                     <span className="block overflow-hidden">
-                      <PlaceholderImage slot={p.coverSlot} alt="" sizes="120px" className="aspect-video transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.05]" />
+                      <PlaceholderImage
+                        slot={p.coverSlot}
+                        alt=""
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="aspect-[16/10] transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.04]"
+                      />
                     </span>
-                    <span>
-                      <span className="block font-[family-name:var(--font-display)] text-[clamp(1.3rem,2.4vw,1.9rem)] font-semibold tracking-[-0.02em]">
+                    <span className="block p-[var(--s-5)]">
+                      <span className="block text-[0.8rem] uppercase tracking-[0.12em] text-[var(--grau-d)]">
+                        {p.kategorie}
+                      </span>
+                      <span className="mt-[var(--s-2)] block font-[family-name:var(--font-display)] text-[1.25rem] font-semibold leading-[1.2] tracking-[-0.02em] transition-colors duration-[var(--dauer-1)] group-hover:text-[var(--violet-hell)]">
                         {p.titel}
                       </span>
-                      <span className="body-measure mt-[var(--s-2)] block text-[0.95rem] opacity-70">
+                      <span className="body-measure mt-[var(--s-3)] block text-[0.92rem] text-[var(--grau-d)]">
                         {p.beschreibung}
                       </span>
-                    </span>
-                    <span className="hidden text-[0.85rem] opacity-65 md:block">
-                      {p.kategorie} · {p.lesezeitMinuten} Min. · <time dateTime={p.datum}>{p.datum}</time>
+                      <span className="mt-[var(--s-4)] flex flex-wrap gap-[var(--s-2)]">
+                        <span className="chip text-[var(--grau-d)]">{p.lesezeitMinuten} Min. Lesezeit</span>
+                        <span className="chip text-[var(--grau-d)]"><time dateTime={p.datum}>{p.datum}</time></span>
+                      </span>
                     </span>
                   </Link>
                 </li>
@@ -69,6 +76,7 @@ export default async function Page() {
           )}
         </div>
       </section>
+
     </>
   );
 }
