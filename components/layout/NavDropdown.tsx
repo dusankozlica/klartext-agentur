@@ -6,7 +6,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 type Bild = { src: string; width: number; height: number; blurDataURL?: string };
-export type DropdownEintrag = { slug: string; name: string; bild: Bild };
+export type DropdownEintrag = {
+  slug: string; name: string; claim: string; kurz: string; bild: Bild;
+};
 
 /**
  * Leistungs-Dropdown nach dem ESE-«Expertise»-Muster: Zeigen öffnet das
@@ -61,16 +63,6 @@ export default function NavDropdown({ eintraege }: { eintraege: DropdownEintrag[
 
       <div className="navdd__panel" role="group" aria-label="Leistungen im Überblick" aria-hidden={!offen}>
         <div className="navdd__inhalt">
-          <div className="navdd__kopf">
-            <p className="eyebrow mb-0 text-[var(--grau-d)]">
-              Leistungen<br />
-              <span className="normal-case tracking-normal">Fünf Felder · ein Ansprechpartner</span>
-            </p>
-            <Link className="navdd__fuss" href="/leistungen" tabIndex={offen ? 0 : -1}>
-              Alle Leistungen&nbsp;↗
-            </Link>
-          </div>
-
           <ol className="navdd__liste">
             {eintraege.map((s, i) => (
               <li key={s.slug}>
@@ -88,6 +80,21 @@ export default function NavDropdown({ eintraege }: { eintraege: DropdownEintrag[
               </li>
             ))}
           </ol>
+
+          {/* Text zur aktiven Leistung — wechselt mit dem Bild */}
+          <div className="navdd__text">
+            <div aria-hidden="true">
+              {eintraege.map((s, i) => (
+                <div key={s.slug} className={`navdd__satz${i === aktiv ? ' is-aktiv' : ''}`}>
+                  <p className="satz--claim">{s.claim}</p>
+                  <p className="satz--kurz">{s.kurz}</p>
+                </div>
+              ))}
+            </div>
+            <Link className="navdd__fuss" href="/leistungen" tabIndex={offen ? 0 : -1}>
+              Alle Leistungen&nbsp;↗
+            </Link>
+          </div>
 
           <div className="navdd__bild" aria-hidden="true">
             {eintraege.map((s, i) => (

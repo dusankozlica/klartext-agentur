@@ -17,6 +17,8 @@ export default function Nav() {
     return {
       slug: s.slug,
       name: s.name,
+      claim: s.claim,
+      kurz: s.kurz,
       bild: { src: b.src, width: b.width, height: b.height, blurDataURL: b.blurDataURL },
     };
   });

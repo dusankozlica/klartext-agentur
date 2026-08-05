@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import { gsap, ScrollTrigger, registerGsap, prefersReducedMotion } from '@/lib/motion';
+import { usePathname } from 'next/navigation';
+import { gsap, ScrollTrigger, registerGsap, prefersReducedMotion, splitLines } from '@/lib/motion';
 
 /**
  * Die wiederkehrenden Scroll-Effekte, zentral statt pro Sektion:
@@ -11,11 +12,25 @@ import { gsap, ScrollTrigger, registerGsap, prefersReducedMotion } from '@/lib/m
  *  - Parallax über die Attribut-API [data-scroll-speed]
  *  - Decode-Labels ([data-decode])
  *  - Navigationsfarbe folgt der Sektion unter der Leiste
+ *
+ * WICHTIG: läuft pro ROUTE, nicht einmal pro Sitzung. Der Layer wohnt im
+ * Root-Layout — beim Seitenwechsel im Client baut Next den Seiteninhalt
+ * neu auf, und ohne neuen Durchlauf bekämen die frischen [data-reveal]-
+ * Elemente nie einen Trigger: Sektionen blieben unsichtbar (der Bug vom
+ * 05.08., leeres Statement nach Dropdown-Ausflug und zurück).
  */
 export default function Reveals() {
+  const pathname = usePathname();
+
   useEffect(() => {
     registerGsap();
-    if (prefersReducedMotion()) return;
+    // Neue Seiteninhalte brauchen ihre Masken-Fenster, bevor Trigger
+    // entstehen — idempotent, bereits zerlegte Zeilen bleiben unberührt.
+    splitLines();
+    if (prefersReducedMotion()) {
+      gsap.set('[data-reveal]', { opacity: 1, y: 0 });
+      return;
+    }
 
     // Beim Erstbesuch der Session gehoeren die Hero-Zeilen dem Intro.
     // Wichtig: Dieser Effekt laeuft VOR dem Intro-Effekt (Mount-Reihenfolge
@@ -105,7 +120,7 @@ export default function Reveals() {
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
 
     return () => ctx.revert();
-  }, []);
+  }, [pathname]);
 
   return null;
 }

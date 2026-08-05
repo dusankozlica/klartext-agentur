@@ -34,10 +34,13 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       <head>
         {/* Display-Schrift früh: Der LCP ist die Headline, und ihr letzter
             Paint ist der Font-Swap. 15 KB — der Preload zieht den Swap an
-            den First Paint heran. (Einzeln gemessen: −0.9s LCP.) */}
+            den First Paint heran. (Einzeln gemessen: −0.9s LCP.)
+            Basis-Pfad im Code statt per Deploy-sed: React fügt den Link
+            bei der Hydration sonst ein zweites Mal MIT Roh-Pfad ein (404
+            auf GitHub Pages). */}
         <link
           rel="preload"
-          href="/fonts/clash-display-600.woff2"
+          href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/fonts/clash-display-600.woff2`}
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"

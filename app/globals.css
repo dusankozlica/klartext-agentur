@@ -256,12 +256,26 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
   transition:opacity .5s var(--ease-quart), transform var(--dauer-2) var(--ease-quart);
 }
 .navdd__inhalt{
-  display:grid; grid-template-columns:minmax(150px,1fr) minmax(0,2.1fr) minmax(210px,1fr);
+  display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1.1fr) minmax(210px,1fr);
   gap:clamp(20px,3vw,56px); align-items:stretch;
 }
-.navdd__kopf{ display:flex; flex-direction:column; justify-content:space-between; gap:var(--s-5); }
+/* Mittelspalte: Der Text zur aktiven Leistung liegt gestapelt und
+   blendet mit dem Vorschaubild um; unten der Sammellink. */
+.navdd__text{
+  position:relative; display:flex; flex-direction:column;
+  justify-content:flex-end; padding-top:.35em;
+}
+.navdd__satz{
+  position:absolute; inset-inline:0; top:.35em;
+  opacity:0; transition:opacity .45s var(--ease-fluss);
+}
+.navdd__satz.is-aktiv{ opacity:1; }
+.navdd__satz .satz--claim{ margin:0; font-weight:500; max-width:34ch; }
+.navdd__satz .satz--kurz{
+  margin:var(--s-3) 0 0; font-size:.92rem; color:var(--grau-d); max-width:36ch;
+}
 .navdd__fuss{
-  align-self:start; text-decoration:underline; text-underline-offset:4px;
+  align-self:flex-start; text-decoration:underline; text-underline-offset:4px;
   font-size:.92rem; transition:color var(--dauer-1) var(--ease-fluss);
 }
 .navdd__fuss:hover{ color:var(--violet-hell); }
