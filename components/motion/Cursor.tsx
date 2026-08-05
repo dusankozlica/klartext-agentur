@@ -38,9 +38,16 @@ export default function Cursor() {
     };
     window.addEventListener('pointermove', onMove);
 
+    // Verlässt der Zeiger das Fenster, blendet der Punkt aus — beim
+    // Wiedereintritt springt er dank is-live-Reset ohne Anlauf zur Hand.
+    const onLeave = () => cur.classList.remove('is-live');
+    document.documentElement.addEventListener('pointerleave', onLeave);
+
     const tick = () => {
-      pos.x += (tgt.x - pos.x) * 0.16;
-      pos.y += (tgt.y - pos.y) * 0.16;
+      // 0.22 statt 0.16: ESE-Follow sitzt näher an der Hand — träges
+      // Nachziehen wirkte wie Latenz, nicht wie Absicht.
+      pos.x += (tgt.x - pos.x) * 0.22;
+      pos.y += (tgt.y - pos.y) * 0.22;
       cur.style.transform = `translate(${pos.x}px, ${pos.y}px) translate(-50%,-50%)`;
     };
     gsap.ticker.add(tick);
@@ -64,6 +71,7 @@ export default function Cursor() {
 
     return () => {
       window.removeEventListener('pointermove', onMove);
+      document.documentElement.removeEventListener('pointerleave', onLeave);
       document.removeEventListener('pointerover', onOver);
       document.removeEventListener('pointerout', onOut);
       gsap.ticker.remove(tick);

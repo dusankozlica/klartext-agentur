@@ -27,7 +27,7 @@ export default function Reveals() {
       document.querySelectorAll<HTMLElement>('.display').forEach((h) => {
         if (heroOwnedByIntro && h.closest('[data-hero]')) return;
         gsap.from(h.querySelectorAll('.line__i'), {
-          yPercent: 105, duration: 1.05, ease: 'power3.out', stagger: 0.06,
+          yPercent: 105, duration: 1.2, ease: 'power4.out', stagger: 0.07,
           scrollTrigger: { trigger: h, start: 'top 85%', once: true },
         });
       });
@@ -35,7 +35,7 @@ export default function Reveals() {
       // Allgemeine Reveals
       gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
         gsap.to(el, {
-          opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+          opacity: 1, y: 0, duration: 1.0, ease: 'power4.out',
           scrollTrigger: { trigger: el, start: 'top 88%', once: true },
         });
       });

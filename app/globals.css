@@ -43,11 +43,19 @@
 
   --ease-out:cubic-bezier(0.16,1,0.3,1);
   --ease-soft:cubic-bezier(0.33,1,0.68,1);
+  /* ESE-Vermessung (05.08.26, eseagency.ch live ausgelesen): Hovers
+     laufen dort 0.6s auf weichen Expo-Kurven, Listen 1s Quint-Out,
+     grosse Wege bis 1.5s Quart-Out — und der Cursor ÜBERSCHWINGT
+     (Bezier-Endwert 1.278). Diese vier Kurven sind 1:1 übernommen. */
+  --ease-fluss:cubic-bezier(0.25,0.74,0.22,0.99);  /* Text- & Link-Hover  */
+  --ease-quint:cubic-bezier(0.23,1,0.32,1);        /* Listen, Farben      */
+  --ease-quart:cubic-bezier(0.165,0.84,0.44,1);    /* Panels, grosse Wege */
+  --ease-pop:cubic-bezier(0.215,0.61,0.37,1.278);  /* Überschwingen (Cursor) */
   /* EIN Tempo-System für alle Übergänge — vorher mischten sich
      0.25/0.3/0.35/0.5/0.6/0.7/0.9s und nichts fühlte sich verwandt an. */
-  --dauer-1:.28s;   /* Farben, kleine Zustände   */
-  --dauer-2:.55s;   /* Füllungen, Panels, Karten */
-  --dauer-3:.85s;   /* Bild-Zooms, grosse Flächen */
+  --dauer-1:.3s;    /* Farben, kleine Zustände   */
+  --dauer-2:.6s;    /* Füllungen, Panels, Karten */
+  --dauer-3:1.05s;  /* Bild-Zooms, grosse Flächen */
 }
 
 @theme inline{
@@ -142,12 +150,12 @@ img,video{ display:block; max-width:100%; }
   font-weight:500; font-size:0.95rem;
   padding:14px 28px; min-height:48px; border-radius:999px;
   border:1.5px solid transparent;
-  transition:color var(--dauer-1) var(--ease-soft), border-color var(--dauer-1) var(--ease-soft), background-color var(--dauer-1) var(--ease-soft), transform var(--dauer-1) var(--ease-soft);
+  transition:color var(--dauer-2) var(--ease-fluss), border-color var(--dauer-2) var(--ease-fluss), background-color var(--dauer-2) var(--ease-fluss), transform .45s var(--ease-pop);
 }
 .btn::after{
   content:""; position:absolute; inset:0; border-radius:inherit;
   background:var(--violet-deep);
-  transform:translateY(101%); transition:transform var(--dauer-2) var(--ease-out);
+  transform:translateY(101%); transition:transform var(--dauer-2) var(--ease-quart);
   z-index:-1;
 }
 .btn:hover{ transform:translateY(-2px); }
@@ -195,24 +203,116 @@ body:not(.nav-on-dark) .nav__mark .punkt{ color:var(--violet); }
 }
 .nav__cta{
   border:1.5px solid currentColor; border-radius:999px;
-  padding:6px 18px; transition:background .3s, color .3s, border-color .3s;
+  padding:6px 18px;
+  transition:background var(--dauer-2) var(--ease-fluss), color var(--dauer-2) var(--ease-fluss), border-color var(--dauer-2) var(--ease-fluss);
 }
 .nav__cta:hover{ background:var(--violet); border-color:var(--violet); color:#fff; }
 .nav__menue{
   appearance:none; background:none; border:1.5px solid currentColor;
   border-radius:999px; padding:6px 18px; color:inherit; font:inherit;
   font-size:0.92rem; cursor:pointer;
-  transition:background .3s, color .3s, border-color .3s;
+  transition:background var(--dauer-2) var(--ease-fluss), color var(--dauer-2) var(--ease-fluss), border-color var(--dauer-2) var(--ease-fluss), opacity .25s;
 }
 .nav__menue:hover{ background:var(--cream); border-color:var(--cream); color:var(--ink); }
 body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:var(--ink); color:var(--cream); }
+
+/* Nav-Direktlinks: Doppeltext schiebt beim Überfahren nach oben (ESE:
+   .nav__link__text-wrapper mit overflow:hidden, 0.6s weiches Expo-Out). */
+.nl{ position:relative; display:inline-block; overflow:hidden; line-height:1.4; }
+.nl__t{ display:block; transition:transform var(--dauer-2) var(--ease-fluss); }
+.nl__t--kopie{ position:absolute; inset:0; transform:translateY(110%); }
+.nav__links a:hover .nl__t, .navdd__trigger:hover .nl__t{ transform:translateY(-110%); }
+.nav__links a:hover .nl__t--kopie, .navdd__trigger:hover .nl__t--kopie{ transform:translateY(0); }
+
+/* ── Leistungs-Dropdown in der Leiste (ESE «Expertise») ────────────
+   Vollbreites Glas-Panel unter der Pille: links Label, Mitte grosse
+   Einträge (überfahrener wird hell, Geschwister dimmen), rechts poppt
+   das Vorschaubild der jeweiligen Leistung ein. Nur Desktop — unter
+   900px übernimmt das Overlay-Menü. */
+.navdd{ display:inline-flex; }
+.navdd__trigger{ display:inline-flex; align-items:center; gap:8px; }
+.navdd__chev{
+  display:inline-flex; justify-content:center; align-items:center;
+  width:18px; height:18px; border-radius:50%;
+  background:color-mix(in srgb, currentColor 16%, transparent);
+  font-size:9px; line-height:1;
+  transition:transform var(--dauer-2) var(--ease-quart), background var(--dauer-1);
+}
+.navdd.is-open .navdd__chev{ transform:rotate(180deg); }
+.navdd__panel{
+  position:absolute; top:calc(100% + 10px); left:0; right:0; z-index:59;
+  border-radius:26px; overflow:hidden;
+  background:rgb(14 13 11 / .88); color:var(--cream);
+  border:1px solid color-mix(in srgb, var(--cream) 14%, transparent);
+  backdrop-filter:blur(24px) saturate(1.2);
+  -webkit-backdrop-filter:blur(24px) saturate(1.2);
+  padding:clamp(24px,2.6vw,44px) clamp(24px,2.8vw,52px);
+  opacity:0; transform:translateY(-14px); visibility:hidden;
+  transition:opacity .5s var(--ease-quart), transform var(--dauer-2) var(--ease-quart),
+             visibility 0s linear .5s;
+}
+.navdd.is-open .navdd__panel{
+  opacity:1; transform:none; visibility:visible;
+  transition:opacity .5s var(--ease-quart), transform var(--dauer-2) var(--ease-quart);
+}
+.navdd__inhalt{
+  display:grid; grid-template-columns:minmax(150px,1fr) minmax(0,2.1fr) minmax(210px,1fr);
+  gap:clamp(20px,3vw,56px); align-items:stretch;
+}
+.navdd__kopf{ display:flex; flex-direction:column; justify-content:space-between; gap:var(--s-5); }
+.navdd__fuss{
+  align-self:start; text-decoration:underline; text-underline-offset:4px;
+  font-size:.92rem; transition:color var(--dauer-1) var(--ease-fluss);
+}
+.navdd__fuss:hover{ color:var(--violet-hell); }
+.navdd__liste{ list-style:none; margin:0; padding:0; }
+.navdd__liste li{
+  opacity:0; transform:translateY(16px);
+  transition:opacity .55s var(--ease-quint), transform .55s var(--ease-quint);
+}
+.navdd.is-open .navdd__liste li{ opacity:1; transform:none; }
+.navdd.is-open .navdd__liste li:nth-child(1){ transition-delay:.05s; }
+.navdd.is-open .navdd__liste li:nth-child(2){ transition-delay:.1s; }
+.navdd.is-open .navdd__liste li:nth-child(3){ transition-delay:.15s; }
+.navdd.is-open .navdd__liste li:nth-child(4){ transition-delay:.2s; }
+.navdd.is-open .navdd__liste li:nth-child(5){ transition-delay:.25s; }
+.navdd__link{
+  display:flex; align-items:baseline; gap:.9em; padding:.18em 0;
+  font-family:var(--font-display); font-weight:600;
+  font-size:clamp(1.5rem,2.1vw,2.1rem); letter-spacing:-0.02em; line-height:1.25;
+  transition:opacity var(--dauer-2) var(--ease-fluss);
+}
+/* ESE-Detail: der überfahrene Eintrag bleibt hell, alle anderen dimmen */
+.navdd__liste:hover .navdd__link:not(:hover):not(:focus-visible){ opacity:.35; }
+.navdd__nr{
+  font-family:var(--font-body); font-weight:500; font-size:.72rem;
+  letter-spacing:.1em; color:var(--grau-d);
+}
+.navdd__link .pfeil{
+  font-size:.55em; opacity:0; transform:translate(-8px,2px);
+  transition:opacity .45s var(--ease-fluss), transform .45s var(--ease-fluss);
+}
+.navdd__link:hover .pfeil, .navdd__link:focus-visible .pfeil{ opacity:1; transform:none; }
+.navdd__bild{
+  position:relative; border-radius:18px; overflow:hidden;
+  min-height:180px; height:100%;
+  opacity:0; transform:scale(.86);
+  transition:opacity .4s var(--ease-quart), transform .45s var(--ease-pop);
+}
+.navdd.is-open .navdd__bild{ opacity:1; transform:none; transition-delay:.12s; }
+.navdd__bild img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  opacity:0; transition:opacity .45s var(--ease-fluss);
+}
+.navdd__bild img.is-aktiv{ opacity:1; }
+@media (max-width:900px){ .navdd{ display:none; } }
 
 /* ── Overlay-Menü (pixel.melbourne, auf KLARTEXT übersetzt) ───────── */
 .menue{ position:fixed; inset:0; z-index:86; visibility:hidden; }
 .menue.is-open{ visibility:visible; }
 .menue__scrim{
   position:absolute; inset:0; background:rgb(0 0 0 / .55);
-  opacity:0; transition:opacity var(--dauer-2);
+  opacity:0; transition:opacity var(--dauer-2) var(--ease-fluss);
   border:0; padding:0; cursor:pointer;
 }
 .menue.is-open .menue__scrim{ opacity:1; }
@@ -221,9 +321,24 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
   width:min(640px,100%); background:var(--cream); color:var(--ink);
   display:flex; flex-direction:column; overflow-y:auto;
   padding:calc(var(--s-9)) 0 var(--s-7);
-  transform:translateX(102%); transition:transform var(--dauer-2) var(--ease-out);
+  /* Einfahren ruhig (Quart, .8s), Ausfahren knapper (.45s) — die
+     Navigation wartet 320 ms und soll das Panel nicht mitten in einer
+     langen Kurve abschneiden. */
+  transform:translateX(102%); transition:transform .45s var(--ease-quart);
 }
-.menue.is-open .menue__panel{ transform:none; }
+.menue.is-open .menue__panel{ transform:none; transition-duration:.8s; }
+/* Zeilen treppen sich beim Öffnen ein (ESE: 1s Quint-Out, gestaffelt) */
+.menue__liste li{
+  opacity:0; transform:translateY(30px);
+  transition:opacity .6s var(--ease-quint), transform .6s var(--ease-quint);
+}
+.menue.is-open .menue__liste li{ opacity:1; transform:none; }
+.menue.is-open .menue__liste li:nth-child(1){ transition-delay:.16s; }
+.menue.is-open .menue__liste li:nth-child(2){ transition-delay:.21s; }
+.menue.is-open .menue__liste li:nth-child(3){ transition-delay:.26s; }
+.menue.is-open .menue__liste li:nth-child(4){ transition-delay:.31s; }
+.menue.is-open .menue__liste li:nth-child(5){ transition-delay:.36s; }
+.menue.is-open .menue__liste li:nth-child(6){ transition-delay:.41s; }
 .menue__schliessen{
   position:absolute; top:var(--s-5); right:var(--pad-x);
   appearance:none; background:none; border:1.5px solid var(--ink);
@@ -238,10 +353,12 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
   padding:0.12em var(--pad-x);
   font-family:var(--font-display); font-weight:600;
   font-size:clamp(2.4rem,6vw,4.2rem); letter-spacing:-0.02em; line-height:1.15;
-  transition:background var(--dauer-1) var(--ease-soft), color var(--dauer-1) var(--ease-soft);
+  transition:background .45s var(--ease-fluss), color .45s var(--ease-fluss), opacity var(--dauer-2) var(--ease-fluss);
 }
-.menue__link .pfeil{ font-size:.5em; opacity:0; transform:translate(-6px,4px);
-                     transition:opacity var(--dauer-1), transform var(--dauer-1) var(--ease-soft); }
+/* Geschwister dimmen, der überfahrene Eintrag trägt den Violett-Balken */
+.menue__liste:hover .menue__link:not(:hover):not(:focus-visible){ opacity:.4; }
+.menue__link .pfeil{ font-size:.5em; opacity:0; transform:translate(-10px,4px);
+                     transition:opacity .45s var(--ease-fluss), transform .45s var(--ease-fluss); }
 .menue__link:hover, .menue__link:focus-visible{
   background:var(--violet); color:#fff;
 }
@@ -257,8 +374,9 @@ html.menue-offen body{ overflow:hidden; }
    geschaltet (der „Menü geht nicht"-Bug). */
 html.menue-offen .nav__mark,
 html.menue-offen .nav__links > a,
+html.menue-offen .navdd,
 html.menue-offen .nav__menue{ opacity:0; pointer-events:none; }
-.nav__mark, .nav__links > a{ transition:opacity .25s; }
+.nav__mark, .nav__links > a, .navdd{ transition:opacity .25s; }
 .nav__menue{ transition:background .3s, color .3s, border-color .3s, opacity .25s; }
 
 /* ── Footer ───────────────────────────────────────────────────────── */
@@ -305,26 +423,35 @@ body::after{
      drückte auf integrierten GPUs die Framerate — Cursor und Lenis
      wirkten dadurch träge. Statisches Korn kostet praktisch nichts. */
 }
-/* ── Cursor: Ring (ESE) ───────────────────────────────────────────── */
+/* ── Cursor (ESE-Vermessung): kleiner Punkt folgt immer, über Zielen
+   poppt er mit Überschwingen auf. Differenz-Mischmodus statt fester
+   Farbe — der Punkt invertiert, was unter ihm liegt, und bleibt so auf
+   Creme wie auf Schwarz sichtbar. Über Medien: Creme-Blase mit Label. */
 .cursor{
   position:fixed; top:0; left:0; z-index:80; pointer-events:none;
-  width:26px; height:26px; border-radius:50%;
-  border:1.5px solid var(--grau-d); background:transparent;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--cream); mix-blend-mode:difference;
   transform:translate(-50%,-50%);
-  transition:width var(--dauer-2) var(--ease-out), height var(--dauer-2) var(--ease-out),
-             background var(--dauer-1), border-color var(--dauer-1), opacity .2s;
+  transition:width .32s var(--ease-pop), height .32s var(--ease-pop),
+             background var(--dauer-1) var(--ease-fluss), opacity .2s;
   display:none; opacity:0;
 }
 .cursor.is-live{ opacity:1; }
-.cursor.is-link{ width:44px; height:44px; border-color:var(--violet-hell); }
-.cursor.is-media{ width:92px; height:92px; background:var(--cream);
-                  border-color:var(--cream); }
+.cursor.is-link{ width:38px; height:38px; }
+.cursor.is-media{ width:96px; height:96px; background:var(--cream);
+                  mix-blend-mode:normal; }
 .cursor__label{
   position:absolute; inset:0; display:grid; place-items:center;
   font-size:.72rem; letter-spacing:.08em; text-transform:uppercase;
   color:var(--ink); opacity:0; transition:opacity .25s; white-space:nowrap;
 }
 .cursor.is-media .cursor__label{ opacity:1; }
+
+/* ── Zeilen-Listen: Geschwister dimmen beim Überfahren (ESE) ──────── */
+[data-zeilen] [data-zeile-inhalt]{
+  transition:opacity var(--dauer-2) var(--ease-fluss);
+}
+[data-zeilen]:hover li:not(:hover) [data-zeile-inhalt]{ opacity:.38; }
 @media (pointer:fine){
   body.has-cursor .cursor{ display:block; }
   body.has-cursor, body.has-cursor a, body.has-cursor button{ cursor:none; }

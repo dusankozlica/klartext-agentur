@@ -111,7 +111,7 @@ export default async function Home() {
         <div className="grid gap-[10px]">
           {/* Showreel-Band */}
           <div className="group relative h-[82svh] min-h-[440px] overflow-hidden" data-reveal>
-            <div className="absolute inset-0 transition-transform duration-[var(--dauer-3)] ease-[var(--ease-soft)] group-hover:scale-[1.02]">
+            <div className="absolute inset-0 transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.02]">
               <MediaLoop src={showreel.src} poster={showreel.poster} cursorLabel="Showreel" />
             </div>
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[50%] bg-gradient-to-t from-[rgb(10_9_7/0.75)] to-transparent" aria-hidden="true" />
@@ -135,7 +135,7 @@ export default async function Home() {
                 slot={p.coverSlot}
                 alt=""
                 sizes="100vw"
-                className="h-full w-full transition-transform duration-[var(--dauer-3)] ease-[var(--ease-soft)] group-hover:scale-[1.02]"
+                className="h-full w-full transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.02]"
               />
               <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-[rgb(10_9_7/0.8)] to-transparent" aria-hidden="true" />
               <span className="absolute left-[var(--pad-x)] top-[var(--s-6)] flex flex-wrap gap-[var(--s-2)]">
@@ -149,7 +149,7 @@ export default async function Home() {
                     {String(i + 1).padStart(2, '0')} · {p.branche}
                   </span>
                   <span className="mt-[var(--s-2)] block font-[family-name:var(--font-display)] text-[clamp(2rem,4.4vw,4rem)] font-semibold leading-[1.05] tracking-[-0.02em]">
-                    <span aria-hidden="true" className="mr-3 inline-block transition-transform duration-[var(--dauer-1)] ease-[var(--ease-soft)] group-hover:translate-x-2">→</span>
+                    <span aria-hidden="true" className="mr-3 inline-block transition-transform duration-[var(--dauer-2)] ease-[var(--ease-fluss)] group-hover:translate-x-2">→</span>
                     {anzeigeName(p)}
                   </span>
                 </span>
@@ -226,7 +226,7 @@ export default async function Home() {
                     slot={p.bildSlot}
                     alt=""
                     sizes="(max-width: 1024px) 50vw, 25vw"
-                    className="aspect-[3/4] grayscale transition-[filter,transform] duration-[600ms] ease-[var(--ease-out)] hover:scale-[1.02] hover:grayscale-0"
+                    className="aspect-[3/4] grayscale transition-[filter,transform] duration-[var(--dauer-3)] ease-[var(--ease-quart)] hover:scale-[1.02] hover:grayscale-0"
                   />
                 </div>
                 <p className="mt-[var(--s-4)] flex items-baseline gap-[var(--s-3)]">
@@ -263,7 +263,7 @@ export default async function Home() {
                         slot={p.coverSlot}
                         alt=""
                         sizes="(max-width: 768px) 100vw, 33vw"
-                        className="aspect-[16/10] transition-transform duration-[700ms] ease-[var(--ease-out)] group-hover:scale-[1.04]"
+                        className="aspect-[16/10] transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.04]"
                       />
                     </span>
                     <span className="block p-[var(--s-5)]">

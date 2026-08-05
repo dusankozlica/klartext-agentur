@@ -60,9 +60,9 @@ export default function Page() {
                     slot={p.bildSlot}
                     alt=""
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="aspect-[3/4] transition-transform duration-[700ms] ease-[var(--ease-out)] group-hover:scale-[1.03]"
+                    className="aspect-[3/4] transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.03]"
                   />
-                  <span className="pointer-events-none absolute inset-0 z-10 translate-y-full bg-[var(--violet)] mix-blend-multiply transition-transform duration-[600ms] ease-[var(--ease-out)] group-hover:translate-y-0" />
+                  <span className="pointer-events-none absolute inset-0 z-10 translate-y-full bg-[var(--violet)] mix-blend-multiply transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:translate-y-0" />
                 </span>
                 <p className="mt-[var(--s-4)] border-t border-current pt-[var(--s-3)] font-[family-name:var(--font-display)] text-[1.2rem] font-semibold tracking-[-0.02em]">
                   {personTitel(p)}

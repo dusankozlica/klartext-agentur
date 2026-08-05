@@ -51,8 +51,8 @@ export default function Menue() {
   const geheZu = (href: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     setOffen(false);
-    // Erst ausfahren lassen, dann navigieren.
-    setTimeout(() => router.push(href as Parameters<typeof router.push>[0]), 260);
+    // Erst ausfahren lassen, dann navigieren (Panel-Exit läuft .45s).
+    setTimeout(() => router.push(href as Parameters<typeof router.push>[0]), 320);
   };
 
   return (

@@ -49,7 +49,7 @@ export default async function Page() {
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <span className="block overflow-hidden">
-                      <PlaceholderImage slot={p.coverSlot} alt="" sizes="120px" className="aspect-video transition-transform duration-[600ms] ease-[var(--ease-out)] group-hover:scale-[1.05]" />
+                      <PlaceholderImage slot={p.coverSlot} alt="" sizes="120px" className="aspect-video transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.05]" />
                     </span>
                     <span>
                       <span className="block font-[family-name:var(--font-display)] text-[clamp(1.3rem,2.4vw,1.9rem)] font-semibold tracking-[-0.02em]">

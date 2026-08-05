@@ -22,7 +22,9 @@ export default function SmoothScroll() {
     }
 
     // lerp UND duration gleichzeitig widersprechen sich — nur lerp.
-    const lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.95, syncTouch: false });
+    // 0.085/1.0 nach ESE-Abgleich: eine Spur mehr Nachlauf im Auslauf,
+    // volle Radgeschwindigkeit — fühlt sich getragen an, nicht gebremst.
+    const lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 1, syncTouch: false });
 
     const onScroll = () => ScrollTrigger.update();
     lenis.on('scroll', onScroll);

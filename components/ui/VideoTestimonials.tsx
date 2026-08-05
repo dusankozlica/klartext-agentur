@@ -51,7 +51,7 @@ export default function VideoTestimonials({ items }: { items: TestimonialMedien[
                     />
                   )}
                   {/* Die Kante fährt beim Hover über die Karte */}
-                  <span className="pointer-events-none absolute inset-0 translate-y-full bg-[var(--violet)] mix-blend-multiply transition-transform duration-[600ms] ease-[var(--ease-out)] group-hover:translate-y-0" />
+                  <span className="pointer-events-none absolute inset-0 translate-y-full bg-[var(--violet)] mix-blend-multiply transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:translate-y-0" />
                 </span>
                 <span className="mt-[var(--s-4)] block border-t border-current pt-[var(--s-4)]">
                   <span className="block font-[family-name:var(--font-display)] text-[1.15rem] font-semibold tracking-[-0.02em]">

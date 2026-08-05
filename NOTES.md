@@ -469,3 +469,21 @@ Panel auf /projekte/ verifiziert, lenis-stopped räumt sich wieder ab.
 (504K/252K), Körnung statisch (kein animierter Vollbild-Layer mehr),
 will-change auf .line__i raus. rAF-Falle bestätigt: FPS-Messungen in
 verdeckten Chrome-Fenstern hängen — Screenshots ja, rAF-Promises nein.
+
+## 05.08.2026 — ESE-Abgleich: Bewegungssystem
+Dusans Rückmeldung: «nicht so premium und flüssig wie ESE». eseagency.ch
+live vermessen (Stylesheets + DOM): Hovers dort 0.6s auf weichen
+Expo-Kurven, Listen 1s Quint-Out, grosse Wege bis 1.5s Quart-Out, Cursor
+mit Überschwingen (Bezier-Endwert 1.278), Dropdown mit Geschwister-Dimmen
+und Vorschaubild. Übernommen:
+- Vier neue Easing-Tokens (--ease-fluss/-quint/-quart/-pop), Tempi auf
+  .3/.6/1.05s angehoben; Buttons, Nav, Karten, Zooms umgestellt.
+- Cursor neu: 12px-Punkt mit mix-blend-difference, poppt auf 38px über
+  Links, 96px-Creme-Blase mit Label über Medien; Follow-Lerp .16→.22.
+- Nav: Doppeltext-Slide auf Direktlinks; NEU Leistungs-Dropdown nach dem
+  ESE-Expertise-Muster (Glas-Panel, 01–05, Dimmen, Bild poppt rechts).
+- Overlay-Menü: Panel .8s Quart rein / .45s raus, Zeilen gestaffelt,
+  Geschwister dimmen.
+- Leistungs-Zeilen: Dimmen der Nachbarzeilen ([data-zeilen]).
+- Lenis lerp .085, wheelMultiplier 1; Headline-Reveals 1.2s power4.
+Offen: Wirkung auf Dusans Rechner prüfen (Gefühl != Screenshot).
