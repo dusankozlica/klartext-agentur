@@ -48,6 +48,9 @@ export default async function Page({ params }: PageProps<'/leistungen/[slug]'>) 
         { slot: 'projects/mockup-01', label: 'Schreinerei im Mittelland', chip: 'Website' },
         { slot: 'projects/mockup-02', label: 'Konzeptstudie Gastronomie', chip: 'Studie' },
         { slot: 'projects/mockup-03', label: 'Konzeptstudie B2B', chip: 'Studie' },
+        { slot: 'projects/mockup-04', label: 'Konzeptstudie Praxis', chip: 'Studie' },
+        { slot: 'projects/mockup-05', label: 'Konzeptstudie Bäckerei', chip: 'Studie' },
+        { slot: 'projects/mockup-06', label: 'Konzeptstudie Fitness', chip: 'Studie' },
       ]
     : []
   ).map((k) => {
