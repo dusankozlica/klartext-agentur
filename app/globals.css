@@ -293,20 +293,16 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
 .navdd.is-open .navdd__liste li:nth-child(3){ transition-delay:.15s; }
 .navdd.is-open .navdd__liste li:nth-child(4){ transition-delay:.2s; }
 .navdd.is-open .navdd__liste li:nth-child(5){ transition-delay:.25s; }
-.navdd__link{
-  display:flex; align-items:baseline; gap:.7em;
-  padding:.3em .65em; margin-inline:-.65em;
-  border-radius:10px;
+/* Doppelklassen-Selektor mit Absicht: Die Sammelregel «.nav__links a»
+   setzt inline-flex und staucht den Link sonst auf Wortbreite — die
+   Zeile löste dann nur ÜBER dem Wort aus. Als Block-Flex über die volle
+   Spaltenbreite ist die GANZE Zeile Auslösefläche; die Optik des
+   Hovers bleibt: Eintrag hell, Geschwister dimmen, Pfeil rückt ein. */
+.navdd__liste .navdd__link{
+  display:flex; align-items:baseline; gap:.7em; padding:.24em 0;
   font-family:var(--font-display); font-weight:600;
   font-size:clamp(1.15rem,1.35vw,1.45rem); letter-spacing:-0.02em; line-height:1.3;
-  transition:opacity var(--dauer-2) var(--ease-fluss),
-             background .35s var(--ease-fluss), color .35s var(--ease-fluss);
-}
-/* Die GANZE Zeile ist Treffer- und Markierfläche: Violett-Balken wie im
-   Overlay-Menü — nicht nur das Wort leuchtet auf. */
-.navdd__link:hover, .navdd__link:focus-visible{ background:var(--violet); color:#fff; }
-.navdd__link:hover .navdd__nr, .navdd__link:focus-visible .navdd__nr{
-  color:color-mix(in srgb, #fff 75%, transparent);
+  transition:opacity var(--dauer-2) var(--ease-fluss);
 }
 /* ESE-Detail: der überfahrene Eintrag bleibt hell, alle anderen dimmen */
 .navdd__liste:hover .navdd__link:not(:hover):not(:focus-visible){ opacity:.35; }
