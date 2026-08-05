@@ -18,6 +18,8 @@ import dynamic from 'next/dynamic';
 const SmoothScroll = dynamic(() => import('./SmoothScroll'), { ssr: false });
 const Reveals = dynamic(() => import('./Reveals'), { ssr: false });
 const Cursor = dynamic(() => import('./Cursor'), { ssr: false });
+const Magnete = dynamic(() => import('./Magnete'), { ssr: false });
+const Seitenwechsel = dynamic(() => import('./Seitenwechsel'), { ssr: false });
 // Intro MUSS nach Reveals mounten: Reveals liest den Session-Schluessel,
 // bevor das Intro ihn setzt — so gehoeren die Hero-Zeilen beim Erstbesuch
 // dem Intro und danach dem Scroll-Reveal.
@@ -29,6 +31,8 @@ export default function MotionLayer() {
       <SmoothScroll />
       <Reveals />
       <Cursor />
+      <Magnete />
+      <Seitenwechsel />
       <Intro />
     </>
   );

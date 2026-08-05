@@ -150,7 +150,10 @@ img,video{ display:block; max-width:100%; }
   font-weight:500; font-size:0.95rem;
   padding:14px 28px; min-height:48px; border-radius:999px;
   border:1.5px solid transparent;
-  transition:color var(--dauer-2) var(--ease-fluss), border-color var(--dauer-2) var(--ease-fluss), background-color var(--dauer-2) var(--ease-fluss), transform .45s var(--ease-pop);
+  /* transform bewusst NICHT in der Transition: Die magnetische Anziehung
+     (Magnete.tsx) setzt transform pro Frame — eine CSS-Transition
+     obendrauf würde doppelt glätten und nachziehen. */
+  transition:color var(--dauer-2) var(--ease-fluss), border-color var(--dauer-2) var(--ease-fluss), background-color var(--dauer-2) var(--ease-fluss);
 }
 .btn::after{
   content:""; position:absolute; inset:0; border-radius:inherit;
@@ -158,7 +161,6 @@ img,video{ display:block; max-width:100%; }
   transform:translateY(101%); transition:transform var(--dauer-2) var(--ease-quart);
   z-index:-1;
 }
-.btn:hover{ transform:translateY(-2px); }
 .btn:hover::after{ transform:translateY(0); }
 .btn--primary{ background:var(--violet); color:#fff; }
 .btn--hell{ border-color:color-mix(in srgb, var(--cream) 45%, transparent); color:var(--cream); }
@@ -442,8 +444,31 @@ body::after{
   /* 512er-Kachel auf 256px dargestellt: Auf Retina (2x) trifft so EIN
      Rauschkorn EXAKT EIN Gerätepixel — scharf statt aufgeblasen-matschig.
      Deckkraft wie bei ESE gemessen (0.04). */
-  background-size:256px 256px; opacity:.04;
+  background-size:256px 256px; opacity:.06;
 }
+
+/* ── Seitenwechsel: Ink-Überzug mit Wortmarke ─────────────────────── */
+.wechsel{
+  position:fixed; inset:0; z-index:96; pointer-events:none;
+  background:var(--ink); display:grid; place-items:center;
+  transform:translateY(101%); visibility:hidden;
+}
+.wechsel--rein{
+  visibility:visible; pointer-events:auto; transform:translateY(0);
+  transition:transform .46s var(--ease-quart);
+}
+.wechsel--raus{
+  visibility:visible; transform:translateY(-101%);
+  transition:transform .6s var(--ease-quart);
+}
+.wechsel__mark{
+  font-family:var(--font-display); font-weight:600; color:var(--cream);
+  font-size:1.35rem; letter-spacing:-0.02em;
+  opacity:0; transform:translateY(10px);
+  transition:opacity .3s var(--ease-fluss), transform .3s var(--ease-fluss);
+}
+.wechsel--rein .wechsel__mark{ opacity:1; transform:none; transition-delay:.14s; }
+.wechsel__mark .punkt{ color:var(--violet-hell); }
 @media (min-width:900px){
   body::after{ animation:kornflimmern .9s steps(1) infinite; }
 }

@@ -41,7 +41,7 @@ export default async function Home() {
           Video vollflächig, drei kleine Labels auf einer Linie, riesige
           Headline unten links. Flache Abdunklung sichert die Lesbarkeit. */}
       <section className="relative min-h-[100svh] overflow-hidden bg-[var(--ink)] text-[var(--cream)]" data-nav="dark" data-hero>
-        <div className="absolute inset-0">
+        <div className="absolute inset-0" data-hero-zoom>
           <MediaLoop src={kino.src} poster={kino.poster} />
         </div>
         <div className="absolute inset-0 bg-[rgb(10_9_7/0.42)]" aria-hidden="true" />
@@ -75,7 +75,8 @@ export default async function Home() {
       <section className="section bg-[var(--cream)] text-[var(--ink)]">
         <div className="wrap">
           <p className="eyebrow text-[var(--grau-l)]" data-decode>Das ist KLARTEXT.</p>
-          <p className="statement" data-reveal>
+          {/* Wortstrom: Wörter färben sich beim Scrollen ein (Reveals) */}
+          <p className="statement" data-wortstrom>
             Wir sind die Agentur für KMU, <span className="leise">die keine Lust
             auf Agentur-Theater haben:</span> Erst die Frage, warum jemand bei
             Ihnen kaufen soll — <span className="leise">dann Marke, Website und
@@ -110,7 +111,7 @@ export default async function Home() {
 
         <div className="grid gap-[10px]">
           {/* Showreel-Band */}
-          <div className="group relative h-[82svh] min-h-[440px] overflow-hidden" data-reveal>
+          <div className="group relative h-[82svh] min-h-[440px] overflow-hidden" data-reveal="vorhang">
             <div className="absolute inset-0 transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.02]">
               <MediaLoop src={showreel.src} poster={showreel.poster} cursorLabel="Showreel" />
             </div>
@@ -129,7 +130,7 @@ export default async function Home() {
               href={`/projekte/${p.slug}`}
               className="group relative block h-[82svh] min-h-[440px] overflow-hidden"
               data-cursor="Case ansehen"
-              data-reveal
+              data-reveal="vorhang"
             >
               <PlaceholderImage
                 slot={p.coverSlot}
@@ -182,6 +183,41 @@ export default async function Home() {
               bildSlot: s.bildSlot,
             }))}
           />
+        </div>
+      </section>
+
+      {/* ══ 5b — Der Klartext-Filter: Agentur-Deutsch, übersetzt ═══════
+          Alleinstellungs-Stück aus der Marke heraus: Floskel wird beim
+          Scrollen durchgestrichen, darunter steigt die Übersetzung aus
+          der Maske. Choreografie liegt in Reveals ([data-filterzeile]). */}
+      <section className="section bg-[var(--cream)] text-[var(--ink)]" aria-label="Der Klartext-Filter">
+        <div className="wrap">
+          <p className="eyebrow text-[var(--grau-l)]" data-decode>Der Klartext-Filter</p>
+          <h2 className="sec-title" data-reveal>Agentur-Deutsch, übersetzt.</h2>
+          <div className="grid gap-[var(--s-8)]">
+            {[
+              ['Wir aktivieren 360°-Synergien entlang Ihrer Customer Journey.',
+               'Wir machen Werbung, die Ihre Kunden verstehen.'],
+              ['Holistische Brand-Experience mit datengetriebenem Storytelling.',
+               'Eine Marke, die man wiedererkennt — und Zahlen, die es belegen.'],
+              ['Wir disrupten Ihren Funnel mit KI-powered Growth-Hacking.',
+               'Wir automatisieren den einen Handgriff, der Ihnen Zeit frisst.'],
+            ].map(([floskel, klartext]) => (
+              <div key={floskel} className="border-t border-current/15 pt-[var(--s-5)]" data-filterzeile>
+                <p className="relative inline-block max-w-[46ch] font-[family-name:var(--font-display)] text-[clamp(1.15rem,2.1vw,1.8rem)] font-medium leading-[1.3] tracking-[-0.01em] text-[var(--grau-l)]">
+                  <span data-floskel>{floskel}</span>
+                  <span
+                    aria-hidden="true"
+                    data-strich
+                    className="absolute left-0 top-1/2 h-[2.5px] w-full origin-left scale-x-0 bg-[var(--violet)]"
+                  />
+                </p>
+                <p className="mt-[var(--s-3)] max-w-[38ch] font-[family-name:var(--font-display)] text-[clamp(1.6rem,3vw,2.7rem)] font-semibold leading-[1.12] tracking-[-0.02em]">
+                  <span className="line"><span className="line__i" data-klartext>{klartext}</span></span>
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

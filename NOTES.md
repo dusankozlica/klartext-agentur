@@ -487,3 +487,20 @@ und Vorschaubild. Übernommen:
 - Leistungs-Zeilen: Dimmen der Nachbarzeilen ([data-zeilen]).
 - Lenis lerp .085, wheelMultiplier 1; Headline-Reveals 1.2s power4.
 Offen: Wirkung auf Dusans Rechner prüfen (Gefühl != Screenshot).
+
+## 05.08.2026 (2) — Feel-Paket + Klartext-Filter
+Nach Freigabe («fang an mit der umsetzung deiner definierten punkte»):
+- Seitenwechsel: Ink-Überzug mit Wortmarke fängt interne Klicks ab
+  (Capture-Listener, Menü ausgenommen), Route wechselt unterm Überzug.
+- Magnetische Pillen (Magnete.tsx): quickTo-Anziehung, back.out-Feder.
+  transform aus der .btn-Transition entfernt (Doppelglättung).
+- Geschwindigkeits-Neigung: main kippt bis ±1.1° nach Lenis-velocity.
+- Scroll-Momente: Hero-Zoom (scrub), Statement-Wortstrom (sohub),
+  Vorhang-Reveal (clip-path) für die vier Arbeiten-Bänder.
+- NEU Sektion «Der Klartext-Filter» (Home 5b): Floskel durchgestrichen
+  (Violett-Strich skaliert ein), Übersetzung steigt aus Maske.
+  Texte = Vorschläge, Freigabe durch Dusan offen.
+- Korn: 0.04→0.06 nach Retina-Test auf Violett-Flächen.
+Referenz-Forensik ergänzt: pixel.melbourne (Swoosh-Kurve .65,.05,0,1),
+sirnik (Lenis+GSAP, JS-Tweens), sohub (Expo-Out .4s, 5000s-Drifts),
+nexola (Framer-Springs, nicht auslesbar), ohhmydesign (Domain weg).

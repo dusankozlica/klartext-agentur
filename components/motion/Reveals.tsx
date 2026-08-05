@@ -47,12 +47,77 @@ export default function Reveals() {
         });
       });
 
-      // Allgemeine Reveals
+      // Allgemeine Reveals. Variante «vorhang»: Bild öffnet sich aus
+      // einem Beschnitt-Rahmen (clip-path) statt nur aufzublenden.
       gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
+        if (el.dataset.reveal === 'vorhang') {
+          gsap.fromTo(el,
+            { clipPath: 'inset(12% 6% 12% 6%)' },
+            {
+              clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, y: 0,
+              duration: 1.25, ease: 'power4.out',
+              scrollTrigger: { trigger: el, start: 'top 82%', once: true },
+            });
+          return;
+        }
         gsap.to(el, {
           opacity: 1, y: 0, duration: 1.0, ease: 'power4.out',
           scrollTrigger: { trigger: el, start: 'top 88%', once: true },
         });
+      });
+
+      // Hero-Video zoomt beim Wegscrollen minimal auf (scrub)
+      const heroZoom = document.querySelector<HTMLElement>('[data-hero-zoom]');
+      if (heroZoom) {
+        gsap.to(heroZoom, {
+          scale: 1.09, ease: 'none',
+          scrollTrigger: { trigger: '[data-hero]', start: 'top top', end: 'bottom top', scrub: true },
+        });
+      }
+
+      // Statement: Wörter färben mit dem Scroll ein (sohub-Moment).
+      // Wortweise einwickeln, Klassen wie .leise/.akzent bleiben erhalten,
+      // weil nur Textknoten ersetzt werden.
+      document.querySelectorAll<HTMLElement>('[data-wortstrom]').forEach((abs) => {
+        if (!abs.querySelector('.w')) {
+          const wickle = (knoten: Node) => {
+            [...knoten.childNodes].forEach((k) => {
+              if (k.nodeType === Node.TEXT_NODE) {
+                const frag = document.createDocumentFragment();
+                (k.textContent ?? '').split(/(\s+)/).forEach((t) => {
+                  if (!t) return;
+                  if (/^\s+$/.test(t)) { frag.append(t); return; }
+                  const s = document.createElement('span');
+                  s.className = 'w'; s.textContent = t;
+                  frag.append(s);
+                });
+                k.replaceWith(frag);
+              } else if (k.nodeType === Node.ELEMENT_NODE) {
+                wickle(k);
+              }
+            });
+          };
+          wickle(abs);
+        }
+        gsap.fromTo(abs.querySelectorAll('.w'), { opacity: 0.14 }, {
+          opacity: 1, stagger: 0.06, ease: 'none',
+          scrollTrigger: { trigger: abs, start: 'top 80%', end: 'top 30%', scrub: true },
+        });
+      });
+
+      // Klartext-Filter: Floskel wird durchgestrichen, die Übersetzung
+      // steigt aus der Maske — einmalig pro Zeile.
+      document.querySelectorAll<HTMLElement>('[data-filterzeile]').forEach((z) => {
+        const strich = z.querySelector('[data-strich]');
+        const floskel = z.querySelector('[data-floskel]');
+        const klar = z.querySelector('[data-klartext]');
+        if (klar) gsap.set(klar, { yPercent: 110 });
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: z, start: 'top 76%', once: true },
+        });
+        if (strich) tl.to(strich, { scaleX: 1, duration: 0.5, ease: 'power4.out' });
+        if (floskel) tl.to(floskel, { opacity: 0.45, duration: 0.4, ease: 'power2.out' }, '<0.1');
+        if (klar) tl.to(klar, { yPercent: 0, duration: 0.9, ease: 'power4.out' }, '-=0.15');
       });
 
       // Parallax über Attribut-API. Der Massstab wächst um die Laufweite
