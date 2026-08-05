@@ -446,3 +446,26 @@ Einträge beobachten statt weiterschrauben.
 
 A11y 100 (Grau-l auf #6B6455 nachgedunkelt), BP 100, SEO 100,
 Mobile 390px: 0px Überlauf. Font-Preload Clash-600 einzeln gemessen.
+
+## 2026-08-05 · GitHub Pages + der Menü-Bug
+
+**Live:** https://dusankozlica.github.io/klartext-agentur/ (Repo
+github.com/dusankozlica/klartext-agentur, main = Code, gh-pages = Export).
+Statischer Export: STATISCH=1 (basePath, trailingSlash, unoptimized),
+force-static auf sitemap/robots, OG-Route + Server-Action-Formular werden
+fürs Deploy temporär getauscht (Skriptteil im Verlauf), /fonts + Grain per
+sed präfixiert, .nojekyll. placeholder() präfixt src/poster via
+NEXT_PUBLIC_BASE_PATH.
+
+**Der gemeldete „Menü geht nicht / alles langsam / kein Smooth Scroll"-Bug
+war EIN CSS-Fehler:** `html.menue-offen .nav{opacity:0}` blendete die
+ganze Leiste aus — das Overlay-Panel WOHNT aber in der Leiste und
+verschwand mit. Gleichzeitig stoppte das kt:menue-Ereignis Lenis ⇒ nach
+einem Menü-Klick war die Seite scrolltot und wirkte kaputt. Fix: nur
+Wortmarke/Links/Knopf ausblenden, nicht .nav selbst. Live per Klick durchs
+Panel auf /projekte/ verifiziert, lenis-stopped räumt sich wieder ab.
+
+**Renderlast gesenkt** (Cursor-Nachlauf = niedrige FPS): Videos 1080p→720p
+(504K/252K), Körnung statisch (kein animierter Vollbild-Layer mehr),
+will-change auf .line__i raus. rAF-Falle bestätigt: FPS-Messungen in
+verdeckten Chrome-Fenstern hängen — Screenshots ja, rAF-Promises nein.
