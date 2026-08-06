@@ -44,10 +44,10 @@ export default function Cursor() {
     document.documentElement.addEventListener('pointerleave', onLeave);
 
     const tick = () => {
-      // 0.22 statt 0.16: ESE-Follow sitzt näher an der Hand — träges
-      // Nachziehen wirkte wie Latenz, nicht wie Absicht.
-      pos.x += (tgt.x - pos.x) * 0.22;
-      pos.y += (tgt.y - pos.y) * 0.22;
+      // 0.3: sitzt dicht an der Hand. Träges Nachziehen liest sich als
+      // Latenz — erst recht, wenn die Bildrate mal kurz einbricht.
+      pos.x += (tgt.x - pos.x) * 0.3;
+      pos.y += (tgt.y - pos.y) * 0.3;
       cur.style.transform = `translate(${pos.x}px, ${pos.y}px) translate(-50%,-50%)`;
     };
     gsap.ticker.add(tick);

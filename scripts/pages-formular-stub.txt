@@ -1,0 +1,67 @@
+'use client';
+
+import { useState } from 'react';
+
+/**
+ * Statische Fassung fürs GitHub-Pages-Preview: Server-Actions stehen im
+ * Export nicht zur Verfügung. Das Formular validiert im Browser und sagt
+ * beim Absenden ehrlich, dass noch kein Postfach verbunden ist — statt
+ * einen Versand vorzutäuschen. (Wird beim Pages-Deploy temporär über
+ * KontaktFormular.tsx gelegt; Original kommt per git checkout zurück.)
+ */
+export default function KontaktFormular() {
+  const [gesendet, setGesendet] = useState(false);
+
+  if (gesendet) {
+    return (
+      <p
+        className="body-measure border-l-4 border-current pl-[var(--s-5)] text-[1.1rem]"
+        role="status"
+      >
+        Ehrlich gesagt: In dieser Vorschau ist noch kein Postfach verbunden —
+        die Nachricht wurde darum nicht versendet. In der fertigen Version
+        antworten wir innert zwei Arbeitstagen.
+      </p>
+    );
+  }
+
+  return (
+    <form
+      onSubmit={(e) => { e.preventDefault(); setGesendet(true); }}
+      className="grid gap-[var(--s-5)]"
+    >
+      <Feld id="name" name="name" label="Name" autoComplete="name" />
+      <Feld id="email" name="email" label="E-Mail" type="email" autoComplete="email" />
+      <Feld id="nachricht" name="nachricht" label="Worum geht es?" mehrzeilig />
+
+      <div className="flex flex-wrap items-center gap-[var(--s-5)]">
+        <button type="submit" className="btn btn--primary">Anfrage senden</button>
+        <p className="text-[0.85rem] opacity-70">
+          Ihre Angaben gehen nur an uns. Details in der{' '}
+          <a href="/klartext-agentur/datenschutz/" className="underline underline-offset-4">Datenschutzerklärung</a>.
+        </p>
+      </div>
+    </form>
+  );
+}
+
+function Feld({
+  id, name, label, type = 'text', mehrzeilig, autoComplete,
+}: {
+  id: string; name: string; label: string; type?: string;
+  mehrzeilig?: boolean; autoComplete?: string;
+}) {
+  const klassen =
+    'mt-[var(--s-2)] w-full border-b-2 border-current bg-transparent py-[var(--s-3)] text-[1.05rem] outline-none placeholder:opacity-40 focus-visible:border-[var(--violet)]';
+
+  return (
+    <p className="grid">
+      <label htmlFor={id} className="text-[0.9rem] font-medium">{label}</label>
+      {mehrzeilig ? (
+        <textarea id={id} name={name} rows={5} required className={`${klassen} resize-y`} />
+      ) : (
+        <input id={id} name={name} type={type} required autoComplete={autoComplete} className={klassen} />
+      )}
+    </p>
+  );
+}

@@ -503,18 +503,15 @@ html.menue-offen .nav__menue{ opacity:0; pointer-events:none; }
 /* Als ::after statt als Element: Pseudo-Elemente sind keine
    LCP-Kandidaten — der vollflächige Noise-Div wurde sonst beim
    Hydrieren zum "grössten Paint" und verfälschte den Messwert. */
-/* ESE-Vermessung: deren .noise__overlay ist ein animiertes TV-Static-GIF
-   bei 480px Kachel und nur 4% Deckkraft — sichtbar, weil das Rauschen
-   KNACKIG ist und FLIMMERT. Unsere Kachel ist seit v2 ebenfalls hartes
-   Pixelrauschen (nativ dargestellt), das Flimmern läuft als Sprung-
-   Animation auf transform: Der Browser legt die Ebene auf die GPU —
-   deutlich billiger als GIF-Dekodierung, kein will-change nötig. */
+/* Kachel = hartes Pixelrauschen, auf 256px dargestellt: Auf Retina
+   trifft EIN Rauschkorn EXAKT EIN Gerätepixel — scharf statt matschig.
+   ZUM ZWEITEN MAL GELERNT (06.08.): KEINE Animation auf diesem Layer.
+   Der bewegte Vollbild-Layer drückt auf integrierten GPUs die Bildrate,
+   Cursor und Lenis wirken dann träge — das Flimmern bleibt draussen,
+   egal wie hübsch es bei ESE aussieht. */
 body::after{
-  content:""; position:fixed; inset:-12%; z-index:70; pointer-events:none;
+  content:""; position:fixed; inset:0; z-index:70; pointer-events:none;
   background-image:url("/grain-fein.png"); background-repeat:repeat;
-  /* 512er-Kachel auf 256px dargestellt: Auf Retina (2x) trifft so EIN
-     Rauschkorn EXAKT EIN Gerätepixel — scharf statt aufgeblasen-matschig.
-     Deckkraft wie bei ESE gemessen (0.04). */
   background-size:256px 256px; opacity:.06;
 }
 
@@ -540,37 +537,24 @@ body::after{
 }
 .wechsel--rein .wechsel__mark{ opacity:1; transform:none; transition-delay:.14s; }
 .wechsel__mark .punkt{ color:var(--violet-hell); }
-@media (min-width:900px){
-  body::after{ animation:kornflimmern .9s steps(1) infinite; }
-}
-@keyframes kornflimmern{
-  0%   { transform:translate3d(0,0,0); }
-  12.5%{ transform:translate3d(-38px,22px,0); }
-  25%  { transform:translate3d(19px,-44px,0); }
-  37.5%{ transform:translate3d(-52px,-9px,0); }
-  50%  { transform:translate3d(31px,37px,0); }
-  62.5%{ transform:translate3d(-14px,-27px,0); }
-  75%  { transform:translate3d(44px,12px,0); }
-  87.5%{ transform:translate3d(-26px,41px,0); }
-  100% { transform:translate3d(0,0,0); }
-}
 /* ── Cursor (ESE-Vermessung): kleiner Punkt folgt immer, über Zielen
-   poppt er mit Überschwingen auf. Differenz-Mischmodus statt fester
-   Farbe — der Punkt invertiert, was unter ihm liegt, und bleibt so auf
-   Creme wie auf Schwarz sichtbar. Über Medien: Creme-Blase mit Label. */
+   poppt er mit Überschwingen auf. Farbe wechselt mit der Sektion über
+   body.nav-on-dark — der frühere Differenz-Mischmodus las bei jedem
+   Frame den Hintergrund zurück (teuer überm Glas-Balken) und flog
+   deshalb raus. Über Medien: Creme-Blase mit Label. */
 .cursor{
   position:fixed; top:0; left:0; z-index:80; pointer-events:none;
   width:12px; height:12px; border-radius:50%;
-  background:var(--cream); mix-blend-mode:difference;
+  background:var(--ink);
   transform:translate(-50%,-50%);
   transition:width .32s var(--ease-pop), height .32s var(--ease-pop),
              background var(--dauer-1) var(--ease-fluss), opacity .2s;
   display:none; opacity:0;
 }
+body.nav-on-dark .cursor{ background:var(--cream); }
 .cursor.is-live{ opacity:1; }
 .cursor.is-link{ width:38px; height:38px; }
-.cursor.is-media{ width:96px; height:96px; background:var(--cream);
-                  mix-blend-mode:normal; }
+.cursor.is-media{ width:96px; height:96px; background:var(--cream) !important; }
 .cursor__label{
   position:absolute; inset:0; display:grid; place-items:center;
   font-size:.72rem; letter-spacing:.08em; text-transform:uppercase;

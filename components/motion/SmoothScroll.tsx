@@ -29,24 +29,10 @@ export default function SmoothScroll() {
     const onScroll = () => ScrollTrigger.update();
     lenis.on('scroll', onScroll);
 
-    // Geschwindigkeits-Neigung: Die Seite kippt bei schnellem Scrollen
-    // einen Hauch (max ±1.1°) und pendelt weich zurück — macht Lenis
-    // körperlich spürbar. Nur <main>: Nav, Footer, Cursor und Korn
-    // liegen ausserhalb und bleiben davon unberührt.
-    const main = document.querySelector<HTMLElement>('main');
-    let neigung = 0;
-    const raf = (time: number) => {
-      lenis.raf(time * 1000);
-      if (main) {
-        const ziel = Math.max(-1.1, Math.min(1.1, (lenis.velocity ?? 0) * 0.016));
-        neigung += (ziel - neigung) * 0.11;
-        if (Math.abs(neigung) < 0.02 && ziel === 0) {
-          if (main.style.transform) main.style.transform = '';
-        } else {
-          main.style.transform = `skewY(${neigung.toFixed(3)}deg)`;
-        }
-      }
-    };
+    // Die frühere Geschwindigkeits-Neigung (skewY auf <main> pro Frame)
+    // ist raus: Das Kippen der GESAMTEN Seite kostete auf integrierten
+    // GPUs spürbar Bildrate — der Cursor fühlte sich dadurch verzögert an.
+    const raf = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
 
