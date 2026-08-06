@@ -522,3 +522,12 @@ Alle 21 Referenz-Screenshots aus dem Sitzungsprotokoll extrahiert
 Bereits vorher abgedeckt: ref-03/04 (Hero, Dropdown), 06-08
 (Testimonials, News), 13 (Footer), 15/16 (sohub Work → Explorer/Home),
 17 (Leistungs-Zeilen), 10 (nexola war v1 der Zeilen).
+
+## 06.08.2026 (3) — Prozess-Sektion (bymonolog-Referenz)
+bymonolog.com vermessen: GSAP+Lenis+Webflow; Prozess-Videos 601×338,
+loop/muted/playsinline mit Lazy-Play (= unser MediaLoop), 10–18s;
+Labels in «Suisse Mono» — bewusst NICHT übernommen (Dusans Mono-Verbot),
+stattdessen Switzer-Versalien. Neue Home-Sektion 5c «So arbeiten wir»:
+4 Schritte, Label am Rand, Titel+Text auf Mass, rechts randabfallende
+10s-Loops (video/prozess-01..04, Freepik #2755226/#8958458/#3441794/
+#2901462, 720p crf26). Texte = Vorschlag, Freigabe offen.

@@ -5,6 +5,7 @@ import Faq from '@/components/ui/Faq';
 import PlaceholderImage from '@/components/ui/PlaceholderImage';
 import MediaLoop from '@/components/ui/MediaLoop';
 import LeistungsZeilen from '@/components/sections/LeistungsZeilen';
+import Prozess from '@/components/sections/Prozess';
 import ReferenzStimmen from '@/components/sections/ReferenzStimmen';
 import TerminKalender from '@/components/sections/TerminKalender';
 
@@ -211,6 +212,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* ══ 5c — Prozess: Schritte mit Loop-Videos (bymonolog) ═════════ */}
+      <Prozess />
 
       {/* ══ 6 — Zwischenband: Video mit Umriss-Typo (ESE Expertise) ════ */}
       <section className="relative overflow-hidden bg-[var(--ink)]" data-nav="dark" aria-hidden="true">
