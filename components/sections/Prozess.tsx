@@ -45,11 +45,12 @@ export default function Prozess() {
         <p className="eyebrow mb-0 text-[var(--grau-d)]" data-decode>Vier Schritte · kein Theater</p>
       </div>
 
-      <div className="grid gap-y-[10px]">
+      {/* Schritte fugenlos gestapelt, feine Haarlinien als Trenner */}
+      <div className="border-b border-current/15">
         {SCHRITTE.map((s) => {
           const video = placeholder(s.videoSlot);
           return (
-            <div key={s.nr} className="grid md:grid-cols-2">
+            <div key={s.nr} className="grid border-t border-current/15 md:grid-cols-2">
               {/* Text links: Label am Rand, Titel + Kurztext auf Mass */}
               <div className="relative flex items-start px-[var(--pad-x)] py-[clamp(44px,8svh,96px)]">
                 <span
