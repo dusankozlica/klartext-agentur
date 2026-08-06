@@ -102,9 +102,11 @@ export default function TerminKalender() {
           ))}
         </fieldset>
 
-        {/* Kalender + Zeitslots (calendar-with-time-pressets) */}
+        {/* Kalender + Zeitslots (calendar-with-time-pressets). Das
+            Monatsraster füllt die Spalte — Zellen wachsen mit, statt als
+            Briefmarke in der dunklen Fläche zu schwimmen. */}
         <CardContent className="relative p-0 md:pr-56">
-          <div className="flex justify-center p-6">
+          <div className="p-6">
             <Calendar
               mode="single"
               locale={de}
@@ -113,7 +115,14 @@ export default function TerminKalender() {
               defaultMonth={morgen}
               disabled={[{ dayOfWeek: [0, 6] }, { before: morgen }]}
               showOutsideDays={false}
-              className="bg-transparent p-0"
+              className="w-full bg-transparent p-0"
+              classNames={{
+                month_grid: 'w-full',
+                month_caption: 'relative mx-10 mb-3 flex h-10 items-center justify-center z-20 text-base',
+                weekday: 'h-10 w-auto p-0 text-xs font-medium text-muted-foreground/80',
+                day: 'group h-14 w-auto p-0 text-[0.95rem]',
+                day_button: 'size-12 mx-auto rounded-xl text-[0.95rem]',
+              }}
             />
           </div>
           <div className="no-scrollbar inset-y-0 right-0 flex max-h-72 w-full scroll-pb-6 flex-col gap-4 overflow-y-auto border-t border-border p-6 md:absolute md:max-h-none md:w-56 md:border-t-0 md:border-l">

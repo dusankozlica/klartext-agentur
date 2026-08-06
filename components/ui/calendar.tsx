@@ -44,18 +44,24 @@ function Calendar({
     week_number: "size-9 p-0 text-xs font-medium text-muted-foreground/80",
   };
 
-  const mergedClassNames: typeof defaultClassNames = Object.keys(defaultClassNames).reduce(
-    (acc, key) => ({
-      ...acc,
-      [key]: classNames?.[key as keyof typeof classNames]
-        ? cn(
-            defaultClassNames[key as keyof typeof defaultClassNames],
-            classNames[key as keyof typeof classNames],
-          )
-        : defaultClassNames[key as keyof typeof defaultClassNames],
-    }),
-    {} as typeof defaultClassNames,
-  );
+  // Erst ALLE Nutzer-Schlüssel übernehmen (auch solche ohne Default wie
+  // month_grid), dann die Default-Schlüssel per cn() darübermischen —
+  // sonst verschluckt der Reduce jede Klasse ohne Default-Gegenstück.
+  const mergedClassNames: typeof defaultClassNames = {
+    ...(classNames ?? {}),
+    ...Object.keys(defaultClassNames).reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]: classNames?.[key as keyof typeof classNames]
+          ? cn(
+              defaultClassNames[key as keyof typeof defaultClassNames],
+              classNames[key as keyof typeof classNames],
+            )
+          : defaultClassNames[key as keyof typeof defaultClassNames],
+      }),
+      {} as typeof defaultClassNames,
+    ),
+  };
 
   const defaultComponents = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
