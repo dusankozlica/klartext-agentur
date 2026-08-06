@@ -13,8 +13,8 @@ import random
 from PIL import Image
 
 SIZE = 512
-DICHTE = 0.08          # Anteil Pixel mit Sprenkel (Rest voll transparent)
-SEED = 20260806
+DICHTE = 0.18          # Anteil Pixel mit Sprenkel (Rest voll transparent)
+SEED = 20260807
 
 random.seed(SEED)
 
@@ -27,7 +27,7 @@ def build():
             if random.random() < DICHTE:
                 hell = random.random() < 0.5
                 wert = 255 if hell else 0
-                alpha = random.randint(160, 255)
+                alpha = random.randint(110, 210)
                 px[x, y] = (wert, wert, wert, alpha)
     img.save('public/grain-fein.png', optimize=True)
     print('public/grain-fein.png geschrieben (512, Sprenkel, Dichte %.0f%%)' % (DICHTE * 100))

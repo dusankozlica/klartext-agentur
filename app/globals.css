@@ -503,19 +503,9 @@ html.menue-offen .nav__menue{ opacity:0; pointer-events:none; }
 /* Als ::after statt als Element: Pseudo-Elemente sind keine
    LCP-Kandidaten — der vollflächige Noise-Div wurde sonst beim
    Hydrieren zum "grössten Paint" und verfälschte den Messwert. */
-/* Kachel = hartes Pixelrauschen, auf 256px dargestellt: Auf Retina
-   trifft EIN Rauschkorn EXAKT EIN Gerätepixel — scharf statt matschig.
-   ZUM ZWEITEN MAL GELERNT (06.08.): KEINE Animation auf diesem Layer.
-   Der bewegte Vollbild-Layer drückt auf integrierten GPUs die Bildrate,
-   Cursor und Lenis wirken dann träge — das Flimmern bleibt draussen,
-   egal wie hübsch es bei ESE aussieht. */
-body::after{
-  content:""; position:fixed; inset:0; z-index:70; pointer-events:none;
-  background-image:url("/grain-fein.png"); background-repeat:repeat;
-  /* Sprenkel-Kachel: hoehere Deckkraft ist hier richtig — 92% der
-     Flaeche sind transparent, nur die Einzelpixel blenden. */
-  background-size:256px 256px; opacity:.3;
-}
+/* Körnung DEAKTIVIERT (07.08., Anweisung Dusan): Die Sprenkel-Kachel
+   wirkte auf seinem Bildschirm wie Schmutz. Kommt nur zurück, wenn er
+   eine kalibrierte Variante ausdrücklich freigibt — Vorschau zuerst. */
 
 /* ── Seitenwechsel: Ink-Überzug mit Wortmarke ─────────────────────── */
 .wechsel{
