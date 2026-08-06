@@ -6,6 +6,7 @@ import PlaceholderImage from '@/components/ui/PlaceholderImage';
 import MediaLoop from '@/components/ui/MediaLoop';
 import LeistungsZeilen from '@/components/sections/LeistungsZeilen';
 import Prozess from '@/components/sections/Prozess';
+import Pricing from '@/components/ui/pricing-section';
 import ReferenzStimmen from '@/components/sections/ReferenzStimmen';
 import TerminKalender from '@/components/sections/TerminKalender';
 
@@ -214,6 +215,10 @@ export default async function Home() {
 
       {/* ══ 5c — Prozess: Schritte mit Loop-Videos (bymonolog) ═════════ */}
       <Prozess />
+
+      {/* ══ 5d — Preise: Abo-Stufen auf violetter Bühne. Beträge sind
+          gekennzeichnete Richtwerte — Freigabe durch Dusan offen. ═════ */}
+      <Pricing />
 
       {/* ══ 7 — Referenzen: Video in voller Fläche + grosses Zitat (ESE) ══ */}
       {stimmenMedien.length > 0 && (
