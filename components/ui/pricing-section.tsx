@@ -80,9 +80,9 @@ export default function Pricing() {
           was es kostet. Keine Stundenabrechnung, keine Überraschungen.
         </p>
 
-        <div className="mt-[var(--s-8)] grid gap-[var(--s-5)] min-[900px]:grid-cols-3">
-          {STUFEN.map((s) => (
-            <PreisKarte key={s.titel} stufe={s} />
+        <div className="mt-[var(--s-8)] grid items-center gap-[var(--s-5)] min-[900px]:grid-cols-3">
+          {STUFEN.map((s, i) => (
+            <PreisKarte key={s.titel} stufe={s} lage={(['links', 'mitte', 'rechts'] as const)[i]} />
           ))}
         </div>
 
@@ -97,19 +97,35 @@ export default function Pricing() {
   );
 }
 
-function PreisKarte({ stufe }: { stufe: Stufe }) {
+function PreisKarte({ stufe, lage }: { stufe: Stufe; lage: 'links' | 'mitte' | 'rechts' }) {
   const dunkel = stufe.beliebt;
 
+  /* 3D-Staffelung (nur Desktop): Seitenkarten drehen leicht zur Mitte
+     und stehen einen Hauch zurück, der Favorit tritt gross davor.
+     Beim Überfahren richtet sich jede Karte auf — reine CSS-Transforms,
+     kein Frame-für-Frame-JS (Lehre aus dem Maus-Problem). Der Reveal
+     liegt auf dem Aussen-Element, damit GSAP die 3D-Transform der
+     Karte nicht überschreibt. */
+  const dreidee = {
+    links:
+      'min-[900px]:[transform:perspective(1300px)_rotateY(7deg)_scale(0.96)] min-[900px]:hover:[transform:perspective(1300px)_rotateY(0deg)_scale(0.99)]',
+    mitte:
+      'relative z-10 min-[900px]:[transform:perspective(1300px)_translateY(-14px)_scale(1.07)] min-[900px]:hover:[transform:perspective(1300px)_translateY(-18px)_scale(1.09)]',
+    rechts:
+      'min-[900px]:[transform:perspective(1300px)_rotateY(-7deg)_scale(0.96)] min-[900px]:hover:[transform:perspective(1300px)_rotateY(0deg)_scale(0.99)]',
+  }[lage];
+
   return (
+    <div aria-label={`Abo ${stufe.titel}`} data-reveal className={lage === 'mitte' ? 'relative z-10' : undefined}>
     <div
       className={cn(
-        'flex flex-col rounded-[var(--radius-lg)] p-[clamp(24px,2.2vw,36px)]',
+        'flex h-full flex-col rounded-[var(--radius-lg)] p-[clamp(24px,2.2vw,36px)]',
+        'transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] will-change-transform',
+        dreidee,
         dunkel
-          ? 'bg-[var(--ink)] text-[var(--cream)] shadow-[0_30px_80px_rgb(20_0_60/0.35)]'
-          : 'bg-[var(--cream)] text-[var(--ink)]',
+          ? 'bg-[var(--ink)] text-[var(--cream)] shadow-[0_46px_110px_rgb(20_0_60/0.5)] ring-1 ring-[color-mix(in_srgb,var(--violet-hell)_55%,transparent)]'
+          : 'bg-[var(--cream)] text-[var(--ink)] shadow-[0_28px_70px_rgb(20_0_60/0.28)]',
       )}
-      aria-label={`Abo ${stufe.titel}`}
-      data-reveal
     >
       <div className="flex items-center gap-[var(--s-3)]">
         <Badge
@@ -158,6 +174,7 @@ function PreisKarte({ stufe }: { stufe: Stufe }) {
           {stufe.cta}&nbsp;→
         </Link>
       </div>
+    </div>
     </div>
   );
 }
