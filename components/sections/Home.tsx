@@ -27,7 +27,6 @@ export default async function Home() {
   const showreel = placeholder('video/showreel');
   // Poster ist das erste grosse Bild im Viewport — früh anstossen.
   if (kino.poster) preload(kino.poster, { as: 'image', fetchPriority: 'high' });
-  const band = placeholder('video/band-neon');
   const stimmenMedien = stimmen.map((t) => {
     const a = placeholder(t.videoSlot);
     return {
@@ -215,23 +214,6 @@ export default async function Home() {
 
       {/* ══ 5c — Prozess: Schritte mit Loop-Videos (bymonolog) ═════════ */}
       <Prozess />
-
-      {/* ══ 6 — Zwischenband: Video mit Umriss-Typo (ESE Expertise) ════ */}
-      <section className="relative overflow-hidden bg-[var(--ink)]" data-nav="dark" aria-hidden="true">
-        <div className="bleed relative max-h-[62svh] overflow-hidden">
-          <div className="relative aspect-video max-h-[62svh] w-full">
-            <MediaLoop src={band.src} poster={band.poster} />
-          </div>
-          <div className="absolute inset-0 bg-[rgb(10_9_7/0.35)]" />
-          <p
-            className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none whitespace-nowrap text-center font-[family-name:var(--font-display)] text-[11vw] font-semibold leading-none tracking-[-0.02em] text-transparent"
-            style={{ WebkitTextStroke: '1.5px rgba(243,238,227,0.85)' }}
-            data-scroll-speed="0.06"
-          >
-            Marke — Web — Social — KI
-          </p>
-        </div>
-      </section>
 
       {/* ══ 7 — Referenzen: Video in voller Fläche + grosses Zitat (ESE) ══ */}
       {stimmenMedien.length > 0 && (
