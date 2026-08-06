@@ -22,16 +22,31 @@ export type DropdownEintrag = {
 export default function NavDropdown({ eintraege }: { eintraege: DropdownEintrag[] }) {
   const [offen, setOffen] = useState(false);
   const [aktiv, setAktiv] = useState(0);
-  const zu = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const aufTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const zuTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wurzel = useRef<HTMLSpanElement>(null);
   const pathname = usePathname();
 
-  const oeffnen = () => { if (zu.current) clearTimeout(zu.current); setOffen(true); };
-  const schliessen = () => {
-    if (zu.current) clearTimeout(zu.current);
-    // Kurze Gnadenfrist für den Weg Pille → Panel (10px Lücke).
-    zu.current = setTimeout(() => setOffen(false), 180);
+  const aufAbbrechen = () => { if (aufTimer.current) { clearTimeout(aufTimer.current); aufTimer.current = null; } };
+  const zuAbbrechen = () => { if (zuTimer.current) { clearTimeout(zuTimer.current); zuTimer.current = null; } };
+
+  // Öffnen NUR über den Auslöser selbst, und erst nach kurzer Verweilzeit
+  // (130 ms) — blosses Vorbeistreifen auf dem Weg zu Menü/CTA öffnet
+  // nichts. Das Panel darf ein OFFENES Panel am Leben halten, aber nie
+  // selbst das Öffnen auslösen.
+  const triggerRein = () => {
+    zuAbbrechen();
+    if (offen) return;
+    aufAbbrechen();
+    aufTimer.current = setTimeout(() => setOffen(true), 130);
   };
+  const bald_zu = () => {
+    zuAbbrechen();
+    zuTimer.current = setTimeout(() => setOffen(false), 180);
+  };
+  const triggerRaus = () => { aufAbbrechen(); bald_zu(); };
+  const panelRein = () => { if (offen) zuAbbrechen(); };
+  const panelRaus = () => { if (offen) bald_zu(); };
 
   // Routenwechsel und Escape räumen das Panel ab.
   useEffect(() => { setOffen(false); }, [pathname]);
@@ -46,14 +61,18 @@ export default function NavDropdown({ eintraege }: { eintraege: DropdownEintrag[
     <span
       ref={wurzel}
       className={`navdd${offen ? ' is-open' : ''}`}
-      onPointerEnter={oeffnen}
-      onPointerLeave={schliessen}
-      onFocus={oeffnen}
+      onFocus={() => { zuAbbrechen(); setOffen(true); }}
       onBlur={(e) => {
         if (!wurzel.current?.contains(e.relatedTarget as Node)) setOffen(false);
       }}
     >
-      <Link href="/leistungen" className="navdd__trigger" aria-expanded={offen}>
+      <Link
+        href="/leistungen"
+        className="navdd__trigger"
+        aria-expanded={offen}
+        onPointerEnter={triggerRein}
+        onPointerLeave={triggerRaus}
+      >
         <span className="nl">
           <span className="nl__t">Leistungen</span>
           <span className="nl__t nl__t--kopie" aria-hidden="true">Leistungen</span>
@@ -61,7 +80,14 @@ export default function NavDropdown({ eintraege }: { eintraege: DropdownEintrag[
         <span className="navdd__chev" aria-hidden="true">▾</span>
       </Link>
 
-      <div className="navdd__panel" role="group" aria-label="Leistungen im Überblick" aria-hidden={!offen}>
+      <div
+        className="navdd__panel"
+        role="group"
+        aria-label="Leistungen im Überblick"
+        aria-hidden={!offen}
+        onPointerEnter={panelRein}
+        onPointerLeave={panelRaus}
+      >
         <div className="navdd__inhalt">
           {/* Bild + Kurztext LINKS — die Liste sitzt rechts, direkt unterm
               Auslöser: kürzester Mausweg vom Hover zur Auswahl. */}

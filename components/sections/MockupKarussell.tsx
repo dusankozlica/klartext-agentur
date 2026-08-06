@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import Image from 'next/image';
 
 type Bild = { src: string; width: number; height: number; blurDataURL?: string };
@@ -11,33 +11,17 @@ export type KarussellKarte = { label: string; chip: string; bild: Bild };
  * Rahmenkarten mit Mockup auf Farbfläche, darunter Punkt + Beschriftung
  * und Chip.
  *
- * Steuerung dreifach: Maus-Drag (Pointer-Capture), Mausrad (vertikales
- * Rad wird zu horizontalem Lauf übersetzt) und natives Trackpad-Wischen.
- * data-lenis-prevent hält Lenis aus dem Container raus; preventDefault
- * nur, solange das Karussell in Radrichtung noch Weg hat — am Anschlag
- * scrollt die Seite normal weiter (keine Scroll-Falle).
+ * Steuerung: Maus-Drag und natives Trackpad-Wischen (links/rechts).
+ * Das vertikale Mausrad bleibt UNANGETASTET und scrollt die Seite ganz
+ * normal weiter — eine frühere Rad-Umlenkung hat bei den übergrossen
+ * Karten die halbe Seite blockiert. data-lenis-prevent sorgt dafür,
+ * dass horizontales Wischen im Container nativ funktioniert.
  */
 export default function MockupKarussell({ karten }: { karten: KarussellKarte[] }) {
   const bahn = useRef<HTMLDivElement>(null);
   const zug = useRef<{ aktiv: boolean; startX: number; startScroll: number }>({
     aktiv: false, startX: 0, startScroll: 0,
   });
-
-  useEffect(() => {
-    const el = bahn.current;
-    if (!el) return;
-    const onWheel = (e: WheelEvent) => {
-      const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-      const kannLinks = el.scrollLeft > 0;
-      const kannRechts = el.scrollLeft < el.scrollWidth - el.clientWidth - 1;
-      if ((delta > 0 && kannRechts) || (delta < 0 && kannLinks)) {
-        e.preventDefault();
-        el.scrollLeft += delta;
-      }
-    };
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
-  }, []);
 
   const onDown = (e: React.PointerEvent) => {
     const el = bahn.current;
@@ -50,7 +34,10 @@ export default function MockupKarussell({ karten }: { karten: KarussellKarte[] }
     if (!el || !zug.current.aktiv) return;
     el.scrollLeft = zug.current.startScroll - (e.clientX - zug.current.startX);
   };
-  const onUp = () => { zug.current.aktiv = false; };
+  const onUp = (e: React.PointerEvent) => {
+    zug.current.aktiv = false;
+    try { bahn.current?.releasePointerCapture(e.pointerId); } catch { /* schon frei */ }
+  };
 
   return (
     <div

@@ -251,11 +251,17 @@ body:not(.nav-on-dark) .nav__menue:hover{ background:var(--ink); border-color:va
   backdrop-filter:blur(24px) saturate(1.2);
   -webkit-backdrop-filter:blur(24px) saturate(1.2);
   padding:clamp(24px,2.2vw,38px);
+  /* pointer-events STRIKT an den Offen-Zustand gekoppelt: Ein
+     geschlossenes oder ausblendendes Panel darf NIE Mausereignisse
+     fangen — sonst öffnet die riesige unsichtbare Fläche unterm Balken
+     das Menü «aus dem Nichts» (Dusans Bugreport 06.08.). */
+  pointer-events:none;
   opacity:0; transform:translateY(-14px); visibility:hidden;
   transition:opacity .5s var(--ease-quart), transform var(--dauer-2) var(--ease-quart),
              visibility 0s linear .5s;
 }
 .navdd.is-open .navdd__panel{
+  pointer-events:auto;
   opacity:1; transform:none; visibility:visible;
   transition:opacity .5s var(--ease-quart), transform var(--dauer-2) var(--ease-quart);
 }
