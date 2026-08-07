@@ -38,36 +38,75 @@ export default async function Home() {
 
   return (
     <>
-      {/* ══ 1 — Hero: Kinovideo in voller Fläche (ESE-Startseite) ══════
-          Video vollflächig, drei kleine Labels auf einer Linie, riesige
-          Headline unten links. Flache Abdunklung sichert die Lesbarkeit. */}
-      <section className="relative min-h-[100svh] overflow-hidden bg-[var(--ink)] text-[var(--cream)]" data-nav="dark" data-hero>
-        <div className="absolute inset-0" data-hero-zoom>
-          <MediaLoop src={kino.src} poster={kino.poster} />
-        </div>
-        <div className="absolute inset-0 bg-[rgb(10_9_7/0.42)]" aria-hidden="true" />
-
-        {/* Drei Labels auf einer Linie (ESE: modern · hochwertig · fresh) */}
-        <div className="pointer-events-none absolute inset-x-[var(--pad-x)] top-[38svh] hidden justify-between text-[0.8rem] font-medium uppercase tracking-[0.16em] md:flex">
-          <span data-decode>klar</span>
-          <span data-decode>direkt</span>
-          <span data-decode>messbar</span>
-        </div>
-
-        <div className="wrap relative flex min-h-[100svh] flex-col justify-end pb-[var(--s-8)] pt-[var(--s-10)]">
-          <p className="eyebrow" data-decode>Marketingagentur · {ortOderLand()}</p>
-          <h1 className="display">
-            <span className="line"><span className="line__i">Wir sagen Ihren Kunden,</span></span>
-            <span className="line"><span className="line__i">was Sache ist<span className="akzent-d">.</span></span></span>
-          </h1>
-          <div className="hero-foot mt-[var(--s-7)] flex flex-wrap items-center justify-between gap-[var(--s-5)]">
-            <p className="body-measure max-w-[44ch] text-[1.05rem]">
-              {site.positionierung}
-            </p>
-            <div className="flex flex-wrap gap-[var(--s-4)]">
-              <Link className="btn btn--primary" href="/kontakt">Erstgespräch buchen</Link>
-              <Link className="btn btn--hell" href="/projekte">Arbeiten ansehen</Link>
+      {/* ══ 1 — Kopfbereich nach der LySonic-Referenz: violette Bühne,
+          riesige helle Headline, links die Einordnung, rechts die
+          Team-Pille, darunter zwei runde Medienkarten. ═════════════ */}
+      <section className="relative overflow-hidden bg-[var(--violet)] text-[#fff]" data-nav="dark" data-hero>
+        <div className="wrap pb-[var(--s-9)] pt-[calc(var(--s-10)+clamp(20px,4vw,56px))]">
+          <div className="grid gap-[var(--s-7)] lg:grid-cols-[minmax(210px,17%)_1fr] lg:items-start">
+            {/* Einordnung links */}
+            <div>
+              {/* Zwei getrennte Zeilen: Der Decode-Effekt schreibt
+                  textContent neu und wuerde ein <br> darin verschlucken. */}
+              <p className="eyebrow mb-0 text-[rgb(255_255_255/0.72)]">
+                <span className="block" data-decode>Marketingagentur</span>
+                <span className="block" data-decode>{ortOderLand()}</span>
+              </p>
+              <span className="mt-[var(--s-5)] block h-px w-[64px] bg-[rgb(255_255_255/0.45)]" aria-hidden="true" />
+              <p className="mt-[var(--s-5)] max-w-[30ch] text-[0.95rem] leading-[1.6] text-[rgb(255_255_255/0.9)]">
+                {site.positionierung}
+              </p>
             </div>
+
+            {/* Headline + Team-Pille */}
+            <div>
+              <h1 className="display text-[color-mix(in_srgb,#fff_78%,var(--violet))]">
+                <span className="line"><span className="line__i">Wir sagen Ihren</span></span>
+                <span className="line"><span className="line__i">Kunden, was</span></span>
+                <span className="line">
+                  <span className="line__i">
+                    Sache ist<span className="text-[#fff]">.</span>
+                    <span className="ml-[0.3em] inline-flex translate-y-[-0.12em] items-center rounded-full border border-[rgb(255_255_255/0.55)] p-[6px] align-middle">
+                      {team.slice(0, 3).map((p, i) => (
+                        <span
+                          key={p.id}
+                          className={`block h-[clamp(38px,3.4vw,54px)] w-[clamp(38px,3.4vw,54px)] overflow-hidden rounded-full ring-2 ring-[var(--violet)] ${i > 0 ? 'ml-[-14px]' : ''}`}
+                        >
+                          <PlaceholderImage slot={p.bildSlot} alt="" sizes="60px" className="h-full w-full" />
+                        </span>
+                      ))}
+                    </span>
+                  </span>
+                </span>
+              </h1>
+
+              <div className="mt-[var(--s-7)] flex flex-wrap gap-[var(--s-4)]">
+                <Link className="btn btn--hell" href="/kontakt">Erstgespräch buchen</Link>
+                <Link className="btn btn--hell" href="/projekte">Arbeiten ansehen</Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Zwei runde Medienkarten */}
+          <div className="mt-[var(--s-8)] grid gap-[var(--s-5)] md:grid-cols-2">
+            <div className="overflow-hidden rounded-[var(--radius-lg)]" data-reveal>
+              <div className="aspect-[16/11]">
+                <MediaLoop src={kino.src} poster={kino.poster} />
+              </div>
+            </div>
+            <Link
+              href="/projekte"
+              className="group relative block overflow-hidden rounded-[var(--radius-lg)]"
+              data-cursor="Arbeiten"
+              data-reveal
+            >
+              <div className="aspect-[16/11] transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] group-hover:scale-[1.03]">
+                <MediaLoop src={showreel.src} poster={showreel.poster} />
+              </div>
+              <span className="absolute bottom-[var(--s-5)] right-[var(--s-5)] grid h-[clamp(54px,4.6vw,74px)] w-[clamp(54px,4.6vw,74px)] place-items-center rounded-full bg-[var(--cream)] text-[1.4rem] text-[var(--violet)] transition-transform duration-[var(--dauer-2)] ease-[var(--ease-pop)] group-hover:scale-110">
+                ↗
+              </span>
+            </Link>
           </div>
         </div>
       </section>

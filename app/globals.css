@@ -234,43 +234,43 @@ img,video{ display:block; max-width:100%; }
 .line__i{ display:block; }
 .js [data-reveal]{ opacity:0; transform:translateY(28px); }
 
-/* ── Navigation: gläserne Leiste (Sharebien/sohub) ─────────────────── */
+/* ── Navigation: offen statt Glas-Pille (LySonic-Referenz) ─────────
+   Wortmarke links, Textlinks in der Mitte, gefüllte CTA-Pille rechts.
+   Kein Container, kein Weichzeichner — die Leiste sitzt direkt auf der
+   Bühne und wechselt die Farbe mit der Sektion (body.nav-on-dark).
+   Nebeneffekt: ein Vollbild-Blur weniger, das kostete Bildrate. */
 .nav{
-  position:fixed; top:12px; left:var(--pad-x); right:var(--pad-x); z-index:60;
+  position:fixed; top:0; left:0; right:0; z-index:60;
+  padding:clamp(14px,1.6vw,26px) var(--pad-x);
   color:var(--ink);
 }
 body.nav-on-dark .nav{ color:var(--cream); }
 .nav__glas{
   display:flex; justify-content:space-between; align-items:center;
-  padding:6px 10px 6px 22px; border-radius:999px;
-  background:color-mix(in srgb, var(--cream) 58%, transparent);
-  border:1px solid color-mix(in srgb, var(--ink) 12%, transparent);
-  backdrop-filter:blur(18px) saturate(1.25);
-  -webkit-backdrop-filter:blur(18px) saturate(1.25);
-  transition:background var(--dauer-1), border-color var(--dauer-1);
-}
-body.nav-on-dark .nav__glas{
-  background:rgb(14 13 11 / .40);
-  border-color:color-mix(in srgb, var(--cream) 14%, transparent);
+  gap:var(--s-6);
 }
 .nav__mark{ font-family:var(--font-display); font-weight:600;
-            letter-spacing:-0.02em; font-size:1.15rem; }
+            letter-spacing:-0.02em; font-size:clamp(1.15rem,1.5vw,1.5rem); }
 .nav__mark .punkt{ color:var(--violet-hell); }
 body:not(.nav-on-dark) .nav__mark .punkt{ color:var(--violet); }
-.nav__links{ display:flex; gap:var(--s-5); align-items:center; font-size:0.92rem; }
+.nav__links{ display:flex; gap:clamp(18px,2.4vw,44px); align-items:center; font-size:1rem; }
 .nav__mark, .nav__links a, .nav__links button, .footer a{
   display:inline-flex; align-items:center; min-height:44px;
 }
+/* Gefüllte Pille mit Pfeil — auf dunklen/violetten Bühnen hell,
+   auf Creme dunkel, damit sie immer trägt. */
 .nav__cta{
-  border:1.5px solid currentColor; border-radius:999px;
-  padding:6px 18px;
-  transition:background var(--dauer-2) var(--ease-fluss), color var(--dauer-2) var(--ease-fluss), border-color var(--dauer-2) var(--ease-fluss);
+  border-radius:999px; padding:11px 22px; font-weight:500;
+  background:var(--ink); color:var(--cream); border:1.5px solid transparent;
+  transition:background var(--dauer-2) var(--ease-fluss), color var(--dauer-2) var(--ease-fluss), transform .35s var(--ease-pop);
 }
-.nav__cta:hover{ background:var(--violet); border-color:var(--violet); color:#fff; }
+.nav__cta::after{ content:"↗"; font-size:.9em; margin-left:.5em; }
+body.nav-on-dark .nav__cta{ background:var(--cream); color:var(--ink); }
+.nav__cta:hover{ background:var(--violet); color:#fff; transform:translateY(-2px); }
 .nav__menue{
   appearance:none; background:none; border:1.5px solid currentColor;
-  border-radius:999px; padding:6px 18px; color:inherit; font:inherit;
-  font-size:0.92rem; cursor:pointer;
+  border-radius:999px; padding:9px 20px; color:inherit; font:inherit;
+  font-size:1rem; cursor:pointer;
   transition:background var(--dauer-2) var(--ease-fluss), color var(--dauer-2) var(--ease-fluss), border-color var(--dauer-2) var(--ease-fluss), opacity .25s;
 }
 .nav__menue:hover{ background:var(--cream); border-color:var(--cream); color:var(--ink); }
