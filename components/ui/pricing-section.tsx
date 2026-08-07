@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import Link from 'next/link';
 import { CircleCheck, CircleMinus } from 'lucide-react';
 
@@ -18,9 +18,8 @@ import { cn } from '@/lib/utils';
  * auf einen Blick, was die nächste Stufe zusätzlich bringt.
  *
  * Interaktiv: Laufzeit-Schalter (6/12 Monate, 15% Rabatt bei 12 —
- * gerechnet, nicht getippt), «Nur Unterschiede»-Filter und eine
- * Zeilen-Hervorhebung, die beim Überfahren in allen drei Karten
- * dieselbe Zeile markiert.
+ * gerechnet, nicht getippt) und eine Zeilen-Hervorhebung, die beim
+ * Überfahren in allen drei Karten dieselbe Zeile markiert.
  *
  * Preise und Fokus von Dusan vorgegeben (06./07.08.2026). Die
  * Leistungszeilen sind mein Vorschlag aus den bestehenden Service-Texten
@@ -63,31 +62,40 @@ const STUFEN: Stufe[] = [
 ];
 
 const LEISTUNGEN: Zeile[] = [
+  // In allen Abos enthalten
   { schluessel: 'plan', name: 'Redaktionsplan pro Monat', werte: [true, true, true] },
   { schluessel: 'posts', name: 'Beiträge pro Monat', werte: ['8', '12', '16'] },
-  { schluessel: 'reels', name: 'Reels und Story-Formate', werte: [false, true, true] },
   { schluessel: 'dreh', name: 'Drehtag bei Ihnen', werte: ['1× pro Quartal', '1× pro Quartal', '1× pro Monat'] },
   { schluessel: 'community', name: 'Community-Betreuung', werte: [true, true, true] },
-  { schluessel: 'meta', name: 'Kampagnen auf Meta und Instagram', werte: [false, true, true] },
-  { schluessel: 'linkedin', name: 'Kampagnen auf LinkedIn und Google', werte: [false, false, true] },
   { schluessel: 'rapport', name: 'Monatsrapport mit Empfehlung', werte: [true, true, true] },
+  // Kommt mit Präsent dazu
+  { schluessel: 'reels', name: 'Reels und Story-Formate', werte: [false, true, true] },
+  { schluessel: 'meta', name: 'Kampagnen auf Meta und Instagram', werte: [false, true, true] },
   { schluessel: 'quartal', name: 'Quartalsplanung mit festen Zielen', werte: [false, true, true] },
+  // Kommt mit Partner dazu
+  { schluessel: 'linkedin', name: 'Kampagnen auf LinkedIn und Google', werte: [false, false, true] },
   { schluessel: 'partner', name: 'Fester Ansprechpartner', werte: [false, false, true] },
 ];
+
+/** Ab welcher Stufe eine Zeile enthalten ist (0 = alle, 1 = ab Präsent …) */
+const abStufe = (z: Zeile) => z.werte.findIndex((w) => w !== false);
+
+/** Treppen-Sortierung: erst alles Gemeinsame, dann was Präsent ergänzt,
+ *  dann was Partner ergänzt. Dadurch stehen die ausgegrauten Zeilen in
+ *  JEDER Karte als zusammenhängender Block unten — die Stufen lesen sich
+ *  als Ergänzung statt als Flickenteppich. Sort ist stabil, die
+ *  Reihenfolge innerhalb einer Gruppe bleibt wie oben notiert. */
+const SORTIERT: Zeile[] = [...LEISTUNGEN].sort((a, b) => abStufe(a) - abStufe(b));
 
 /** Schweizer Tausendertrennung, bewusst ohne toLocaleString:
  *  Server und Browser dürfen sich hier nicht unterscheiden. */
 const franken = (n: number) => `CHF ${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "'")}`;
 
-const istUnterschied = (z: Zeile) =>
-  !(String(z.werte[0]) === String(z.werte[1]) && String(z.werte[1]) === String(z.werte[2]));
-
 export default function Pricing() {
   const [monate, setMonate] = useState<6 | 12>(6);
-  const [nurUnterschiede, setNurUnterschiede] = useState(false);
   const [aktiveZeile, setAktiveZeile] = useState<string | null>(null);
 
-  const zeilen = nurUnterschiede ? LEISTUNGEN.filter(istUnterschied) : LEISTUNGEN;
+  const zeilen = SORTIERT;
 
   return (
     <section className="section bg-[var(--violet)] text-[#fff]" data-nav="dark" id="preise">
@@ -101,8 +109,8 @@ export default function Pricing() {
           was es kostet. Keine Stundenabrechnung, keine Überraschungen.
         </p>
 
-        {/* Steuerung: Laufzeit + Filter */}
-        <div className="mt-[var(--s-7)] flex flex-wrap items-center justify-center gap-[var(--s-4)]" data-reveal>
+        {/* Laufzeit-Schalter */}
+        <div className="mt-[var(--s-7)] flex justify-center" data-reveal>
           <div
             role="group"
             aria-label="Laufzeit wählen"
@@ -137,29 +145,6 @@ export default function Pricing() {
             ))}
           </div>
 
-          <button
-            type="button"
-            onClick={() => setNurUnterschiede((v) => !v)}
-            aria-pressed={nurUnterschiede}
-            className={cn(
-              'inline-flex min-h-[44px] items-center gap-[0.6em] rounded-full border px-[18px] text-[0.92rem] font-medium',
-              'transition-colors duration-[var(--dauer-2)] ease-[var(--ease-fluss)]',
-              nurUnterschiede
-                ? 'border-[var(--cream)] bg-[var(--cream)] text-[var(--ink)]'
-                : 'border-[rgb(255_255_255/0.35)] text-[rgb(255_255_255/0.85)] hover:border-[#fff] hover:text-[#fff]',
-            )}
-          >
-            <span
-              aria-hidden="true"
-              className={cn(
-                'grid h-[18px] w-[18px] place-items-center rounded-[5px] border text-[11px] leading-none',
-                nurUnterschiede ? 'border-[var(--violet)] bg-[var(--violet)] text-[#fff]' : 'border-current',
-              )}
-            >
-              {nurUnterschiede ? '✓' : ''}
-            </span>
-            Nur Unterschiede
-          </button>
         </div>
 
         {/* Karten: gerade ausgerichtet, 3D nur als Tiefe */}
@@ -258,15 +243,28 @@ function PreisKarte({
 
         <div className={cn('my-[var(--s-5)] border-t', dunkel ? 'border-[rgb(243_238_227/0.16)]' : 'border-[rgb(14_13_11/0.14)]')} />
 
-        {/* Gleiche Zeilen in jeder Karte — nicht enthaltene ausgegraut */}
+        {/* Gleiche Zeilen in jeder Karte, treppenförmig sortiert —
+            nicht enthaltene stehen als Block unten und sind ausgegraut */}
         <ul className="grid gap-[2px]" onPointerLeave={() => setAktiveZeile(null)}>
-          {zeilen.map((z) => {
+          {zeilen.map((z, i) => {
             const wert = z.werte[spalte];
             const drin = wert !== false;
             const aktiv = aktiveZeile === z.schluessel;
+            // Erste nicht enthaltene Zeile bekommt eine Überschrift —
+            // so ist sofort klar: ab hier kommt, was die nächste Stufe bringt.
+            const blockStart = !drin && zeilen[i - 1] && zeilen[i - 1].werte[spalte] !== false;
             return (
+              <Fragment key={z.schluessel}>
+              {blockStart && (
+                <li aria-hidden="true" className="mt-[var(--s-4)] flex items-center gap-[0.7em] pb-[2px]">
+                  <span className={cn('h-px flex-1', dunkel ? 'bg-[rgb(243_238_227/0.16)]' : 'bg-[rgb(14_13_11/0.14)]')} />
+                  <span className={cn('text-[0.7rem] uppercase tracking-[0.12em]', dunkel ? 'text-[var(--grau-d)]' : 'text-[var(--grau-l)]')}>
+                    Nicht enthalten
+                  </span>
+                  <span className={cn('h-px flex-1', dunkel ? 'bg-[rgb(243_238_227/0.16)]' : 'bg-[rgb(14_13_11/0.14)]')} />
+                </li>
+              )}
               <li
-                key={z.schluessel}
                 onPointerEnter={() => setAktiveZeile(z.schluessel)}
                 className={cn(
                   '-mx-[8px] flex items-start gap-[0.6em] rounded-[9px] px-[8px] py-[6px] text-[0.92rem] leading-[1.45]',
@@ -292,6 +290,7 @@ function PreisKarte({
                   {!drin && <span className="sr-only"> — nicht enthalten</span>}
                 </span>
               </li>
+              </Fragment>
             );
           })}
         </ul>
