@@ -1,0 +1,23 @@
+# KLARTEXT.
+
+> Marketingagentur für Schweizer KMU. Positionierung, Marke, Website, laufende Betreuung und KI im Arbeitsalltag.
+
+## Leistungen
+- [Social Media](https://example.invalid/leistungen/social-media): Regelmässig sichtbar, ohne dass es intern jemanden auffrisst.
+- [Branding](https://example.invalid/leistungen/branding): Ein Auftritt, der auch dann trägt, wenn niemand das Logo sieht.
+- [Webdesign](https://example.invalid/leistungen/webdesign): Eine Seite, die Anfragen bringt — nicht eine, die gut aussieht.
+- [Marketingpartner](https://example.invalid/leistungen/marketingpartner): Ihre Marketingabteilung, ohne sie aufzubauen.
+- [KI für KMU](https://example.invalid/leistungen/ki-fuer-kmu): Ein Arbeitsschritt weniger. Nicht ein Werkzeug mehr.
+
+## Seiten
+- [Arbeiten](https://example.invalid/projekte): Referenzen, filterbar nach Leistung und Branche
+- [Team](https://example.invalid/team)
+- [Blog](https://example.invalid/blog)
+- [Kontakt](https://example.invalid/kontakt)
+- [Impressum](https://example.invalid/impressum)
+- [Datenschutz](https://example.invalid/datenschutz)
+
+## Artikel
+- [Klarheit kommt vor Reichweite](https://example.invalid/blog/klarheit-vor-reichweite)
+- [Eine Website, die Anfragen bringt](https://example.invalid/blog/website-die-anfragen-bringt)
+- [KI im KMU-Alltag: bei einem Handgriff anfangen](https://example.invalid/blog/ki-im-kmu-alltag)

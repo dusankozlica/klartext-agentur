@@ -1,0 +1,4 @@
+:HL["/klartext-agentur/_next/static/chunks/0ytmlu_6y687d.css","style"]
+:HL["/klartext-agentur/fonts/clash-display-600.woff2","font",{"crossOrigin":"anonymous","type":"font/woff2"}]
+:HL["/klartext-agentur/placeholders/video/hero-kino-poster.jpg","image",{"fetchPriority":"high"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4224,"slots":null}}},"staleTime":300,"buildId":"Bhdd7gnRHlNuGwZYZJmwh"}
