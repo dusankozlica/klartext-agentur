@@ -574,26 +574,29 @@ html.menue-offen .nav__menue{ opacity:0; pointer-events:none; }
    wie ein flacher Kasten. Nur ab Desktop, mobil bleibt die Füllung
    ohne Blur (spart Rechenzeit auf schwachen Geräten). */
 .preis-glas{
-  background:rgb(24 4 66 / .42);
-  border:1px solid rgb(255 255 255 / .2);
-  box-shadow:inset 0 1px 0 rgb(255 255 255 / .22), 0 30px 80px rgb(20 0 60 / .38);
+  background:rgb(255 255 255 / .13);
+  border:1px solid rgb(255 255 255 / .34);
+  box-shadow:inset 0 1px 0 rgb(255 255 255 / .45), 0 30px 80px rgb(20 0 60 / .3);
 }
-.preis-glas--hervor{
-  background:rgb(24 4 66 / .55);
-  border-color:rgb(255 255 255 / .34);
-  box-shadow:inset 0 1px 0 rgb(255 255 255 / .3), 0 48px 110px rgb(20 0 60 / .55);
+/* Mitte: volle Creme-Karte — bricht die Einfarbigkeit und hebt den
+   Favoriten deutlich heraus. */
+.preis-glas--voll{
+  background:var(--cream);
+  border-color:transparent;
+  box-shadow:0 52px 120px rgb(20 0 60 / .55);
 }
 @media (min-width:900px){
   .preis-glas{
-    backdrop-filter:blur(16px) saturate(1.15);
-    -webkit-backdrop-filter:blur(16px) saturate(1.15);
+    backdrop-filter:blur(18px) saturate(1.2);
+    -webkit-backdrop-filter:blur(18px) saturate(1.2);
   }
+  .preis-glas--voll{ backdrop-filter:none; -webkit-backdrop-filter:none; }
 }
 
 /* Zeilen-Hervorhebung der Preistabelle (CSS statt React-Zustand —
    currentColor passt sich der Karte an: hell auf Ink, dunkel auf Creme) */
 .preis-zeile{ transition:background-color var(--dauer-1) var(--ease-fluss); }
-.preis-zeile.is-markiert{ background:rgb(255 255 255 / .1); }
+.preis-zeile.is-markiert{ background:color-mix(in srgb, currentColor 10%, transparent); }
 
 /* ── Zeilen-Listen: Geschwister dimmen beim Überfahren (ESE) ──────── */
 [data-zeilen] [data-zeile-inhalt]{

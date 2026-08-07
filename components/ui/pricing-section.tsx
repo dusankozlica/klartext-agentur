@@ -205,36 +205,37 @@ function PreisKarte({
   zeilen: Zeile[];
   markiere: (s: string | null) => void;
 }) {
-  const hervor = stufe.beliebt;   // Favorit: heller, grösser, davor
+  /* Zwei Zustände: aussen helles Milchglas (Violett scheint durch),
+     in der Mitte eine VOLLE Creme-Karte — dadurch bricht die Sektion
+     die Einfarbigkeit und der Favorit springt sofort ins Auge. */
+  const solide = stufe.beliebt;
   const preis = monate === 12 ? Math.round(stufe.basis * (1 - RABATT_12)) : stufe.basis;
 
   return (
-    <div data-reveal className={hervor ? 'relative z-10' : undefined}>
+    <div data-reveal className={solide ? 'relative z-10' : undefined}>
       <div
         aria-label={`Abo ${stufe.titel}`}
         className={cn(
-          'preis-glas flex h-full flex-col rounded-[28px] p-[clamp(24px,2.2vw,36px)] text-[#fff]',
-          // 3D bleibt reine Tiefe: gerade ausgerichtet, Favorit tritt vor.
+          'preis-glas flex h-full flex-col rounded-[28px] p-[clamp(24px,2.2vw,36px)]',
           'transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)]',
-          hervor
-            ? 'preis-glas--hervor min-[900px]:[transform:translateZ(60px)] min-[900px]:hover:[transform:translateZ(60px)_translateY(-10px)]'
-            : 'min-[900px]:[transform:translateZ(0px)] min-[900px]:hover:[transform:translateZ(28px)]',
+          solide
+            ? 'preis-glas--voll text-[var(--ink)] min-[900px]:[transform:translateZ(60px)] min-[900px]:hover:[transform:translateZ(60px)_translateY(-10px)]'
+            : 'text-[#fff] min-[900px]:[transform:translateZ(0px)] min-[900px]:hover:[transform:translateZ(28px)]',
         )}
       >
-        <div className="flex items-center gap-[var(--s-3)]">
+        <div className="flex flex-wrap items-center gap-[var(--s-3)]">
           <Badge
-            variant={hervor ? 'default' : 'secondary'}
             className={cn(
               'border px-3 py-1 text-[0.72rem] uppercase tracking-[0.1em]',
-              hervor
-                ? 'border-transparent bg-[var(--cream)] text-[var(--ink)]'
-                : 'border-[rgb(255_255_255/0.28)] bg-[rgb(255_255_255/0.1)] text-[#fff]',
+              solide
+                ? 'border-transparent bg-[var(--violet)] text-[#fff]'
+                : 'border-[rgb(255_255_255/0.35)] bg-[rgb(255_255_255/0.14)] text-[#fff]',
             )}
           >
             {stufe.titel}
           </Badge>
           {stufe.beliebt && (
-            <span className="rounded-full border border-[rgb(255_255_255/0.3)] px-3 py-1 text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[rgb(255_255_255/0.85)]">
+            <span className="rounded-full border border-[rgb(14_13_11/0.2)] px-3 py-1 text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[var(--grau-l)]">
               Beliebteste Wahl
             </span>
           )}
@@ -242,28 +243,30 @@ function PreisKarte({
 
         <p className="mt-[var(--s-6)] font-[family-name:var(--font-display)] text-[clamp(2rem,2.8vw,2.7rem)] font-semibold leading-none tracking-[-0.02em]">
           {franken(preis)}
-          <span className="ml-2 align-baseline text-[0.95rem] font-normal tracking-normal text-[rgb(255_255_255/0.7)]">
+          <span className={cn('ml-2 align-baseline text-[0.95rem] font-normal tracking-normal', solide ? 'text-[var(--grau-l)]' : 'text-[rgb(255_255_255/0.72)]')}>
             / Monat
           </span>
         </p>
 
-        <p className="mt-[var(--s-2)] text-[0.88rem] text-[rgb(255_255_255/0.72)]">
+        <p className={cn('mt-[var(--s-2)] text-[0.88rem]', solide ? 'text-[var(--grau-l)]' : 'text-[rgb(255_255_255/0.75)]')}>
           {monate === 12 ? (
             <>
               <span className="line-through">{franken(stufe.basis)}</span>
               {' · '}
-              <span className="text-[#fff]">15 % gespart bei 12 Monaten</span>
+              <span className={solide ? 'font-medium text-[var(--violet)]' : 'font-medium text-[#fff]'}>
+                15 % gespart bei 12 Monaten
+              </span>
             </>
           ) : (
             <>Laufzeit 6 Monate · 12 Monate sind 15 % günstiger</>
           )}
         </p>
 
-        <p className="mt-[var(--s-4)] text-[0.95rem] leading-[1.55] text-[rgb(255_255_255/0.78)]">
+        <p className={cn('mt-[var(--s-4)] text-[0.95rem] leading-[1.55]', solide ? 'text-[var(--grau-l)]' : 'text-[rgb(255_255_255/0.8)]')}>
           {stufe.beschreibung}
         </p>
 
-        <div className="my-[var(--s-5)] border-t border-[rgb(255_255_255/0.18)]" />
+        <div className={cn('my-[var(--s-5)] border-t', solide ? 'border-[rgb(14_13_11/0.14)]' : 'border-[rgb(255_255_255/0.28)]')} />
 
         {/* Gleiche Zeilen in jeder Karte, treppenförmig sortiert —
             nicht enthaltene stehen als Block unten und sind ausgegraut */}
@@ -271,45 +274,45 @@ function PreisKarte({
           {zeilen.map((z, i) => {
             const wert = z.werte[spalte];
             const drin = wert !== false;
-            // Erste nicht enthaltene Zeile bekommt eine Überschrift —
-            // so ist sofort klar: ab hier kommt, was die nächste Stufe bringt.
             const blockStart = !drin && zeilen[i - 1] && zeilen[i - 1].werte[spalte] !== false;
             return (
               <Fragment key={z.schluessel}>
-              {blockStart && (
-                <li aria-hidden="true" className="mt-[var(--s-4)] flex items-center gap-[0.7em] pb-[2px]">
-                  <span className="h-px flex-1 bg-[rgb(255_255_255/0.18)]" />
-                  <span className="text-[0.7rem] uppercase tracking-[0.12em] text-[rgb(255_255_255/0.6)]">
-                    Nicht enthalten
-                  </span>
-                  <span className="h-px flex-1 bg-[rgb(255_255_255/0.18)]" />
-                </li>
-              )}
-              <li
-                data-z={z.schluessel}
-                onPointerEnter={() => markiere(z.schluessel)}
-                className={cn(
-                  'preis-zeile -mx-[8px] flex items-start gap-[0.6em] rounded-[9px] px-[8px] py-[6px] text-[0.92rem] leading-[1.45]',
-                  drin ? '' : 'text-[rgb(255_255_255/0.55)] opacity-70',
+                {blockStart && (
+                  <li aria-hidden="true" className="mt-[var(--s-4)] flex items-center gap-[0.7em] pb-[2px]">
+                    <span className={cn('h-px flex-1', solide ? 'bg-[rgb(14_13_11/0.14)]' : 'bg-[rgb(255_255_255/0.26)]')} />
+                    <span className={cn('text-[0.7rem] uppercase tracking-[0.12em]', solide ? 'text-[var(--grau-l)]' : 'text-[rgb(255_255_255/0.65)]')}>
+                      Nicht enthalten
+                    </span>
+                    <span className={cn('h-px flex-1', solide ? 'bg-[rgb(14_13_11/0.14)]' : 'bg-[rgb(255_255_255/0.26)]')} />
+                  </li>
                 )}
-              >
-                {drin ? (
-                  <CircleCheck
-                    aria-hidden
-                    size={18}
-                    className="mt-[2px] shrink-0 text-[#fff]"
-                  />
-                ) : (
-                  <CircleMinus aria-hidden size={18} className="mt-[2px] shrink-0 opacity-70" />
-                )}
-                <span>
-                  {z.name}
-                  {typeof wert === 'string' && (
-                    <span className="font-semibold"> · {wert}</span>
+                <li
+                  data-z={z.schluessel}
+                  onPointerEnter={() => markiere(z.schluessel)}
+                  className={cn(
+                    'preis-zeile -mx-[8px] flex items-start gap-[0.6em] rounded-[9px] px-[8px] py-[6px] text-[0.92rem] leading-[1.45]',
+                    drin
+                      ? ''
+                      : solide
+                        ? 'text-[var(--grau-l)] opacity-55'
+                        : 'text-[rgb(255_255_255/0.62)] opacity-80',
                   )}
-                  {!drin && <span className="sr-only"> — nicht enthalten</span>}
-                </span>
-              </li>
+                >
+                  {drin ? (
+                    <CircleCheck
+                      aria-hidden
+                      size={18}
+                      className={cn('mt-[2px] shrink-0', solide ? 'text-[var(--violet)]' : 'text-[#fff]')}
+                    />
+                  ) : (
+                    <CircleMinus aria-hidden size={18} className="mt-[2px] shrink-0 opacity-70" />
+                  )}
+                  <span>
+                    {z.name}
+                    {typeof wert === 'string' && <span className="font-semibold"> · {wert}</span>}
+                    {!drin && <span className="sr-only"> — nicht enthalten</span>}
+                  </span>
+                </li>
               </Fragment>
             );
           })}
@@ -320,9 +323,9 @@ function PreisKarte({
             href="/#termin"
             className={cn(
               'btn w-full justify-center border-0',
-              hervor
-                ? 'bg-[var(--cream)] text-[var(--ink)] hover:text-[var(--ink)]'
-                : 'bg-[rgb(255_255_255/0.12)] text-[#fff] ring-1 ring-inset ring-[rgb(255_255_255/0.35)]',
+              solide
+                ? 'bg-[var(--violet)] text-[#fff] hover:text-[#fff]'
+                : 'bg-[rgb(255_255_255/0.16)] text-[#fff] ring-1 ring-inset ring-[rgb(255_255_255/0.45)]',
             )}
           >
             {stufe.cta}&nbsp;→
