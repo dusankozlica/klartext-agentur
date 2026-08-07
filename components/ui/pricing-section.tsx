@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import Link from 'next/link';
 import { CircleCheck, CircleMinus } from 'lucide-react';
 
@@ -93,12 +93,24 @@ const franken = (n: number) => `CHF ${String(n).replace(/\B(?=(\d{3})+(?!\d))/g,
 
 export default function Pricing() {
   const [monate, setMonate] = useState<6 | 12>(6);
-  const [aktiveZeile, setAktiveZeile] = useState<string | null>(null);
-
+  const sektion = useRef<HTMLElement>(null);
   const zeilen = SORTIERT;
 
+  /* Zeilen-Hervorhebung ohne React-Zustand: Beim Überfahren wird in
+     allen drei Karten dieselbe Zeile per Klasse markiert. Ein State
+     würde die ganze Sektion neu aufbauen — das kostet Bildrate, und
+     die zeigt sich sofort als träge Maus. */
+  const markiere = (schluessel: string | null) => {
+    const el = sektion.current;
+    if (!el) return;
+    el.querySelectorAll('.preis-zeile.is-markiert').forEach((n) => n.classList.remove('is-markiert'));
+    if (schluessel) {
+      el.querySelectorAll(`.preis-zeile[data-z="${schluessel}"]`).forEach((n) => n.classList.add('is-markiert'));
+    }
+  };
+
   return (
-    <section className="section bg-[var(--violet)] text-[#fff]" data-nav="dark" id="preise">
+    <section ref={sektion} className="section bg-[var(--violet)] text-[#fff]" data-nav="dark" id="preise">
       <div className="wrap">
         <div className="flex flex-wrap items-baseline justify-between gap-[var(--s-4)]">
           <h2 className="sec-title mb-0" data-reveal>Leistung im Abo<span className="text-[var(--ink)]">.</span></h2>
@@ -156,8 +168,7 @@ export default function Pricing() {
               spalte={i as 0 | 1 | 2}
               monate={monate}
               zeilen={zeilen}
-              aktiveZeile={aktiveZeile}
-              setAktiveZeile={setAktiveZeile}
+              markiere={markiere}
             />
           ))}
         </div>
@@ -176,14 +187,13 @@ export default function Pricing() {
 }
 
 function PreisKarte({
-  stufe, spalte, monate, zeilen, aktiveZeile, setAktiveZeile,
+  stufe, spalte, monate, zeilen, markiere,
 }: {
   stufe: Stufe;
   spalte: 0 | 1 | 2;
   monate: 6 | 12;
   zeilen: Zeile[];
-  aktiveZeile: string | null;
-  setAktiveZeile: (s: string | null) => void;
+  markiere: (s: string | null) => void;
 }) {
   const dunkel = stufe.beliebt;
   const preis = monate === 12 ? Math.round(stufe.basis * (1 - RABATT_12)) : stufe.basis;
@@ -196,7 +206,7 @@ function PreisKarte({
           'flex h-full flex-col rounded-[var(--radius-lg)] p-[clamp(24px,2.2vw,36px)]',
           // 3D nur als TIEFE: gerade ausgerichtet, Favorit tritt vor,
           // beim Überfahren hebt die Karte an. Keine Drehung.
-          'transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] will-change-transform',
+          'transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)]',
           dunkel
             ? 'bg-[var(--ink)] text-[var(--cream)] shadow-[0_46px_110px_rgb(20_0_60/0.5)] ring-1 ring-[color-mix(in_srgb,var(--violet-hell)_55%,transparent)] min-[900px]:[transform:translateZ(60px)] min-[900px]:hover:[transform:translateZ(60px)_translateY(-10px)]'
             : 'bg-[var(--cream)] text-[var(--ink)] shadow-[0_26px_64px_rgb(20_0_60/0.26)] min-[900px]:[transform:translateZ(0px)] min-[900px]:hover:[transform:translateZ(28px)]',
@@ -245,11 +255,10 @@ function PreisKarte({
 
         {/* Gleiche Zeilen in jeder Karte, treppenförmig sortiert —
             nicht enthaltene stehen als Block unten und sind ausgegraut */}
-        <ul className="grid gap-[2px]" onPointerLeave={() => setAktiveZeile(null)}>
+        <ul className="grid gap-[2px]" onPointerLeave={() => markiere(null)}>
           {zeilen.map((z, i) => {
             const wert = z.werte[spalte];
             const drin = wert !== false;
-            const aktiv = aktiveZeile === z.schluessel;
             // Erste nicht enthaltene Zeile bekommt eine Überschrift —
             // so ist sofort klar: ab hier kommt, was die nächste Stufe bringt.
             const blockStart = !drin && zeilen[i - 1] && zeilen[i - 1].werte[spalte] !== false;
@@ -265,12 +274,11 @@ function PreisKarte({
                 </li>
               )}
               <li
-                onPointerEnter={() => setAktiveZeile(z.schluessel)}
+                data-z={z.schluessel}
+                onPointerEnter={() => markiere(z.schluessel)}
                 className={cn(
-                  '-mx-[8px] flex items-start gap-[0.6em] rounded-[9px] px-[8px] py-[6px] text-[0.92rem] leading-[1.45]',
-                  'transition-[background-color,opacity] duration-[var(--dauer-1)] ease-[var(--ease-fluss)]',
+                  'preis-zeile -mx-[8px] flex items-start gap-[0.6em] rounded-[9px] px-[8px] py-[6px] text-[0.92rem] leading-[1.45]',
                   drin ? '' : dunkel ? 'text-[var(--grau-d)] opacity-45' : 'text-[var(--grau-l)] opacity-50',
-                  aktiv && (dunkel ? 'bg-[rgb(243_238_227/0.09)]' : 'bg-[rgb(14_13_11/0.05)]'),
                 )}
               >
                 {drin ? (

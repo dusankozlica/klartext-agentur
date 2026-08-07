@@ -529,30 +529,42 @@ html.menue-offen .nav__menue{ opacity:0; pointer-events:none; }
 }
 .wechsel--rein .wechsel__mark{ opacity:1; transform:none; transition-delay:.14s; }
 .wechsel__mark .punkt{ color:var(--violet-hell); }
-/* ── Cursor (ESE-Vermessung): kleiner Punkt folgt immer, über Zielen
-   poppt er mit Überschwingen auf. Farbe wechselt mit der Sektion über
-   body.nav-on-dark — der frühere Differenz-Mischmodus las bei jedem
-   Frame den Hintergrund zurück (teuer überm Glas-Balken) und flog
-   deshalb raus. Über Medien: Creme-Blase mit Label. */
+/* ── Cursor: offener Ring ──────────────────────────────────────────
+   Doppelkontur statt Mischmodus: heller Ring plus feiner dunkler Saum
+   aussen und innen. Dadurch ist der Cursor auf Creme, auf Schwarz UND
+   auf Violett/Fotos immer sichtbar — ohne dass der Browser pro Bild
+   den Hintergrund zurücklesen muss (das war der teure Mischmodus).
+   Position setzt Cursor.tsx direkt, ohne Nachziehen. */
 .cursor{
   position:fixed; top:0; left:0; z-index:80; pointer-events:none;
-  width:12px; height:12px; border-radius:50%;
-  background:var(--ink);
-  transform:translate(-50%,-50%);
-  transition:width .32s var(--ease-pop), height .32s var(--ease-pop),
-             background var(--dauer-1) var(--ease-fluss), opacity .2s;
+  width:24px; height:24px; border-radius:50%;
+  background:transparent;
+  border:1.6px solid rgb(243 238 227 / .95);
+  box-shadow:0 0 0 1.2px rgb(14 13 11 / .45), inset 0 0 0 1.2px rgb(14 13 11 / .3);
+  transition:width .28s var(--ease-pop), height .28s var(--ease-pop),
+             background var(--dauer-1) var(--ease-fluss),
+             border-color var(--dauer-1) var(--ease-fluss), opacity .18s;
   display:none; opacity:0;
 }
-body.nav-on-dark .cursor{ background:var(--cream); }
 .cursor.is-live{ opacity:1; }
-.cursor.is-link{ width:38px; height:38px; }
-.cursor.is-media{ width:96px; height:96px; background:var(--cream) !important; }
+/* Über Links geht der Ring auf — Rand bleibt offen */
+.cursor.is-link{ width:52px; height:52px; border-width:1.4px; }
+/* Über Medien wird er zur beschrifteten Creme-Blase */
+.cursor.is-media{
+  width:96px; height:96px; background:var(--cream);
+  border-color:var(--cream); box-shadow:0 0 0 1.2px rgb(14 13 11 / .25);
+}
 .cursor__label{
   position:absolute; inset:0; display:grid; place-items:center;
   font-size:.72rem; letter-spacing:.08em; text-transform:uppercase;
   color:var(--ink); opacity:0; transition:opacity .25s; white-space:nowrap;
 }
 .cursor.is-media .cursor__label{ opacity:1; }
+
+/* Zeilen-Hervorhebung der Preistabelle (CSS statt React-Zustand —
+   currentColor passt sich der Karte an: hell auf Ink, dunkel auf Creme) */
+.preis-zeile{ transition:background-color var(--dauer-1) var(--ease-fluss); }
+.preis-zeile.is-markiert{ background:color-mix(in srgb, currentColor 9%, transparent); }
 
 /* ── Zeilen-Listen: Geschwister dimmen beim Überfahren (ESE) ──────── */
 [data-zeilen] [data-zeile-inhalt]{

@@ -1,16 +1,19 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { gsap, prefersReducedMotion, hasFinePointer } from '@/lib/motion';
+import { prefersReducedMotion, hasFinePointer } from '@/lib/motion';
 
 /**
- * Custom Cursor — ein waagrechter Balken, kein Kreis: dasselbe Motiv wie
- * der Schnitt. Über Medienflächen wird er zur beschrifteten Leiste.
+ * Custom Cursor — offener Ring, der über Links und Medien aufgeht.
  *
- * Nur bei `pointer: fine` und ohne Reduced-Motion. Auf Touch existiert er
- * nicht, und der native Cursor wird nur dann versteckt, wenn der eigene
- * tatsächlich läuft (Klasse `has-cursor` am Body) — sonst hätte man auf
- * Geräten ohne JS-Cursor gar keinen Zeiger mehr.
+ * WICHTIG (07.08., zweite Tempo-Rückmeldung): Die Position wird DIREKT
+ * im pointermove gesetzt, ohne Lerp und ohne GSAP-Ticker. Jedes
+ * Nachziehen liest sich als Verzögerung, sobald die Bildrate schwankt —
+ * und der Ticker hängt am selben Frame-Budget wie Lenis und die
+ * Scroll-Effekte. Direkt gesetzt läuft der Ring 1:1 mit der Hand, auch
+ * wenn die Seite gerade rechnet.
+ *
+ * Nur bei `pointer: fine` und ohne Reduced-Motion.
  */
 export default function Cursor() {
   const ref = useRef<HTMLDivElement>(null);
@@ -24,33 +27,17 @@ export default function Cursor() {
 
     document.body.classList.add('has-cursor');
 
-    const pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-    const tgt = { ...pos };
-
     const onMove = (e: PointerEvent) => {
-      // Erst ab der ersten echten Bewegung sichtbar — und dann ohne
-      // Anlauf aus der Bildschirmmitte: Position springt direkt zum Zeiger.
-      if (!cur.classList.contains('is-live')) {
-        pos.x = e.clientX; pos.y = e.clientY;
-        cur.classList.add('is-live');
-      }
-      tgt.x = e.clientX; tgt.y = e.clientY;
+      // Erst ab der ersten echten Bewegung sichtbar.
+      if (!cur.classList.contains('is-live')) cur.classList.add('is-live');
+      cur.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%,-50%)`;
     };
-    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointermove', onMove, { passive: true });
 
-    // Verlässt der Zeiger das Fenster, blendet der Punkt aus — beim
-    // Wiedereintritt springt er dank is-live-Reset ohne Anlauf zur Hand.
+    // Fenster verlassen: ausblenden, beim Wiedereintritt sitzt der Ring
+    // dank Direktsetzung sofort an der richtigen Stelle.
     const onLeave = () => cur.classList.remove('is-live');
     document.documentElement.addEventListener('pointerleave', onLeave);
-
-    const tick = () => {
-      // 0.3: sitzt dicht an der Hand. Träges Nachziehen liest sich als
-      // Latenz — erst recht, wenn die Bildrate mal kurz einbricht.
-      pos.x += (tgt.x - pos.x) * 0.3;
-      pos.y += (tgt.y - pos.y) * 0.3;
-      cur.style.transform = `translate(${pos.x}px, ${pos.y}px) translate(-50%,-50%)`;
-    };
-    gsap.ticker.add(tick);
 
     const onOver = (e: PointerEvent) => {
       const t = e.target as HTMLElement;
@@ -74,7 +61,6 @@ export default function Cursor() {
       document.documentElement.removeEventListener('pointerleave', onLeave);
       document.removeEventListener('pointerover', onOver);
       document.removeEventListener('pointerout', onOut);
-      gsap.ticker.remove(tick);
       document.body.classList.remove('has-cursor');
     };
   }, []);
