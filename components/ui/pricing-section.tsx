@@ -110,8 +110,18 @@ export default function Pricing() {
   };
 
   return (
-    <section ref={sektion} className="section bg-[var(--violet)] text-[#fff]" data-nav="dark" id="preise">
-      <div className="wrap">
+    <section ref={sektion} className="section relative overflow-hidden bg-[var(--violet)] text-[#fff]" data-nav="dark" id="preise">
+      {/* Tiefe hinter dem Glas: Riesenwort + zwei weiche Lichter.
+          Ohne etwas dahinter hätte der Milchglas-Effekt nichts zu
+          brechen — die Karten sähen nur wie flache Kästen aus. */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <span className="absolute left-[-6%] top-[16%] h-[46vw] w-[46vw] rounded-full bg-[radial-gradient(circle,rgb(165_123_255/0.55),transparent_65%)] blur-[40px]" />
+        <span className="absolute right-[-10%] top-[42%] h-[40vw] w-[40vw] rounded-full bg-[radial-gradient(circle,rgb(74_0_170/0.75),transparent_65%)] blur-[40px]" />
+        <span className="absolute inset-x-0 top-[26%] select-none whitespace-nowrap text-center font-[family-name:var(--font-display)] text-[17vw] font-semibold leading-none tracking-[-0.03em] text-[rgb(255_255_255/0.09)]">
+          Preise
+        </span>
+      </div>
+      <div className="wrap relative">
         <div className="flex flex-wrap items-baseline justify-between gap-[var(--s-4)]">
           <h2 className="sec-title mb-0" data-reveal>Leistung im Abo<span className="text-[var(--ink)]">.</span></h2>
           <p className="eyebrow mb-0 text-[rgb(255_255_255/0.7)]" data-decode>Preise · Monatsabo</p>
@@ -195,32 +205,36 @@ function PreisKarte({
   zeilen: Zeile[];
   markiere: (s: string | null) => void;
 }) {
-  const dunkel = stufe.beliebt;
+  const hervor = stufe.beliebt;   // Favorit: heller, grösser, davor
   const preis = monate === 12 ? Math.round(stufe.basis * (1 - RABATT_12)) : stufe.basis;
 
   return (
-    <div data-reveal className={dunkel ? 'relative z-10' : undefined}>
+    <div data-reveal className={hervor ? 'relative z-10' : undefined}>
       <div
         aria-label={`Abo ${stufe.titel}`}
         className={cn(
-          'flex h-full flex-col rounded-[var(--radius-lg)] p-[clamp(24px,2.2vw,36px)]',
-          // 3D nur als TIEFE: gerade ausgerichtet, Favorit tritt vor,
-          // beim Überfahren hebt die Karte an. Keine Drehung.
+          'preis-glas flex h-full flex-col rounded-[28px] p-[clamp(24px,2.2vw,36px)] text-[#fff]',
+          // 3D bleibt reine Tiefe: gerade ausgerichtet, Favorit tritt vor.
           'transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)]',
-          dunkel
-            ? 'bg-[var(--ink)] text-[var(--cream)] shadow-[0_46px_110px_rgb(20_0_60/0.5)] ring-1 ring-[color-mix(in_srgb,var(--violet-hell)_55%,transparent)] min-[900px]:[transform:translateZ(60px)] min-[900px]:hover:[transform:translateZ(60px)_translateY(-10px)]'
-            : 'bg-[var(--cream)] text-[var(--ink)] shadow-[0_26px_64px_rgb(20_0_60/0.26)] min-[900px]:[transform:translateZ(0px)] min-[900px]:hover:[transform:translateZ(28px)]',
+          hervor
+            ? 'preis-glas--hervor min-[900px]:[transform:translateZ(60px)] min-[900px]:hover:[transform:translateZ(60px)_translateY(-10px)]'
+            : 'min-[900px]:[transform:translateZ(0px)] min-[900px]:hover:[transform:translateZ(28px)]',
         )}
       >
         <div className="flex items-center gap-[var(--s-3)]">
           <Badge
-            variant={dunkel ? 'default' : 'secondary'}
-            className="px-3 py-1 text-[0.72rem] uppercase tracking-[0.1em]"
+            variant={hervor ? 'default' : 'secondary'}
+            className={cn(
+              'border px-3 py-1 text-[0.72rem] uppercase tracking-[0.1em]',
+              hervor
+                ? 'border-transparent bg-[var(--cream)] text-[var(--ink)]'
+                : 'border-[rgb(255_255_255/0.28)] bg-[rgb(255_255_255/0.1)] text-[#fff]',
+            )}
           >
             {stufe.titel}
           </Badge>
           {stufe.beliebt && (
-            <span className="rounded-full bg-[color-mix(in_srgb,var(--violet-hell)_22%,transparent)] px-3 py-1 text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[var(--violet-hell)]">
+            <span className="rounded-full border border-[rgb(255_255_255/0.3)] px-3 py-1 text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[rgb(255_255_255/0.85)]">
               Beliebteste Wahl
             </span>
           )}
@@ -228,30 +242,28 @@ function PreisKarte({
 
         <p className="mt-[var(--s-6)] font-[family-name:var(--font-display)] text-[clamp(2rem,2.8vw,2.7rem)] font-semibold leading-none tracking-[-0.02em]">
           {franken(preis)}
-          <span className={cn('ml-2 align-baseline text-[0.95rem] font-normal tracking-normal', dunkel ? 'text-[var(--grau-d)]' : 'text-[var(--grau-l)]')}>
+          <span className="ml-2 align-baseline text-[0.95rem] font-normal tracking-normal text-[rgb(255_255_255/0.7)]">
             / Monat
           </span>
         </p>
 
-        <p className={cn('mt-[var(--s-2)] text-[0.88rem]', dunkel ? 'text-[var(--grau-d)]' : 'text-[var(--grau-l)]')}>
+        <p className="mt-[var(--s-2)] text-[0.88rem] text-[rgb(255_255_255/0.72)]">
           {monate === 12 ? (
             <>
               <span className="line-through">{franken(stufe.basis)}</span>
               {' · '}
-              <span className={dunkel ? 'text-[var(--violet-hell)]' : 'text-[var(--violet)]'}>
-                15 % gespart bei 12 Monaten
-              </span>
+              <span className="text-[#fff]">15 % gespart bei 12 Monaten</span>
             </>
           ) : (
             <>Laufzeit 6 Monate · 12 Monate sind 15 % günstiger</>
           )}
         </p>
 
-        <p className={cn('mt-[var(--s-4)] text-[0.95rem] leading-[1.55]', dunkel ? 'text-[var(--grau-d)]' : 'text-[var(--grau-l)]')}>
+        <p className="mt-[var(--s-4)] text-[0.95rem] leading-[1.55] text-[rgb(255_255_255/0.78)]">
           {stufe.beschreibung}
         </p>
 
-        <div className={cn('my-[var(--s-5)] border-t', dunkel ? 'border-[rgb(243_238_227/0.16)]' : 'border-[rgb(14_13_11/0.14)]')} />
+        <div className="my-[var(--s-5)] border-t border-[rgb(255_255_255/0.18)]" />
 
         {/* Gleiche Zeilen in jeder Karte, treppenförmig sortiert —
             nicht enthaltene stehen als Block unten und sind ausgegraut */}
@@ -266,11 +278,11 @@ function PreisKarte({
               <Fragment key={z.schluessel}>
               {blockStart && (
                 <li aria-hidden="true" className="mt-[var(--s-4)] flex items-center gap-[0.7em] pb-[2px]">
-                  <span className={cn('h-px flex-1', dunkel ? 'bg-[rgb(243_238_227/0.16)]' : 'bg-[rgb(14_13_11/0.14)]')} />
-                  <span className={cn('text-[0.7rem] uppercase tracking-[0.12em]', dunkel ? 'text-[var(--grau-d)]' : 'text-[var(--grau-l)]')}>
+                  <span className="h-px flex-1 bg-[rgb(255_255_255/0.18)]" />
+                  <span className="text-[0.7rem] uppercase tracking-[0.12em] text-[rgb(255_255_255/0.6)]">
                     Nicht enthalten
                   </span>
-                  <span className={cn('h-px flex-1', dunkel ? 'bg-[rgb(243_238_227/0.16)]' : 'bg-[rgb(14_13_11/0.14)]')} />
+                  <span className="h-px flex-1 bg-[rgb(255_255_255/0.18)]" />
                 </li>
               )}
               <li
@@ -278,14 +290,14 @@ function PreisKarte({
                 onPointerEnter={() => markiere(z.schluessel)}
                 className={cn(
                   'preis-zeile -mx-[8px] flex items-start gap-[0.6em] rounded-[9px] px-[8px] py-[6px] text-[0.92rem] leading-[1.45]',
-                  drin ? '' : dunkel ? 'text-[var(--grau-d)] opacity-45' : 'text-[var(--grau-l)] opacity-50',
+                  drin ? '' : 'text-[rgb(255_255_255/0.55)] opacity-70',
                 )}
               >
                 {drin ? (
                   <CircleCheck
                     aria-hidden
                     size={18}
-                    className={cn('mt-[2px] shrink-0', dunkel ? 'text-[var(--violet-hell)]' : 'text-[var(--violet)]')}
+                    className="mt-[2px] shrink-0 text-[#fff]"
                   />
                 ) : (
                   <CircleMinus aria-hidden size={18} className="mt-[2px] shrink-0 opacity-70" />
@@ -306,7 +318,12 @@ function PreisKarte({
         <div className="mt-auto pt-[var(--s-6)]">
           <Link
             href="/#termin"
-            className={cn('btn w-full justify-center', dunkel ? 'btn--primary' : 'btn--dunkel')}
+            className={cn(
+              'btn w-full justify-center border-0',
+              hervor
+                ? 'bg-[var(--cream)] text-[var(--ink)] hover:text-[var(--ink)]'
+                : 'bg-[rgb(255_255_255/0.12)] text-[#fff] ring-1 ring-inset ring-[rgb(255_255_255/0.35)]',
+            )}
           >
             {stufe.cta}&nbsp;→
           </Link>

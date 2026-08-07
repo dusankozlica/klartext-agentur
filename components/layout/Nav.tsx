@@ -5,11 +5,14 @@ import { services } from '@/lib/content/services';
 import { placeholder } from '@/lib/placeholders';
 
 /**
- * Navigation: Wortmarke links (violetter Punkt), rechts Direktlink,
- * Leistungs-Dropdown (ESE-Muster), Erstgespräch-Pille und der Menü-Knopf
- * fürs Overlay. Der Farbwechsel über dunklen Sektionen läuft über die
- * Body-Klasse aus Reveals. Platzhalter-Bilder werden hier auf dem Server
- * aufgelöst — das Dropdown bekommt fertige Pfade.
+ * Navigation nach der LySonic-Referenz: DREI Zonen — Wortmarke links,
+ * Links exakt mittig, rechts nur die gefüllte CTA-Pille. Kein
+ * Glas-Container, kein zusätzlicher Knopf daneben.
+ *
+ * Der Menü-Knopf fürs Overlay erscheint erst unter 900px, wo die Links
+ * ausgeblendet sind — auf dem Desktop bleibt die Leiste so aufgeräumt
+ * wie in der Vorlage. Platzhalter-Bilder fürs Dropdown werden hier auf
+ * dem Server aufgelöst.
  */
 export default function Nav() {
   const dropdownEintraege = services.map((s) => {
@@ -29,6 +32,7 @@ export default function Nav() {
         <Link className="nav__mark" href="/">
           KLARTEXT<span className="punkt">.</span>
         </Link>
+
         <nav className="nav__links" aria-label="Hauptnavigation">
           <Link href="/projekte">
             <span className="nl">
@@ -37,9 +41,18 @@ export default function Nav() {
             </span>
           </Link>
           <NavDropdown eintraege={dropdownEintraege} />
+          <Link href="/team">
+            <span className="nl">
+              <span className="nl__t">Team</span>
+              <span className="nl__t nl__t--kopie" aria-hidden="true">Team</span>
+            </span>
+          </Link>
+        </nav>
+
+        <div className="nav__aktionen">
           <Link className="nav__cta" href="/kontakt">Erstgespräch</Link>
           <Menue />
-        </nav>
+        </div>
       </div>
     </header>
   );

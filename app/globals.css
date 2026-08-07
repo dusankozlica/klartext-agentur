@@ -245,10 +245,16 @@ img,video{ display:block; max-width:100%; }
   color:var(--ink);
 }
 body.nav-on-dark .nav{ color:var(--cream); }
+/* Drei Zonen wie in der Vorlage: links | MITTE | rechts.
+   Das Raster hält die Links exakt in der Bildmitte, unabhängig davon,
+   wie breit Wortmarke und Pille sind. */
 .nav__glas{
-  display:flex; justify-content:space-between; align-items:center;
-  gap:var(--s-6);
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+  gap:var(--s-5);
 }
+.nav__mark{ justify-self:start; }
+.nav__links{ justify-self:center; }
+.nav__aktionen{ justify-self:end; display:flex; align-items:center; gap:var(--s-4); }
 .nav__mark{ font-family:var(--font-display); font-weight:600;
             letter-spacing:-0.02em; font-size:clamp(1.15rem,1.5vw,1.5rem); }
 .nav__mark .punkt{ color:var(--violet-hell); }
@@ -561,10 +567,33 @@ html.menue-offen .nav__menue{ opacity:0; pointer-events:none; }
 }
 .cursor.is-media .cursor__label{ opacity:1; }
 
+/* ── Preis-Karten in Milchglas (Forma-AI-Referenz) ────────────────
+   Halbtransparente dunkle Füllung, feiner heller Rand und eine
+   Lichtkante oben. Der Weichzeichner bricht das, was dahinter liegt
+   (Riesenwort + Lichter) — daher wirkt es wie echtes Glas und nicht
+   wie ein flacher Kasten. Nur ab Desktop, mobil bleibt die Füllung
+   ohne Blur (spart Rechenzeit auf schwachen Geräten). */
+.preis-glas{
+  background:rgb(24 4 66 / .42);
+  border:1px solid rgb(255 255 255 / .2);
+  box-shadow:inset 0 1px 0 rgb(255 255 255 / .22), 0 30px 80px rgb(20 0 60 / .38);
+}
+.preis-glas--hervor{
+  background:rgb(24 4 66 / .55);
+  border-color:rgb(255 255 255 / .34);
+  box-shadow:inset 0 1px 0 rgb(255 255 255 / .3), 0 48px 110px rgb(20 0 60 / .55);
+}
+@media (min-width:900px){
+  .preis-glas{
+    backdrop-filter:blur(16px) saturate(1.15);
+    -webkit-backdrop-filter:blur(16px) saturate(1.15);
+  }
+}
+
 /* Zeilen-Hervorhebung der Preistabelle (CSS statt React-Zustand —
    currentColor passt sich der Karte an: hell auf Ink, dunkel auf Creme) */
 .preis-zeile{ transition:background-color var(--dauer-1) var(--ease-fluss); }
-.preis-zeile.is-markiert{ background:color-mix(in srgb, currentColor 9%, transparent); }
+.preis-zeile.is-markiert{ background:rgb(255 255 255 / .1); }
 
 /* ── Zeilen-Listen: Geschwister dimmen beim Überfahren (ESE) ──────── */
 [data-zeilen] [data-zeile-inhalt]{
@@ -603,11 +632,15 @@ html.intro-laeuft body{ overflow:hidden; }
 }
 
 /* ── Responsive ───────────────────────────────────────────────────── */
+@media (min-width:900px){
+  .nav__menue{ display:none; }                 /* Desktop: nur Links + Pille */
+}
 @media (max-width:900px){
-  .nav__links a:not(.nav__cta){ display:none; }
+  .nav__links{ display:none; }                 /* Overlay-Menü übernimmt */
+  .nav__glas{ grid-template-columns:1fr auto; }
 }
 @media (max-width:640px){
-  .nav__links .nav__cta{ display:none; }       /* Menü-Knopf reicht    */
+  .nav__cta{ display:none; }                   /* Menü-Knopf reicht    */
 }
 
 /* ── Reduced Motion ───────────────────────────────────────────────── */
