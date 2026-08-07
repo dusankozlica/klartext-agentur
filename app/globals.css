@@ -509,9 +509,15 @@ html.menue-offen .nav__menue{ opacity:0; pointer-events:none; }
 /* Als ::after statt als Element: Pseudo-Elemente sind keine
    LCP-Kandidaten — der vollflächige Noise-Div wurde sonst beim
    Hydrieren zum "grössten Paint" und verfälschte den Messwert. */
-/* Körnung DEAKTIVIERT (07.08., Anweisung Dusan): Die Sprenkel-Kachel
-   wirkte auf seinem Bildschirm wie Schmutz. Kommt nur zurück, wenn er
-   eine kalibrierte Variante ausdrücklich freigibt — Vorschau zuerst. */
+/* ── Feines Filmkorn (v4, nach Messung an Dusans Referenzvideo) ────
+   Monochrom, leicht verklumpt, sehr zurueckhaltend — Werte stammen aus
+   der Messung, nicht aus dem Bauch. Statisch: ein bewegter Vollbild-
+   Layer kostete zweimal die Bildrate. */
+body::after{
+  content:""; position:fixed; inset:0; z-index:70; pointer-events:none;
+  background-image:url("/grain-fein.png"); background-repeat:repeat;
+  background-size:256px 256px; opacity:.04;
+}
 
 /* ── Seitenwechsel: Ink-Überzug mit Wortmarke ─────────────────────── */
 .wechsel{
