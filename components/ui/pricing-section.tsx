@@ -2,31 +2,41 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { CircleCheck } from 'lucide-react';
+import { CircleCheck, CircleMinus } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
 /**
- * Preis-Sektion für das Abo-Modell, aus der shadcn-Registry-Vorlage
- * («pricing-section») auf KLARTEXT übersetzt: violette Vollflächen-Bühne,
- * Creme-Karten mit einer Ink-Karte als Favorit, Pillen-CTAs zur
- * Terminbuchung statt Stripe-Links.
+ * Preis-Sektion für das Abo-Modell (shadcn-Registry «pricing-section»,
+ * auf KLARTEXT übersetzt): violette Bühne, Creme-Karten mit Ink-Favorit,
+ * Pillen-CTAs zur Terminbuchung.
  *
- * Preise 1'499/1'999/2'999 und Fokus (Social-Media-Content, Performance
- * Marketing) von Dusan am 06.08.2026 vorgegeben; Laufzeit-Schalter mit
- * 15% Rabatt auf den Monatspreis bei 12 Monaten am 07.08. dazu. Die
- * Rabattpreise werden GERECHNET, nicht getippt — so kann keine falsche
- * Zahl entstehen. Verbindlich bleibt die schriftliche Offerte.
+ * Vergleichbar statt drei verschiedene Aufzählungen: Alle Karten zeigen
+ * DIESELBEN Leistungszeilen in derselben Reihenfolge. Nicht enthaltene
+ * Zeilen bleiben sichtbar, aber ausgegraut (Minus-Icon) — so sieht man
+ * auf einen Blick, was die nächste Stufe zusätzlich bringt.
+ *
+ * Interaktiv: Laufzeit-Schalter (6/12 Monate, 15% Rabatt bei 12 —
+ * gerechnet, nicht getippt), «Nur Unterschiede»-Filter und eine
+ * Zeilen-Hervorhebung, die beim Überfahren in allen drei Karten
+ * dieselbe Zeile markiert.
+ *
+ * Preise und Fokus von Dusan vorgegeben (06./07.08.2026). Die
+ * Leistungszeilen sind mein Vorschlag aus den bestehenden Service-Texten
+ * — Freigabe offen. Verbindlich bleibt die schriftliche Offerte.
  */
 type Stufe = {
   titel: string;
   basis: number;          // Monatspreis bei 6 Monaten Laufzeit
   beschreibung: string;
-  punkte: string[];
   cta: string;
   beliebt?: boolean;
 };
+
+/** true = enthalten, false = nicht enthalten, Text = enthalten mit Menge */
+type Wert = boolean | string;
+type Zeile = { schluessel: string; name: string; werte: [Wert, Wert, Wert] };
 
 const RABATT_12 = 0.15;
 
@@ -35,12 +45,6 @@ const STUFEN: Stufe[] = [
     titel: 'Sichtbar',
     basis: 1499,
     beschreibung: 'Der Content-Grundbetrieb: Ihre Kanäle laufen verlässlich, ohne dass es intern jemanden auffrisst.',
-    punkte: [
-      'Redaktionsplan und 8 Beiträge pro Monat',
-      'Ein Drehtag pro Quartal bei Ihnen',
-      'Veröffentlichung und Community-Betreuung',
-      'Monatsrapport, der in einer Empfehlung endet',
-    ],
     cta: 'Abo anfragen',
   },
   {
@@ -48,34 +52,42 @@ const STUFEN: Stufe[] = [
     beliebt: true,
     basis: 1999,
     beschreibung: 'Mehr Content plus Performance Marketing: gesehen werden — und gezielt Anfragen holen.',
-    punkte: [
-      'Alles aus Sichtbar',
-      '12 Beiträge pro Monat plus Reel- und Story-Formate',
-      'Performance-Kampagnen auf Meta und Instagram',
-      'Monatliche Auswertung mit klarer Empfehlung',
-    ],
     cta: 'Abo anfragen',
   },
   {
     titel: 'Partner',
     basis: 2999,
     beschreibung: 'Die volle Bespielung: Content, Kampagnen und ein fester Ansprechpartner für alles.',
-    punkte: [
-      'Alles aus Präsent',
-      'Ein Drehtag pro Monat bei Ihnen',
-      'Kampagnen über Meta, LinkedIn und Google',
-      'Quartalsplanung, fester Ansprechpartner, kurze Wege',
-    ],
     cta: 'Abo anfragen',
   },
+];
+
+const LEISTUNGEN: Zeile[] = [
+  { schluessel: 'plan', name: 'Redaktionsplan pro Monat', werte: [true, true, true] },
+  { schluessel: 'posts', name: 'Beiträge pro Monat', werte: ['8', '12', '16'] },
+  { schluessel: 'reels', name: 'Reels und Story-Formate', werte: [false, true, true] },
+  { schluessel: 'dreh', name: 'Drehtag bei Ihnen', werte: ['1× pro Quartal', '1× pro Quartal', '1× pro Monat'] },
+  { schluessel: 'community', name: 'Community-Betreuung', werte: [true, true, true] },
+  { schluessel: 'meta', name: 'Kampagnen auf Meta und Instagram', werte: [false, true, true] },
+  { schluessel: 'linkedin', name: 'Kampagnen auf LinkedIn und Google', werte: [false, false, true] },
+  { schluessel: 'rapport', name: 'Monatsrapport mit Empfehlung', werte: [true, true, true] },
+  { schluessel: 'quartal', name: 'Quartalsplanung mit festen Zielen', werte: [false, true, true] },
+  { schluessel: 'partner', name: 'Fester Ansprechpartner', werte: [false, false, true] },
 ];
 
 /** Schweizer Tausendertrennung, bewusst ohne toLocaleString:
  *  Server und Browser dürfen sich hier nicht unterscheiden. */
 const franken = (n: number) => `CHF ${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "'")}`;
 
+const istUnterschied = (z: Zeile) =>
+  !(String(z.werte[0]) === String(z.werte[1]) && String(z.werte[1]) === String(z.werte[2]));
+
 export default function Pricing() {
   const [monate, setMonate] = useState<6 | 12>(6);
+  const [nurUnterschiede, setNurUnterschiede] = useState(false);
+  const [aktiveZeile, setAktiveZeile] = useState<string | null>(null);
+
+  const zeilen = nurUnterschiede ? LEISTUNGEN.filter(istUnterschied) : LEISTUNGEN;
 
   return (
     <section className="section bg-[var(--violet)] text-[#fff]" data-nav="dark" id="preise">
@@ -89,8 +101,8 @@ export default function Pricing() {
           was es kostet. Keine Stundenabrechnung, keine Überraschungen.
         </p>
 
-        {/* Laufzeit-Schalter */}
-        <div className="mt-[var(--s-7)] flex justify-center" data-reveal>
+        {/* Steuerung: Laufzeit + Filter */}
+        <div className="mt-[var(--s-7)] flex flex-wrap items-center justify-center gap-[var(--s-4)]" data-reveal>
           <div
             role="group"
             aria-label="Laufzeit wählen"
@@ -115,9 +127,7 @@ export default function Pricing() {
                   <span
                     className={cn(
                       'rounded-full px-[8px] py-[2px] text-[0.72rem] font-semibold',
-                      monate === 12
-                        ? 'bg-[var(--violet)] text-[#fff]'
-                        : 'bg-[rgb(255_255_255/0.18)] text-[#fff]',
+                      monate === 12 ? 'bg-[var(--violet)] text-[#fff]' : 'bg-[rgb(255_255_255/0.18)] text-[#fff]',
                     )}
                   >
                     −15%
@@ -126,28 +136,70 @@ export default function Pricing() {
               </button>
             ))}
           </div>
+
+          <button
+            type="button"
+            onClick={() => setNurUnterschiede((v) => !v)}
+            aria-pressed={nurUnterschiede}
+            className={cn(
+              'inline-flex min-h-[44px] items-center gap-[0.6em] rounded-full border px-[18px] text-[0.92rem] font-medium',
+              'transition-colors duration-[var(--dauer-2)] ease-[var(--ease-fluss)]',
+              nurUnterschiede
+                ? 'border-[var(--cream)] bg-[var(--cream)] text-[var(--ink)]'
+                : 'border-[rgb(255_255_255/0.35)] text-[rgb(255_255_255/0.85)] hover:border-[#fff] hover:text-[#fff]',
+            )}
+          >
+            <span
+              aria-hidden="true"
+              className={cn(
+                'grid h-[18px] w-[18px] place-items-center rounded-[5px] border text-[11px] leading-none',
+                nurUnterschiede ? 'border-[var(--violet)] bg-[var(--violet)] text-[#fff]' : 'border-current',
+              )}
+            >
+              {nurUnterschiede ? '✓' : ''}
+            </span>
+            Nur Unterschiede
+          </button>
         </div>
 
         {/* Karten: gerade ausgerichtet, 3D nur als Tiefe */}
         <div className="mt-[var(--s-7)] grid items-stretch gap-[var(--s-5)] [perspective:1400px] min-[900px]:grid-cols-3">
-          {STUFEN.map((s) => (
-            <PreisKarte key={s.titel} stufe={s} monate={monate} />
+          {STUFEN.map((s, i) => (
+            <PreisKarte
+              key={s.titel}
+              stufe={s}
+              spalte={i as 0 | 1 | 2}
+              monate={monate}
+              zeilen={zeilen}
+              aktiveZeile={aktiveZeile}
+              setAktiveZeile={setAktiveZeile}
+            />
           ))}
         </div>
 
         <p className="mt-[var(--s-7)] max-w-[70ch] text-[0.9rem] leading-relaxed text-[rgb(255_255_255/0.75)]" data-reveal>
-          Bei 12 Monaten Laufzeit sind 15 % auf den Monatspreis bereits
-          abgezogen. Werbebudget für Kampagnen geht direkt an die Plattformen
-          und kommt zum Monatsbetrag dazu. Verbindlich ist die schriftliche
-          Offerte nach dem Erstgespräch — was dazukommt, wird vorher offeriert,
-          nicht nachträglich verrechnet.
+          Ausgegraute Zeilen sind im jeweiligen Abo nicht enthalten. Bei 12
+          Monaten Laufzeit sind 15 % auf den Monatspreis bereits abgezogen.
+          Werbebudget für Kampagnen geht direkt an die Plattformen und kommt
+          zum Monatsbetrag dazu. Verbindlich ist die schriftliche Offerte nach
+          dem Erstgespräch — was dazukommt, wird vorher offeriert, nicht
+          nachträglich verrechnet.
         </p>
       </div>
     </section>
   );
 }
 
-function PreisKarte({ stufe, monate }: { stufe: Stufe; monate: 6 | 12 }) {
+function PreisKarte({
+  stufe, spalte, monate, zeilen, aktiveZeile, setAktiveZeile,
+}: {
+  stufe: Stufe;
+  spalte: 0 | 1 | 2;
+  monate: 6 | 12;
+  zeilen: Zeile[];
+  aktiveZeile: string | null;
+  setAktiveZeile: (s: string | null) => void;
+}) {
   const dunkel = stufe.beliebt;
   const preis = monate === 12 ? Math.round(stufe.basis * (1 - RABATT_12)) : stufe.basis;
 
@@ -158,8 +210,7 @@ function PreisKarte({ stufe, monate }: { stufe: Stufe; monate: 6 | 12 }) {
         className={cn(
           'flex h-full flex-col rounded-[var(--radius-lg)] p-[clamp(24px,2.2vw,36px)]',
           // 3D nur als TIEFE: gerade ausgerichtet, Favorit tritt vor,
-          // beim Überfahren hebt die Karte an. Keine Drehung (Dusan:
-          // verdrehte Karten gefallen nicht).
+          // beim Überfahren hebt die Karte an. Keine Drehung.
           'transition-transform duration-[var(--dauer-3)] ease-[var(--ease-quart)] will-change-transform',
           dunkel
             ? 'bg-[var(--ink)] text-[var(--cream)] shadow-[0_46px_110px_rgb(20_0_60/0.5)] ring-1 ring-[color-mix(in_srgb,var(--violet-hell)_55%,transparent)] min-[900px]:[transform:translateZ(60px)] min-[900px]:hover:[transform:translateZ(60px)_translateY(-10px)]'
@@ -187,7 +238,6 @@ function PreisKarte({ stufe, monate }: { stufe: Stufe; monate: 6 | 12 }) {
           </span>
         </p>
 
-        {/* Ersparnis nur zeigen, wenn sie auch gilt */}
         <p className={cn('mt-[var(--s-2)] text-[0.88rem]', dunkel ? 'text-[var(--grau-d)]' : 'text-[var(--grau-l)]')}>
           {monate === 12 ? (
             <>
@@ -208,17 +258,42 @@ function PreisKarte({ stufe, monate }: { stufe: Stufe; monate: 6 | 12 }) {
 
         <div className={cn('my-[var(--s-5)] border-t', dunkel ? 'border-[rgb(243_238_227/0.16)]' : 'border-[rgb(14_13_11/0.14)]')} />
 
-        <ul className="grid gap-[var(--s-3)]">
-          {stufe.punkte.map((punkt) => (
-            <li key={punkt} className="flex items-start gap-[0.6em] text-[0.95rem] leading-[1.5]">
-              <CircleCheck
-                aria-hidden
-                size={18}
-                className={cn('mt-[2px] shrink-0', dunkel ? 'text-[var(--violet-hell)]' : 'text-[var(--violet)]')}
-              />
-              <span>{punkt}</span>
-            </li>
-          ))}
+        {/* Gleiche Zeilen in jeder Karte — nicht enthaltene ausgegraut */}
+        <ul className="grid gap-[2px]" onPointerLeave={() => setAktiveZeile(null)}>
+          {zeilen.map((z) => {
+            const wert = z.werte[spalte];
+            const drin = wert !== false;
+            const aktiv = aktiveZeile === z.schluessel;
+            return (
+              <li
+                key={z.schluessel}
+                onPointerEnter={() => setAktiveZeile(z.schluessel)}
+                className={cn(
+                  '-mx-[8px] flex items-start gap-[0.6em] rounded-[9px] px-[8px] py-[6px] text-[0.92rem] leading-[1.45]',
+                  'transition-[background-color,opacity] duration-[var(--dauer-1)] ease-[var(--ease-fluss)]',
+                  drin ? '' : dunkel ? 'text-[var(--grau-d)] opacity-45' : 'text-[var(--grau-l)] opacity-50',
+                  aktiv && (dunkel ? 'bg-[rgb(243_238_227/0.09)]' : 'bg-[rgb(14_13_11/0.05)]'),
+                )}
+              >
+                {drin ? (
+                  <CircleCheck
+                    aria-hidden
+                    size={18}
+                    className={cn('mt-[2px] shrink-0', dunkel ? 'text-[var(--violet-hell)]' : 'text-[var(--violet)]')}
+                  />
+                ) : (
+                  <CircleMinus aria-hidden size={18} className="mt-[2px] shrink-0 opacity-70" />
+                )}
+                <span>
+                  {z.name}
+                  {typeof wert === 'string' && (
+                    <span className="font-semibold"> · {wert}</span>
+                  )}
+                  {!drin && <span className="sr-only"> — nicht enthalten</span>}
+                </span>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="mt-auto pt-[var(--s-6)]">
